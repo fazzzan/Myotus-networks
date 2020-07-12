@@ -14,3 +14,7 @@ Add package
 Add-AppxPackage C:\Temp\Ubuntu_2004.2020.416.0_x64.appx
 
 Check Windows->Ubuntu
+
+Read this link's:
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-ubuntu-20-04
+https://github.com/erikruiter2/ansible_lab
