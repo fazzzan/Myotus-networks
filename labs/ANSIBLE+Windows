@@ -26,3 +26,7 @@ KexAlgorithms diffie-hellman-group1-sha1,curve25519-sha256@libssh.org,ecdh-sha2-
 generate new SSH key and restart SSH service:
 sudo ssh-keygen -A
 service ssh restart
+
+Install pip (https://linuxize.com/post/how-to-install-pip-on-ubuntu-20.04/)
+sudo apt update
+sudo apt install python3-pip
