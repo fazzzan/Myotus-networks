@@ -6,6 +6,44 @@ Enable WSL
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-windows-subsystem-linux
 Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
 
+<Ubuntu 18>
+https://docs.microsoft.com/ru-ru/windows/wsl/install-manual
+https://docs.microsoft.com/ru-ru/windows/wsl/install-on-server
+
+Add string to file ssh_config (http://marcinkurek.com/quick-eve-ng-and-ansible-lab-setup-tutorial.html):
+sudo vi /etc/ssh/ssh_config
+KexAlgorithms diffie-hellman-group1-sha1,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1
+
+generate new SSH key and restart SSH service:
+sudo ssh-keygen -A
+service ssh restart
+
+apt-get install sshpass
+
+First working string:
+ansible -m raw -a "show run | in hostname" iosv -i inventory -u otus -k -k
+
+inventory file:
+SW1 ansible_host=192.168.16.11
+SW2 ansible_host=192.168.16.12
+SW3 ansible_host=192.168.16.20
+SW4 ansible_host=192.168.16.21
+
+[iosv]
+SW[1:4]
+
+[iosv:vars]
+username=otus
+password=cisco
+ansible_network_os=ios
+
+https://www.cisco.com/c/dam/m/ru_ru/training-events/2019/cisco-connect/pdf/introduction_automation_with_ansible_idrey.pdf
+
+<Ubuntu 18>
+
+<Ubuntu 20>
+Can't make love. Not working Python, not update glibc
+
 Download appx from here: https://store.rg-adguard.net/
 check by PID 9NBLGGH4MSV6, like discribed here: https://github.com/MicrosoftDocs/WSL/issues/645
 add to file .zip extension unarch Ubuntu_2004.2020.416.0_x64.appx to folder c:\temp
@@ -30,3 +68,4 @@ service ssh restart
 Install pip (https://linuxize.com/post/how-to-install-pip-on-ubuntu-20.04/)
 sudo apt update
 sudo apt install python3-pip
+<Ubuntu 20>
