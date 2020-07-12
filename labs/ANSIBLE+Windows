@@ -1,0 +1,16 @@
+Check OS version
+systeminfo | Select-String "^OS Name","^OS Version"
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" | Select CurrentBuild
+
+Enable WSL
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-windows-subsystem-linux
+Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
+
+Download appx from here: https://store.rg-adguard.net/
+check by PID 9NBLGGH4MSV6, like discribed here: https://github.com/MicrosoftDocs/WSL/issues/645
+add to file .zip extension unarch Ubuntu_2004.2020.416.0_x64.appx to folder c:\temp
+
+Add package
+Add-AppxPackage C:\Temp\Ubuntu_2004.2020.416.0_x64.appx
+
+Check Windows->Ubuntu
