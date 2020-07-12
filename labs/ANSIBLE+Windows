@@ -18,3 +18,11 @@ Check Windows->Ubuntu
 Read this link's:
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-ansible-on-ubuntu-20-04
 https://github.com/erikruiter2/ansible_lab
+
+Add string to file ssh_config:
+sudo vi /etc/ssh/ssh_config
+KexAlgorithms diffie-hellman-group1-sha1,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1
+
+generate new SSH key and restart SSH service:
+sudo ssh-keygen -A
+service ssh restart
