@@ -13,12 +13,16 @@
 ```
 show lacp sys-id 
 ```
-2. Базовые настройки коммутаторов c настроенными транковыми портами [S1](config/S1), [S2](config/S2), [S3](config/S3).
-3. Состояние STP после отключения избыточных интерфейсов Gi0/0, Gi0/2
+Базовые настройки коммутаторов c настроенными транковыми портами [S1](config/S1), [S2](config/S2), [S3](config/S3).
+
+2. Выбор ROOT 
+Состояние STP после отключения избыточных интерфейсов Gi0/0, Gi0/2
 ### Просмотр состояния STP S1
-Из вывода видно что включен протокол PVST, S1 является ROOT для обоих VLAN, приоритет не менялся, стоимость портов не менялась
 ```
 S1#show spanning-tree
+```
+Из вывода команды, видно, что по-умолчанию включен протокол PVST+, S1 является ROOT для обоих VLAN, приоритет не менялся, стоимость портов не менялась, все порты в состоянии DESIGNATED, что характерно для ROOT коммутатора. 
+```
 VLAN0001
   Spanning tree enabled protocol ieee
   Root ID    Priority    32769
@@ -55,4 +59,41 @@ Interface           Role Sts Cost      Prio.Nbr Type
 Gi0/1               Desg FWD 4         128.2    P2p 
 Gi0/3               Desg FWD 4         128.4    P2p 
 ```
+### Просмотр состояния STP S2, S3
+Из вывода видно что 
+S2: порт Gi0/3 является RP (состояние FWD) за оба VLAN, порт Gi0/3 - Altn (состояние BLOCKED).
+S3: порт Gi0/1 является RP (состояние FWD) за оба VLAN, порт Gi0/3 - DP (состояние FWD).
+
+```
+S2#show spanning-tree
+VLAN0001
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/1               Altn BLK 4         128.2    P2p 
+Gi0/3               Root FWD 4         128.4    P2p 
+          
+VLAN0100
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/1               Altn BLK 4         128.2    P2p 
+Gi0/3               Root FWD 4         128.4    P2p 
+
+
+S3#show spanning-tree 
+VLAN0001
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/1               Root FWD 4         128.2    P2p 
+Gi0/3               Desg FWD 4         128.4    P2p 
+          
+VLAN0100
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Gi0/1               Root FWD 4         128.2    P2p 
+Gi0/3               Desg FWD 4         128.4    P2p 
+
+```
+Иллюстрация к выполненному заданию представлена ниже.
+![](STP2.jpg)
+
 4.
