@@ -1,0 +1,90 @@
+
+hostname S1
+!
+enable secret 5 $1$HJTr$3M6tRsmqFvcOwWllBjOjo1
+!
+username otus privilege 15 password 7 121A0C041104
+!
+clock timezone MSK 3 0
+!
+vtp domain FZ
+vtp mode transparent
+!
+!
+!
+no ip domain-lookup
+ip domain-name fz.otus.ru
+!
+vlan 100 
+!
+interface GigabitEthernet0/0
+ switchport access vlan 100
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet0/1
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet0/2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet0/3
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet1/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet1/1
+ switchport access vlan 100
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet1/2
+ switchport access vlan 100
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet1/3
+ switchport access vlan 100
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+interface Vlan1
+ ip address 192.168.1.1 255.255.255.0
+!         
+!
+banner motd ^CCThis device is private property. Access REstricted^C
+!
+line con 0
+ exec-timeout 0 0
+ password 7 030752180500
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ exec-timeout 0 0
+ password 7 045802150C2E
+ logging synchronous
+ login local
+ transport input all
+!
