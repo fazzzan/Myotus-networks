@@ -9,50 +9,63 @@
 1. Графическая схема до начал работы, с нанесенной информацией о ионетфейсах и настраиваемых VLAN
 ![](DHCPv4_start.png)
 ### Этапы работы п.п.1
-Расчет адресного пространства представлен ниже:
-Таблица статических маршрутов.
+Для расчета адресного пространства используем метод квадрата, которые дает наглядность используепмых адресов 
+![](BOX_Visual_NW.jpg)
+Таблица назначения адресов, согласно ТЗ представлена ниже:
 
-| Device  | Interface | IP Address              | Subnet Mask                | default Gateway | Comment                        |
-|-----|------|--------------------------|------------------------|---|--------------------------------------|
-| R1  | Gi0/0 | 10.0.0.1                | 255.255.255.252            | 10.0.0.2 | IF to R2                         |
-| R1  | IPv6 | ::/0                     | 20FF:CCFF:1000:19::1   | 1 | to R19 (ISP)                         |
-| R5  | IPv4 | 0.0.0.0/0                | 172.16.17.1            | 1 | to R17 (ISP)                         |
-| R5  | IPv6 | ::/0                     | 20FF:CCFF:1000:17::1   | 1 | to R17 (ISP)                         |
-| R9  | IPv4 | 0.0.0.0/0                | 172.16.18.1            | 1 | to R18 (ISP)                         |
-| R9  | IPv6 | ::/0                     | 20FF:CCFF:1000:18::1   | 1 | to R18 (ISP)                         |
-| R13 | IPv4 | 0.0.0.0/0                | 172.16.20.1            | 1 | to R20 (ISP)                         |
-| R13 | IPv6 | ::/0                     | 20FF:CCFF:1000:20::1   | 1 | to R20 (ISP)                         |
-| R17 | IPv4 | 172.16.18.0/29           | 90.90.129.18/24        | 1 | to R18                               |
-| R17 | IPv4 | 172.16.19.0/30           | 90.90.128.19/24        | 1 | to R19                               |
-| R17 | IPv4 | 172.16.20.0/30           | 90.90.131.20/25        | 1 | to R20                               |
-| R17 | IPv6 | 20FF:CCFF:1000:18::/64   | 20FF:CCFF:FFFF:2::18   | 1 | to R18                               |
-| R17 | IPv6 | 20FF:CCFF:1000:19::/64   | 20FF:CCFF:FFFF:1::19   | 1 | to R19                               |
-| R17 | IPv6 | 20FF:CCFF:1000:20::/64   | 20FF:CCFF:FFFF:5::20   | 1 | to R20                               |
-| R18 | IPv4 | 172.16.17.0/30           | 90.90.129.17/24        | 1 | to R17                               |
-| R18 | IPv4 | 172.16.19.0/30           | 90.90.131.130/25       | 1 | to R19                               |
-| R18 | IPv4 | 172.16.20.0/30           | 90.90.130.20/25        | 1 | to R20                               |
-| R18 | IPv6 | 20FF:CCFF:1000:17::/64   | 20FF:CCFF:FFFF:2::17   | 1 | to R17                               |
-| R18 | IPv6 | 20FF:CCFF:1000:19::/64   | 20FF:CCFF:FFFF:6::19   | 1 | to R19                               |
-| R18 | IPv6 | 20FF:CCFF:1000:20::/64   | 20FF:CCFF:FFFF:3::20   | 1 | to R20                               |
-| R19 | IPv4 | 172.16.17.0/30           | 90.90.128.17/24        | 1 | to R17                               |
-| R19 | IPv4 | 172.16.18.0/29           | 90.90.131.129/25       | 1 | to R18                               |
-| R19 | IPv4 | 172.16.20.0/30           | 90.90.130.130/25       | 1 | to R20                               |
-| R19 | IPv6 | 20FF:CCFF:1000:17::/64   | 20FF:CCFF:FFFF:1::17   | 1 | to R17                               |
-| R19 | IPv6 | 20FF:CCFF:1000:18::/64   | 20FF:CCFF:FFFF:6::18   | 1 | to R18                               |
-| R19 | IPv6 | 20FF:CCFF:1000:20::/64   | 20FF:CCFF:FFFF:4::20   | 1 | to R20                               |
-| R20 | IPv4 | 172.16.17.0/30           | 90.90.131.17/25        | 1 | to R17                               |
-| R20 | IPv4 | 172.16.18.0/29           | 90.90.130.18/25        | 1 | to R18                               |
-| R20 | IPv4 | 172.16.19.0/30           | 90.90.130.129/25       | 1 | to R19                               |
-| R20 | IPv6 | 20FF:CCFF:1000:17::/64   | 20FF:CCFF:FFFF:5::17   | 1 | to R17                               |
-| R20 | IPv6 | 20FF:CCFF:1000:18::/64   | 20FF:CCFF:FFFF:3::18   | 1 | to R18                               |
-| R20 | IPv6 | 20FF:CCFF:1000:19::/64   | 20FF:CCFF:FFFF:4::19   | 1 | to R19                               |
+| Device  | Interface  | IP Address     | Subnet Mask       | def GW   | Description   |
+|---------|------------|----------------|-------------------|----------|---------------|
+| R1      | Gi0/0      | 10.0.0.1       | 255.255.255.252   | 10.0.0.2 | IF to R2      |
+|         | Gi0/1      | N/A            | N/A               | N/A      |               |
+|         | Gi0/1.100  | 192.168.1.1    | 255.255.255.192   |          | VLAN100       |
+|         | Gi0/1.200  | 192.168.1.65   | 255.255.255.224   |          | VLAN200       |
+|         | Gi0/1.1000 | N/A            | N/A               |          | VLAN1000      |
+| R2      | Gi0/0      | 10.0.0.2       | 255.255.255.252   | 10.0.0.2 | IF to R1      |
+|         | Gi0/1      | 192.168.1.97   | 255.255.255.240   |          |               |
+| S1      | VLAN100    | 192.168.1.2    | 255.255.255.192   |          | IF to R2      |
+|         | VLAN200    | 192.168.1.66   | 255.255.255.224   |          | PC1           |
+| S2      | VLAN1      | 192.168.1.98   | 255.255.255.240   |          | PC2           |
+| PC1     | NIC        | DHCP           | DHCP              | DHCP     | SUBNETA       |
+| PC2     | NIC        | DHCP           | DHCP              | DHCP     | SUBNETC       |
+
+Произведем настройку IF согласно таблице адресного пространства
 ```
-show команды демонстрации результатов
+show ip int br
 ```
-Результат выводов
 ```
-S1#show spanning-tree
+S1(config)#do sho ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0     unassigned      YES unset  up                    up      
+GigabitEthernet0/1     unassigned      YES unset  administratively down down    
+...
+GigabitEthernet1/3     unassigned      YES unset  administratively down down    
+Vlan100                192.168.1.2     YES manual up                    up      
+Vlan200                192.168.1.66    YES manual up                    up      
+
+S2(config)#do sho ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0     unassigned      YES unset  up                    up      
+GigabitEthernet0/1     unassigned      YES unset  administratively down down    
+...
+GigabitEthernet1/3     unassigned      YES unset  administratively down down    
+Vlan1                  192.168.1.98    YES manual up                    up      
+
+R1(config-subif)#do sho ip int br
+Interface                  IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0         10.0.0.1        YES manual up                    up      
+GigabitEthernet0/1         unassigned      YES unset  up                    up      
+GigabitEthernet0/1.100     192.168.1.1     YES manual up                    up      
+GigabitEthernet0/1.200     192.168.1.65    YES manual up                    up      
+GigabitEthernet0/1.1000    unassigned      YES unset  up                    up      
+GigabitEthernet0/2         unassigned      YES unset  administratively down down    
+...
+R2(config-if)#do sho ip int br
+Interface                  IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0         10.0.0.2        YES manual up                    up      
+GigabitEthernet0/1         192.168.1.97    YES manual up                    up      
+GigabitEthernet0/2         unassigned      YES unset  administratively down down    
 ```
+
 Объяснение результатов
 Из вывода команды, видно, что по-умолчанию ....
 
