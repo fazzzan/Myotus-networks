@@ -252,3 +252,246 @@ DDORA IP 192.168.1.103/28 GW 192.168.1.97
 - Выполнена настройка Relay-агента на R2
 Работа DHCP-сервера проверена на VPC1, VPC2: DHCP сервер выдает адреса из нужных диапазонов
 Работа инфраструктуры проверялась утилитой ping с VPC1, VPC2: все ip-адреса сетевой инфраструктуры доступны обоим ПК, после получения ими ip-адресов от DHCP.
+
+
+
+_________________________________________________________________________________________________________________________________________
+# Развертывание DHCPv6
+
+###  Задание:
+1. Построить сеть и произвести базовые настройки оборудования
+2. Проверить режим назначения SLAAC с R1
+3. Сконфигурировать и проверить функционал Stateless DHCPv6 на R1
+4. Сконфигурировать и проверить функционал Stateful DHCPv6 на R1
+5. Сконфигурировать и проверить функционал DHCPv6 Relay на R2
+
+
+###  Решение:
+Графическая схема до начал работы, с нанесенной информацией о интерфейсах и настраиваемых VLAN
+![](DHCPv6.jpg)
+
+### Этапы работы п.п.1
+
+Таблица назначения ipv6 адресов, согласно ТЗ, представлена ниже:
+
+| Device  | Interface  | IP Address               | Address Type  | def GW   | Description   |
+|---------|------------|--------------------------|---------------|----------|---------------|
+| R1      | Gi0/0      | 2001:db8:acad:2::1 /64   |  GU           | fe80::1  | IF to R2      |
+|         |            | fe80::1                  |  LLA          |          |               |
+|         | Gi0/1      | 2001:db8:acad:1::1 /64   |  GU           | fe80::1  | IF to LAN     |
+|         |            | fe80::1                  |  LLA          |          |               |
+| R2      | Gi0/0      | 2001:db8:acad:2::2 /64   |  GU           | fe80::1  | IF to R1      |
+|         |            | fe80::2                  |  LLA          |          |               |
+|         | Gi0/1      | 2001:db8:acad:3::1 /64   |  GU           | fe80::1  | IF to LAN     |
+|         |            | fe80::1                  |  LLA          |          |               |
+| PC-A    | NIC        | DHCP                     | GU            | DHCP     | SUBNETA       |
+| PC-A    | NIC        | DHCP                     | GU            | DHCP     | SUBNETC       |
+
+
+Произведем настройку оборудования.
+
+1.1 Базовые настройки выполнены согласно ТЗ: включен пароль на доступ к консоли и на переход в конфигурационный режим
+
+1.2 Пароли локального пользователя зашифрованы
+
+1.3 Создан баннер с предупреждением
+
+1.4 Установлен часовой пояс MSK +3
+
+1.5 IF R1, R2 настроены согласно таблицы интерфейсов. Просмотр сконфигурированных интерфейсов выполняем командой:
+
+```
+show ipv6 int br
+```
+```
+R1(config)#do sho ipv6 int br
+GigabitEthernet0/0     [up/up]
+    FE80::1
+    2001:DB8:ACAD:2::1
+GigabitEthernet0/1     [up/up]
+    FE80::1
+    2001:DB8:ACAD:1::1
+GigabitEthernet0/2     [administratively down/down]
+    unassigned
+GigabitEthernet0/3     [administratively down/down]
+    unassigned...
+
+R2(config-if)#do sho ipv6 int br
+GigabitEthernet0/0     [up/up]
+    FE80::2
+    2001:DB8:ACAD:2::2
+GigabitEthernet0/1     [up/up]
+    FE80::1
+    2001:DB8:ACAD:3::1
+GigabitEthernet0/2     [administratively down/down]
+    unassigned
+GigabitEthernet0/3     [administratively down/down]
+    unassigned
+```
+
+Из вывода видно, что настроенные интерфейсы в состоянии up/up, что объясняется выполнение команды no shut на интерфейсах.
+
+1.6 Неиспользуемые интерфейсы принудительно выключены командой shutdown, что отражается статусом administratively down/down
+Настройка интерфейсов на S1, S2 выполнялась с использованием команлды range, что существенно ускоряет настройку.
+```
+int ra gi0/0 - 3
+		switch mo access
+		swi acc vlan 999
+		no negotiation auto
+		no vtp
+		shut
+		exit
+```
+
+1.7 На S1, S2 включены IF на аплинках и access для хоста. Интерфейсы на S1, S2 yнастроены access, vlan1, spanning-tree portfast network. Просмотрим состояние интерфейсов:
+```
+default int gi 0/0
+S2(config-if-range)#do sho ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0     unassigned      YES unset  up                    up      
+GigabitEthernet0/1     unassigned      YES unset  administratively down down    
+...
+GigabitEthernet0/3     unassigned      YES unset  administratively down down    
+GigabitEthernet1/0     unassigned      YES unset  up                    up      
+GigabitEthernet1/1     unassigned      YES unset  administratively down down    
+...
+GigabitEthernet1/3     unassigned      YES unset  administratively down down   
+
+S1(config-if-range)#do sho ip int br
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0     unassigned      YES unset  up                    up      
+GigabitEthernet0/1     unassigned      YES unset  administratively down down    
+...
+GigabitEthernet0/3     unassigned      YES unset  administratively down down    
+GigabitEthernet1/0     unassigned      YES unset  up                    up      
+GigabitEthernet1/1     unassigned      YES unset  administratively down down    
+...
+GigabitEthernet1/3     unassigned      YES unset  administratively down down
+
+```
+
+1.8 Настроены дефолтные статические маршруты на соседа на R1, R2. Воспользуемся функционалом ipv6 и зададим link lockal address противоположного IF:
+```
+R1(config)#do show run | in ipv6 route
+ipv6 route ::/0 GigabitEthernet0/0 FE80::2
+...
+R2(config-if)#do show run | in ipv6 route
+ipv6 route ::/0 GigabitEthernet0/0 FE80::1
+```
+Все настройки оборудования представлены по ссылкам [S1](config/S1), [R1](config/R1), [S2](config/S2), [R2](config/R2).
+
+проверка работоспособности интерфейсов и ip-связности выполнялось командой ping и traceroute: c R1 проверена доступность inside интерфейса R2 - Gi0/1
+```
+R1(config)#do ping 2001:DB8:ACAD:3::1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 2001:DB8:ACAD:3::1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/2 ms
+```
+
+### Этапы работы п.п.2
+После того как были выполнены базовые настройки и проверена связность работы основных интерфейсов, бфла проверена работоспособность функционала SLAAC, при которой участники сети способны самостоятельно сгенерировать ipv6-адрес, получив с роутера находящегося с ними в одной подсети RA, содержащую NitworkID:
+
+
+_________________________________________________
+
+2.1 Настройка DHCPv4 
+Проверка настроек:
+```
+R1(dhcp-config)#do show run | sec dhcp
+ip dhcp excluded-address 192.168.1.1 192.168.1.5
+ip dhcp excluded-address 192.168.1.97 192.168.1.101
+ip dhcp pool PL_R1_CLIENT_LAN
+ network 192.168.1.0 255.255.255.192
+ domain-name otus.ccna-lab.com
+ default-router 192.168.1.1 
+ lease 2 12 30
+ip dhcp pool R2_CLIENT_LAN
+ network 192.168.1.96 255.255.255.240
+ domain-name otus.ccna-lab.com
+ default-router 192.168.1.97 
+ lease 2 12 30
+```
+Демонстрация вывода команды show ip dhcp binding представлена ниже:
+```
+R1(config)#do sho ip dhcp bind
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/              Lease expiration        Type
+                    Hardware address/
+                    User name
+```
+На основании представленной информации можно сделать вывод, что сервер еще не производил выдачу ip адресов. Объясняется это тем, что отключены access интерфейсы на S1, S2 и клиенты не делали попыток настроек ip-адреса.
+
+2.2 Получение ip-адреса VPC1
+
+Включив интерфейс на S1 и отправив с VPC 1 запрос на ip-адрес, мы получаем адрес 192.168.1.6
+Процесс получения ip-адреса перехваченный на R1 Gi0/1, представлен ниже:
+![](DHCP_discover-offer-req-acc.jpg)
+На представленнй диаграмме четко видно что все запросы кроме последнего велись в broadcast, что объясняется в том числе и необходимостью оповестить другие возможные DHCP сервера о аренде адреса у конкретного DHCP сервера 192.168.1.6.
+Ниже представлен заключительный сегмент обмена ACK
+![](DHCP_ACK_CL1.jpg)
+Здесь четко видно, что кроме ip-адреса и маски подсети, клиентом VPC1 была получена следующая информация:
+Время аренды адреса
+```
+Option: (51) IP Address Lease Time - dhtv
+    Length: 4
+    IP Address Lease Time: (217800s) 2 days, 12 hours, 30 minutes
+```
+Имя домена
+```
+ Option: (15) Domain Name
+        Length: 17
+        Domain Name: otus.ccna-lab.com
+```
+Шлюз по-умолчанию
+```
+Option: (3) Router
+        Length: 4
+        Router: 192.168.1.1
+```
+
+2.3 Получение ip-адреса PC2
+
+Выполнив аналогичные действия на access порту S2 и VPC1, мы не сможем получить ip-адрес, так как широковещательные запросы к DHCP серверу R1 не пройдут через R2. Роутеры режут BC трафик.
+
+### Этапы работы п.п.3
+
+3.1 Настройка relay-агента на inside IF R2
+
+Для того чтобы передать запросы DHCP серверу, необходимо конвертировать BC-запрос  к конкретному DHCP-сервера. Для этого на R2, Gi0/1, настроим relay-agent, указав ip-адрес ближайшего интерфейса DHCP 10.0.0.1: 
+```
+R2(config)#int gi 0/1 
+R2(config-if)#ip helper-address 10.0.0.1
+```
+Выполнив запрос на получение ip-адреса, мы его получим, иллюстрацией этого будет служить содержимое таблицы выданных ip-адресов на R1. Как и ожидалось, ip адреса выдаются не с начала диапазона, а в соответствии с настроенными excluded-address исключениями:
+```
+R1#show ip dhcp bind
+Bindings from all pools not associated with VRF:
+IP address          Client-ID/              Lease expiration        Type
+                    Hardware address/
+                    User name
+192.168.1.6         0100.5079.6668.05       Jul 29 2020 06:10 AM    Automatic
+192.168.1.102       0100.5079.6668.06       Jul 29 2020 06:37 AM    Automatic
+```
+Ситуация, когда DHCP сервер будет отвечать на запросы на внешнем интерфейсе в жизни маловероятна, поэтому перенастроим наш relay-agent на ip-адрес внутреннего SubIF, допустим Gi0/1.100
+```
+R2(config)#int gi 0/1 
+R2(config-if)#ip helper-address 192.168.1.1
+```
+Выполнив запрос на освобождение ip-адреса, и запросив новый мы получим уже новый ip-адрес от R1.
+```
+VPCS> ip dhcp -x
+VPCS> ip dhcp   
+DDORA IP 192.168.1.103/28 GW 192.168.1.97
+```
+Получение ip-адреса от внутреннего сервера является более жизненным случаем для реальных сетей, например, если связь между сайтами осуществляется по VPN-туннелям.
+
+
+### Ответы на вопросы Л/р:
+- Рассчитаны подсети A, B, C
+- Произведена настройка сетевой инфраструктуры в соответствии с Таблицей назначения адресов
+- Выполнена настройка DHCPv4 на R1
+- Выполнена настройка Relay-агента на R2
+Работа DHCP-сервера проверена на VPC1, VPC2: DHCP сервер выдает адреса из нужных диапазонов
+Работа инфраструктуры проверялась утилитой ping с VPC1, VPC2: все ip-адреса сетевой инфраструктуры доступны обоим ПК, после получения ими ip-адресов от DHCP.
+
