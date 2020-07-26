@@ -1,9 +1,13 @@
+R1#show run
+Building configuration...
+
+  
 Current configuration : 2242 bytes
 !
-! Last configuration change at 12:44:20 MSK Sun Jul 26 2020
-! NVRAM config last updated at 13:48:55 MSK Sun Jul 26 2020
+! Last configuration change at 17:35:36 MSK Sun Jul 26 2020
+! NVRAM config last updated at 17:01:14 MSK Sun Jul 26 2020
 !
-version 15.5
+version 15.6
 service timestamps debug datetime msec
 service timestamps log datetime msec
 service password-encryption
@@ -14,7 +18,7 @@ boot-start-marker
 boot-end-marker
 !
 !
-enable secret 5 $1$Gc4m$zavwtbU44V1TU6yi9fpyh0
+enable secret 5 $1$JoRB$ykjbQ2wCALAoID/nBnJsu.
 !
 no aaa new-model
 ethernet lmi ce
@@ -37,10 +41,10 @@ mmi snmp-timeout 180
 ip dhcp excluded-address 192.168.1.1 192.168.1.5
 ip dhcp excluded-address 192.168.1.97 192.168.1.101
 !
-ip dhcp pool PL_CLIENTS
+ip dhcp pool PL_R1_CLIENT_LAN
  network 192.168.1.0 255.255.255.192
- default-router 192.168.1.1 
  domain-name otus.ccna-lab.com
+ default-router 192.168.1.1 
  lease 2 12 30
 !
 ip dhcp pool R2_CLIENT_LAN
@@ -61,7 +65,7 @@ multilink bundle-name authenticated
 !
 !
 !
-username otus privilege 15 password 7 121A0C041104
+username otus privilege 15 password 7 060506324F41
 !
 redundancy
 !
@@ -80,24 +84,24 @@ redundancy
 !
 !
 interface GigabitEthernet0/0
+ description ### 2ISP ###
  ip address 10.0.0.1 255.255.255.252
  duplex auto
  speed auto
  media-type rj45
 !
 interface GigabitEthernet0/1
+ description ### R1<->S1 ###
  no ip address
- duplex full
+ duplex auto
  speed auto
  media-type rj45
 !
 interface GigabitEthernet0/1.100
- description ### CLIENTS ###
  encapsulation dot1Q 100
  ip address 192.168.1.1 255.255.255.192
 !
 interface GigabitEthernet0/1.200
- description ### MANAGEMENT ###
  encapsulation dot1Q 200
  ip address 192.168.1.65 255.255.255.224
 !
@@ -134,13 +138,13 @@ banner motd ^CThis device is private property. Access Restricted^C
 !
 line con 0
  exec-timeout 0 0
- password 7 104D000A0618
+ password 7 14141B180F0B
  logging synchronous
  login
 line aux 0
 line vty 0 4
  exec-timeout 0 0
- password 7 121A0C041104
+ password 7 00071A150754
  logging synchronous
  login local
  transport input all
