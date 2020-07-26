@@ -1,0 +1,199 @@
+Current configuration : 3082 bytes
+!
+! Last configuration change at 13:33:19 MSK Sun Jul 26 2020
+! NVRAM config last updated at 13:50:10 MSK Sun Jul 26 2020
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname S2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$ZWa.$HU2ALclf69FF5RXwkpv2B.
+!
+username otus privilege 15 password 7 045802150C2E
+no aaa new-model
+clock timezone MSK 3 0
+!         
+!
+!
+!
+!
+vtp domain FZ
+vtp mode transparent
+!
+!
+!
+no ip domain-lookup
+ip domain-name fz.otus.ru
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 999
+ name ### PARKING_LOT ###
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+!
+interface Ethernet0/1
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!         
+interface Ethernet0/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet0/3
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet1/0
+ switchport mode access
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet1/1
+ switchport access vlan 999
+ switchport mode access
+ shutdown 
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet1/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet1/3
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet2/0
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet2/1
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet2/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet2/3
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet3/0
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet3/1
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet3/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Ethernet3/3
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no vtp
+ spanning-tree portfast edge
+!
+interface Vlan1
+ ip address 192.168.1.98 255.255.255.240
+!
+ip default-gateway 192.168.1.97
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 192.168.1.97
+!
+!
+!
+!
+!
+control-plane
+!
+banner motd ^CThis device is private property. Access Restricted^C
+!         
+line con 0
+ exec-timeout 0 0
+ password 7 060506324F41
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ exec-timeout 0 0
+ password 7 094F471A1A0A
+ logging synchronous
+ login local
+ transport input all
+!
+!
+end
