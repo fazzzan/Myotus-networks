@@ -1,7 +1,10 @@
-Current configuration : 3677 bytes
+S1#show run
+Building configuration...
+
+Current configuration : 2544 bytes
 !
-! Last configuration change at 14:23:33 MSK Sun Jul 26 2020
-! NVRAM config last updated at 13:49:24 MSK Sun Jul 26 2020
+! Last configuration change at 18:42:56 MSK Sun Jul 26 2020
+! NVRAM config last updated at 17:01:29 MSK Sun Jul 26 2020
 !
 version 15.2
 service timestamps debug datetime msec
@@ -15,22 +18,18 @@ boot-start-marker
 boot-end-marker
 !
 !
-logging discriminator EXCESS severity drops 6 msg-body drops EXCESSCOLL 
-logging buffered 50000
-logging console discriminator EXCESS
-enable secret 5 $1$D7hl$0uGlpi0aQtT5qt5h/oW9b0
+enable secret 5 $1$wjJP$SPGixuHbuqJPGzios0K90.
 !
-username otus privilege 15 password 7 104D000A0618
+username otus privilege 15 password 7 094F471A1A0A
 no aaa new-model
 clock timezone MSK 3 0
-!
+!         
 !
 !
 !
 !
 vtp domain FZ
 vtp mode transparent
-no ip icmp rate-limit unreachable
 !
 !
 !
@@ -43,12 +42,11 @@ no ipv6 cef
 !
 spanning-tree mode pvst
 spanning-tree extend system-id
-!         
-vlan internal allocation policy ascending
+!
 !
 vlan 100
  name ### CLIENTS ###
-!
+!         
 vlan 200
  name ### MANAGEMENT ###
 !
@@ -58,7 +56,6 @@ vlan 999
 vlan 1000
  name ### NATIVE ###
 !
-ip tcp synwait-time 5
 ! 
 !
 !
@@ -66,126 +63,67 @@ ip tcp synwait-time 5
 !
 !
 !
-!         
 !
 !
 !
 !
 !
-interface Ethernet0/0
+!
+interface GigabitEthernet0/0
+ description ### TRUNK S1<->R1 ###
  switchport trunk allowed vlan 100,200,1000
  switchport trunk encapsulation dot1q
  switchport trunk native vlan 1000
  switchport mode trunk
- switchport nonegotiate
- no vtp
+ no negotiation auto
 !
-interface Ethernet0/1
+interface GigabitEthernet0/1
  switchport access vlan 999
  switchport mode access
  shutdown
+ no negotiation auto
  no vtp
- spanning-tree portfast edge
 !
-interface Ethernet0/2
+interface GigabitEthernet0/2
  switchport access vlan 999
  switchport mode access
  shutdown
+ no negotiation auto
  no vtp
- spanning-tree portfast edge
 !
-interface Ethernet0/3
+interface GigabitEthernet0/3
  switchport access vlan 999
  switchport mode access
  shutdown
+ no negotiation auto
  no vtp
- spanning-tree portfast edge
 !
-interface Ethernet1/0
+interface GigabitEthernet1/0
  switchport access vlan 100
  switchport mode access
+ no negotiation auto
  no vtp
- spanning-tree portfast edge
 !
-interface Ethernet1/1
+interface GigabitEthernet1/1
  switchport access vlan 999
  switchport mode access
  shutdown
+ no negotiation auto
  no vtp
- spanning-tree portfast edge
 !
-interface Ethernet1/2
+interface GigabitEthernet1/2
  switchport access vlan 999
  switchport mode access
  shutdown
+ no negotiation auto
  no vtp
- spanning-tree portfast edge
 !
-interface Ethernet1/3
+interface GigabitEthernet1/3
  switchport access vlan 999
  switchport mode access
  shutdown
+ no negotiation auto
  no vtp
- spanning-tree portfast edge
-!
-interface Ethernet2/0
- switchport access vlan 999
- switchport mode access
- shutdown
- no vtp
- spanning-tree portfast edge
-!
-interface Ethernet2/1
- switchport access vlan 999
- switchport mode access
- shutdown
- no vtp
- spanning-tree portfast edge
-!
-interface Ethernet2/2
- switchport access vlan 999
- switchport mode access
- shutdown
- no vtp
- spanning-tree portfast edge
-!
-interface Ethernet2/3
- switchport access vlan 999
- switchport mode access
- shutdown
- no vtp
- spanning-tree portfast edge
-!
-interface Ethernet3/0
- switchport access vlan 999
- switchport mode access
- shutdown
- no vtp
- spanning-tree portfast edge
-!
-interface Ethernet3/1
- switchport access vlan 999
- switchport mode access
- shutdown
- no vtp
- spanning-tree portfast edge
-!
-interface Ethernet3/2
- switchport access vlan 999
- switchport mode access
- shutdown
- no vtp
- spanning-tree portfast edge
-!
-interface Ethernet3/3
- switchport access vlan 999
- switchport mode access
- shutdown
- no vtp   
- spanning-tree portfast edge
-!
-interface Vlan1
- no ip address
 !
 interface Vlan100
  ip address 192.168.1.2 255.255.255.192
@@ -195,34 +133,34 @@ interface Vlan200
 !
 ip forward-protocol nd
 !
+ip http server
+ip http secure-server
 !
-no ip http server
-no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 192.168.1.65
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
 !
 !
 !
 !
 !
 control-plane
-!         
+!
 banner motd ^CThis device is private property. Access Restricted^C
 !
 line con 0
  exec-timeout 0 0
- privilege level 15
- password 7 094F471A1A0A
+ password 7 104D000A0618
  logging synchronous
  login
 line aux 0
- exec-timeout 0 0
- privilege level 15
- logging synchronous
 line vty 0 4
  exec-timeout 0 0
- password 7 01100F175804
+ password 7 13061E010803
  logging synchronous
  login local
  transport input all
-!
+!         
 !
 end
