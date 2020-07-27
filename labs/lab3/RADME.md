@@ -343,7 +343,7 @@ int ra gi0/0 - 3
 		exit
 ```
 
-1.7 На S1, S2 включены IF на аплинках и access для хоста. Интерфейсы на S1, S2 yнастроены access, vlan1, spanning-tree portfast network. Просмотрим состояние интерфейсов:
+1.7 На S1, S2 включены порты на аплинках и access для хоста. Интерфейсы на S1, S2 yнастроены access, vlan1, spanning-tree portfast network. Просмотрим состояние интерфейсов:
 ```
 default int gi 0/0
 S2(config-if-range)#do sho ip int br
@@ -378,7 +378,7 @@ ipv6 route ::/0 GigabitEthernet0/0 FE80::2
 R2(config-if)#do show run | in ipv6 route
 ipv6 route ::/0 GigabitEthernet0/0 FE80::1
 ```
-Все настройки оборудования представлены по ссылкам [S1](config/S1), [R1](config/R1), [S2](config/S2), [R2](config/R2).
+Все настройки оборудования представлены по ссылкам [S1_ipv6_start](config/S1_ipv6_start), [R1_ipv6_start](config/R1_ipv6_start), [R2_ipv6_start](config/R2_ipv6_start), [S2_ipv6_start](config/S2_ipv6_start).
 
 проверка работоспособности интерфейсов и ip-связности выполнялось командой ping и traceroute: c R1 проверена доступность inside интерфейса R2 - Gi0/1
 ```
