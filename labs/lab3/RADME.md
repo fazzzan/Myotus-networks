@@ -424,11 +424,25 @@ VPC1> ping 2001:db8:acad:3:2050:79ff:fe66:6806
 2001:db8:acad:3:2050:79ff:fe66:6806 icmp6_seq=4 ttl=60 time=4.192 ms
 2001:db8:acad:3:2050:79ff:fe66:6806 icmp6_seq=5 ttl=60 time=5.331 ms
 ```
-Как видим, для маршрутизации пакетов оказалось достаточно настройки дефолтных LLA маршрутов на соседа.
+Ниже представлен перехваченный обмен запросами RS<->RA, из которого видно, в какой момент времение VPC1 узнал networkID для формирования ipv6-адреса
+![](DHCPv6RS-RA.jpg)
+
 
 ### Этапы работы п.п.3
-После того как был проверен режим работы SLAAC, следующая задача заключалась в настройке DHCPv6 на R1
-
+После того как были выполнены базовые настройки, и принципиально проверена связность ip-адресов настроим DHCP IPv6 на R1:
+```
+R1(config-if)#do show run | sec dhcp
+ipv6 dhcp pool R1-STATELESS
+ dns-server 2001:DB8:ACAD::254
+ domain-name OTUS.STATELESS.COM
+ ipv6 dhcp server R1-STATELESS
+...
+R1(config-if)#do show run int gi 0/1
+interface GigabitEthernet0/1
+...
+ ipv6 nd other-config-flag
+ ipv6 dhcp server R1-STATELESS
+```
 
 _________________________________________________
 
