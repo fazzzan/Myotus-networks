@@ -1,0 +1,133 @@
+R2#show run
+Building configuration...
+
+  
+Current configuration : 1715 bytes
+!
+! Last configuration change at 21:45:58 MSK Mon Jul 27 2020
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$9M0k$1MI8NO8fkunxNZsPfNiJd1
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+clock timezone MSK 3 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name fz.otus.ru
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!         
+!
+!
+!
+username otus privilege 15 password 7 00071A150754
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ media-type rj45
+ ipv6 address FE80::2 link-local
+ ipv6 address 2001:DB8:ACAD:2::2/64
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex full
+ speed auto
+ media-type rj45
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:3::1/64
+ ipv6 nd managed-config-flag
+ ipv6 dhcp relay destination 2001:DB8:ACAD:2::1 GigabitEthernet0/0
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!         
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+ipv6 route ::/0 GigabitEthernet0/0 FE80::1
+!
+!
+!
+control-plane
+!
+banner motd ^CThis device is private property. Access Restricted^C
+!
+line con 0
+ exec-timeout 0 0
+ password 7 1511021F0725
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ exec-timeout 0 0
+ password 7 094F471A1A0A
+ logging synchronous
+ login local
+ transport input all
+!
+no scheduler allocate
+!
+end
