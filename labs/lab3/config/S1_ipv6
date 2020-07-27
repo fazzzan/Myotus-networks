@@ -1,0 +1,146 @@
+S1(config)#do show run
+Building configuration...
+
+Current configuration : 2091 bytes
+!
+! Last configuration change at 14:48:39 MSK Mon Jul 27 2020
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname S1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$c3HE$PUIeCkZFFa7z13tXDizf//
+!
+username otus privilege 15 password 7 1511021F0725
+no aaa new-model
+clock timezone MSK 3 0
+!
+!         
+!
+!
+!
+vtp domain FZ
+vtp mode transparent
+!
+!
+!
+no ip domain-lookup
+ip domain-name fz.otus.ru
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+vlan 999 
+!
+! 
+!         
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ switchport mode access
+ no negotiation auto
+ no vtp
+ spanning-tree portfast network
+!
+interface GigabitEthernet0/1
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp   
+!
+interface GigabitEthernet0/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet0/3
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet1/0
+ switchport mode access
+ no negotiation auto
+ no vtp
+ spanning-tree portfast network
+!
+interface GigabitEthernet1/1
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet1/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+interface GigabitEthernet1/3
+ switchport access vlan 999
+ switchport mode access
+ shutdown
+ no negotiation auto
+ no vtp
+!
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner motd ^CThis device is private property. Access Restricted^C
+!
+line con 0
+ exec-timeout 0 0
+ password 7 121A0C041104
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ exec-timeout 0 0
+ password 7 05080F1C2243
+ logging synchronous
+ login local
+ transport input all
+!
+!
+end
