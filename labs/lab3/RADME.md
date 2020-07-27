@@ -380,17 +380,54 @@ ipv6 route ::/0 GigabitEthernet0/0 FE80::1
 ```
 Все настройки оборудования представлены по ссылкам [S1_ipv6_start](config/S1_ipv6_start), [R1_ipv6_start](config/R1_ipv6_start), [R2_ipv6_start](config/R2_ipv6_start), [S2_ipv6_start](config/S2_ipv6_start).
 
-проверка работоспособности интерфейсов и ip-связности выполнялось командой ping и traceroute: c R1 проверена доступность inside интерфейса R2 - Gi0/1
-```
-R1(config)#do ping 2001:DB8:ACAD:3::1
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 2001:DB8:ACAD:3::1, timeout is 2 seconds:
-!!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 1/1/2 ms
-```
-
 ### Этапы работы п.п.2
-После того как были выполнены базовые настройки и проверена связность работы основных интерфейсов, бфла проверена работоспособность функционала SLAAC, при которой участники сети способны самостоятельно сгенерировать ipv6-адрес, получив с роутера находящегося с ними в одной подсети RA, содержащую NitworkID:
+2.1 Проверим работоспособность SLAAC на PC
+```
+VPCS1> ip auto
+GLOBAL SCOPE      : 2001:db8:acad:1:2050:79ff:fe66:6805/64
+ROUTER LINK-LAYER : 50:00:00:03:00:01
+
+VPCS1> show ipv6
+NAME              : VPCS[1]
+LINK-LOCAL SCOPE  : fe80::250:79ff:fe66:6805/64
+GLOBAL SCOPE      : 2001:db8:acad:1:2050:79ff:fe66:6805/64
+DNS               : 
+ROUTER LINK-LAYER : 50:00:00:03:00:01
+MAC               : 00:50:79:66:68:05
+LPORT             : 20000
+RHOST:PORT        : 127.0.0.1:30000
+MTU:              : 1500
+....
+
+VPCS2> ip auto
+GLOBAL SCOPE      : 2001:db8:acad:3:2050:79ff:fe66:6806/64
+ROUTER LINK-LAYER : 50:00:00:04:00:01
+
+VPCS2> show ipv6
+NAME              : VPCS[1]
+LINK-LOCAL SCOPE  : fe80::250:79ff:fe66:6806/64
+GLOBAL SCOPE      : 2001:db8:acad:3:2050:79ff:fe66:6806/64
+DNS               : 
+ROUTER LINK-LAYER : 50:00:00:04:00:01
+MAC               : 00:50:79:66:68:06
+LPORT             : 20000
+RHOST:PORT        : 127.0.0.1:30000
+MTU:              : 1500
+```
+Как мы видим, оба PC самостоятельно создали ipv6, на основании NetworkID своего сегмента и личного MAC-адреса (принцип EUI-64).
+Проверка ip-связности выполнялось командой ping: c VPC1 проверена доступность VPC2
+```
+VPC1> ping 2001:db8:acad:3:2050:79ff:fe66:6806
+2001:db8:acad:3:2050:79ff:fe66:6806 icmp6_seq=1 ttl=60 time=9.190 ms
+2001:db8:acad:3:2050:79ff:fe66:6806 icmp6_seq=2 ttl=60 time=4.213 ms
+2001:db8:acad:3:2050:79ff:fe66:6806 icmp6_seq=3 ttl=60 time=4.188 ms
+2001:db8:acad:3:2050:79ff:fe66:6806 icmp6_seq=4 ttl=60 time=4.192 ms
+2001:db8:acad:3:2050:79ff:fe66:6806 icmp6_seq=5 ttl=60 time=5.331 ms
+```
+Как видим, для маршрутизации пакетов оказалось достаточно настройки дефолтных LLA маршрутов на соседа.
+
+### Этапы работы п.п.3
+После того как был проверен режим работы SLAAC, следующая задача заключалась в настройке DHCPv6 на R1
 
 
 _________________________________________________
