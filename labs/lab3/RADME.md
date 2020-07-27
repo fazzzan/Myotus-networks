@@ -515,7 +515,7 @@ interface GigabitEthernet0/1
 ![](VM2_ws_DHCP_R1.jpg)
 Теперь видно, что информация о домене и DNS сервере поступила на VM2. 
 Ниже представлены этапы обмена Ra-RS
-![](VM2_ipv6 DHCPStateful_WS.jpg)
+![](VM2_ipv6_DHCPStateful_WS.jpg)
 
 5.2 Ниже представлен список выданных ipv6 адресов, на DHCP сервере, развернутом на R1
 ```
