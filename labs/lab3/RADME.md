@@ -429,13 +429,15 @@ VPC1> ping 2001:db8:acad:3:2050:79ff:fe66:6806
 
 
 ### Этапы работы п.п.3
-После того как были выполнены базовые настройки, и принципиально проверена связность ip-адресов настроим DHCP IPv6 на R1:
+
+После того как были выполнены базовые настройки, и принципиально проверена связность ip-адресов 
+
+3.1 Настроим DHCP IPv6 на R1:
 ```
 R1(config-if)#do show run | sec dhcp
 ipv6 dhcp pool R1-STATELESS
  dns-server 2001:DB8:ACAD::254
  domain-name OTUS.STATELESS.COM
- ipv6 dhcp server R1-STATELESS
 ...
 R1(config-if)#do show run int gi 0/1
 interface GigabitEthernet0/1
@@ -443,106 +445,94 @@ interface GigabitEthernet0/1
  ipv6 nd other-config-flag
  ipv6 dhcp server R1-STATELESS
 ```
+3.2 Произведем обновление ip и проверка получения ipv6 на VPC. 
+В ходе проверки выяснилось, что VPC на которых ранее производилась проверка, не принимают дополнительных настроек, которые приходят от DHCPv6 сервера (DNS и Domain Name). Дальнейшая проверка выполнялась на VM с OS Win7. Ниже предаставлен вывод команды ipconfig /all
+![](Win7_ipv6 DHCPStateless.jpg)
+- DNS-суффикс и адрес DNS-сервера были взят из поступившей от DHCP информации 
+![](Win7_ipv6 DHCPStateless_WS.jpg)
 
-_________________________________________________
+Также видно, что VM1 получила ipv6-адрес по принципу, отличному от EUI-64. В Win используется алгоритм "RandomizeIdentifier", который обеспечивает уникальность ipv6 при смене канала (подсети).
 
-2.1 Настройка DHCPv4 
-Проверка настроек:
-```
-R1(dhcp-config)#do show run | sec dhcp
-ip dhcp excluded-address 192.168.1.1 192.168.1.5
-ip dhcp excluded-address 192.168.1.97 192.168.1.101
-ip dhcp pool PL_R1_CLIENT_LAN
- network 192.168.1.0 255.255.255.192
- domain-name otus.ccna-lab.com
- default-router 192.168.1.1 
- lease 2 12 30
-ip dhcp pool R2_CLIENT_LAN
- network 192.168.1.96 255.255.255.240
- domain-name otus.ccna-lab.com
- default-router 192.168.1.97 
- lease 2 12 30
-```
-Демонстрация вывода команды show ip dhcp binding представлена ниже:
-```
-R1(config)#do sho ip dhcp bind
-Bindings from all pools not associated with VRF:
-IP address          Client-ID/              Lease expiration        Type
-                    Hardware address/
-                    User name
-```
-На основании представленной информации можно сделать вывод, что сервер еще не производил выдачу ip адресов. Объясняется это тем, что отключены access интерфейсы на S1, S2 и клиенты не делали попыток настроек ip-адреса.
+Получить аналогичные настройки на VM2 не получилось, ввиду отсутствия настроек Relay-агента на R2, но проверка ip-связности VM1<->VM2 командой выполнена успешно. 
+![](VM1_VM2_ping.jpg)
 
-2.2 Получение ip-адреса VPC1
+### Этапы работы п.п.4
 
-Включив интерфейс на S1 и отправив с VPC 1 запрос на ip-адрес, мы получаем адрес 192.168.1.6
-Процесс получения ip-адреса перехваченный на R1 Gi0/1, представлен ниже:
-![](DHCP_discover-offer-req-acc.jpg)
-На представленнй диаграмме четко видно что все запросы кроме последнего велись в broadcast, что объясняется в том числе и необходимостью оповестить другие возможные DHCP сервера о аренде адреса у конкретного DHCP сервера 192.168.1.6.
-Ниже представлен заключительный сегмент обмена ACK
-![](DHCP_ACK_CL1.jpg)
-Здесь четко видно, что кроме ip-адреса и маски подсети, клиентом VPC1 была получена следующая информация:
-Время аренды адреса
+4.1 На R1 настроим ipv6 DHCP STATEFUL сервер, который будет отвечать за контроль над ipv6 адресами оборудования, находящегося за R2:
 ```
-Option: (51) IP Address Lease Time - dhtv
-    Length: 4
-    IP Address Lease Time: (217800s) 2 days, 12 hours, 30 minutes
-```
-Имя домена
-```
- Option: (15) Domain Name
-        Length: 17
-        Domain Name: otus.ccna-lab.com
-```
-Шлюз по-умолчанию
-```
-Option: (3) Router
-        Length: 4
-        Router: 192.168.1.1
+ipv6 dhcp pool R2_STATEFUL
+ address prefix 2001:DB8:ACAD:3:AAA::/80
+ dns-server 2001:DB8:ACAD::254
+ domain-name OTUS.STATEFUL.COM
+
+interface GigabitEthernet0/0
+ ipv6 dhcp server R2_STATEFUL
 ```
 
-2.3 Получение ip-адреса PC2
+Таким образом вся настройка DHCP-сервера R1
 
-Выполнив аналогичные действия на access порту S2 и VPC1, мы не сможем получить ip-адрес, так как широковещательные запросы к DHCP серверу R1 не пройдут через R2. Роутеры режут BC трафик.
+```
+R1(config-if)#do show run | sec dhcp
+ipv6 dhcp pool R1-STATELESS
+ dns-server 2001:DB8:ACAD::254
+ domain-name OTUS.STATELESS.COM
+ipv6 dhcp pool R2_STATEFUL
+ address prefix 2001:DB8:ACAD:3:AAA::/80
+ dns-server 2001:DB8:ACAD::254
+ domain-name OTUS.STATEFUL.COM
+ 
+R1(config-if)#do show run int gi 0/0
+interface GigabitEthernet0/0
+...
+ ipv6 dhcp server R2_STATEFUL
+end
 
-### Этапы работы п.п.3
+R1(config-if)#do show run int gi 0/1
+interface GigabitEthernet0/1
+...
+ ipv6 nd other-config-flag
+ ipv6 dhcp server R1-STATELESS
+end
+```
 
-3.1 Настройка relay-агента на inside IF R2
+### Этапы работы п.п.5
+Перед настройкой Relay-агента, еще раз проверим какие ipv6 настройки получает VM2:
+![](VM2_beforeDHCP.jpg)
+Как видим, никаких дополнительных данных в настройках не появилось.
 
-Для того чтобы передать запросы DHCP серверу, необходимо конвертировать BC-запрос  к конкретному DHCP-сервера. Для этого на R2, Gi0/1, настроим relay-agent, указав ip-адрес ближайшего интерфейса DHCP 10.0.0.1: 
+5.1 Настроим Relay-агент на Inside IF R2"
 ```
-R2(config)#int gi 0/1 
-R2(config-if)#ip helper-address 10.0.0.1
+R2(config-if)#do show run int gi 0/1
+interface GigabitEthernet0/1
+...
+ ipv6 nd managed-config-flag
+ ipv6 dhcp relay destination 2001:DB8:ACAD:2::1 GigabitEthernet0/0
 ```
-Выполнив запрос на получение ip-адреса, мы его получим, иллюстрацией этого будет служить содержимое таблицы выданных ip-адресов на R1. Как и ожидалось, ip адреса выдаются не с начала диапазона, а в соответствии с настроенными excluded-address исключениями:
-```
-R1#show ip dhcp bind
-Bindings from all pools not associated with VRF:
-IP address          Client-ID/              Lease expiration        Type
-                    Hardware address/
-                    User name
-192.168.1.6         0100.5079.6668.05       Jul 29 2020 06:10 AM    Automatic
-192.168.1.102       0100.5079.6668.06       Jul 29 2020 06:37 AM    Automatic
-```
-Ситуация, когда DHCP сервер будет отвечать на запросы на внешнем интерфейсе в жизни маловероятна, поэтому перенастроим наш relay-agent на ip-адрес внутреннего SubIF, допустим Gi0/1.100
-```
-R2(config)#int gi 0/1 
-R2(config-if)#ip helper-address 192.168.1.1
-```
-Выполнив запрос на освобождение ip-адреса, и запросив новый мы получим уже новый ip-адрес от R1.
-```
-VPCS> ip dhcp -x
-VPCS> ip dhcp   
-DDORA IP 192.168.1.103/28 GW 192.168.1.97
-```
-Получение ip-адреса от внутреннего сервера является более жизненным случаем для реальных сетей, например, если связь между сайтами осуществляется по VPN-туннелям.
+Перезапустим интерфейс на VM2
+![](VM2_ws_DHCP_R1.jpg)
+Теперь видно, что информация о домене и DNS сервере поступила на VM2. 
+Ниже представлены этапы обмена Ra-RS
+![](VM2_ipv6 DHCPStateful_WS.jpg)
 
+5.2 Ниже представлен список выданных ipv6 адресов, на DHCP сервере, развернутом на R1
+```
+R1(config-if)#do sho ipv6 dhcp bind
+Client: FE80::2196:C83E:DE34:CD04 
+  DUID: 000100011E996657500000010000
+  Username : unassigned
+  VRF : default
+  IA NA: IA ID 0x0E500000, T1 43200, T2 69120
+    Address: 2001:DB8:ACAD:3:AAA:973E:5A95:CE50
+            preferred lifetime 86400, valid lifetime 172800
+            expires at Jul 29 2020 10:03 PM (172715 seconds)
+```
+5.3 Проверка ip-связности между узлами прошла успешно.
+![](VM1_VM2_ping2.jpg)
 
 ### Ответы на вопросы Л/р:
-- Рассчитаны подсети A, B, C
-- Произведена настройка сетевой инфраструктуры в соответствии с Таблицей назначения адресов
-- Выполнена настройка DHCPv4 на R1
+- Произведена настройка ipv6 адресов сетевой инфраструктуры в соответствии с Таблицей назначения адресов
+- Выполнена настройка DHCPv6 на R1
 - Выполнена настройка Relay-агента на R2
-Работа DHCP-сервера проверена на VPC1, VPC2: DHCP сервер выдает адреса из нужных диапазонов
-Работа инфраструктуры проверялась утилитой ping с VPC1, VPC2: все ip-адреса сетевой инфраструктуры доступны обоим ПК, после получения ими ip-адресов от DHCP.
+Работа DHCP-сервера проверена на VM1, VM2: DHCP сервер выдает адреса из нужных диапазонов
+Работа инфраструктуры проверялась утилитой ping с VM1, VM2: все ip-адреса сетевой инфраструктуры доступны обоим ПК, после формирования ими ipv6-адресов.
 
