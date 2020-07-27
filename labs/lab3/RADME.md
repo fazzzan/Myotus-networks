@@ -122,7 +122,7 @@ interface GigabitEthernet0/0
 
 1.10 Настроены дефолтные статические маршруты на соседа на R1, R2
 
-1.11 На S1, S2 вместо команды ip default-gateway также настроен статический маршрут на вышестоящий R1 и R2 соответственно. Команда ip default-gateway не сработала, так как для проведения лабораторнрой работы был выбран образ L3, поддерживающий маршрутизацию
+1.11 На S1, S2 вместо команды ip default-gateway также настроен статический маршрут на вышестоящий R1 и R2 соответственно. Команда ip default-gateway не сработала, так как для проведения лабораторной работы был выбран образ L3, поддерживающий маршрутизацию
 
 Базовые настройки оборудования представлены по ссылкам [S1](config/S1), [R1](config/R1), [S2](config/S2), [R2](config/R2).
 
@@ -216,7 +216,7 @@ Option: (3) Router
 
 3.1 Настройка relay-агента на inside IF R2
 
-Для того чтобы передать запросы DHCP серверу, необходимо конвертировать BC-запрос  к конкретному DHCP-сервера. Для этого на R2, Gi0/1, настроим relay-agent, указав ip-адрес ближайшего интерфейса DHCP 10.0.0.1: 
+Для того чтобы передать запросы DHCP серверу, необходимо конвертировать BC-запрос  к конкретному DHCP-серверу. Для этого на R2, Gi0/1, настроим relay-agent, указав ip-адрес ближайшего интерфейса DHCP 10.0.0.1: 
 ```
 R2(config)#int gi 0/1 
 R2(config-if)#ip helper-address 10.0.0.1
@@ -343,7 +343,7 @@ int ra gi0/0 - 3
 		exit
 ```
 
-1.7 На S1, S2 включены порты на аплинках и access для хоста. Интерфейсы на S1, S2 yнастроены access, vlan1, spanning-tree portfast network. Просмотрим состояние интерфейсов:
+1.7 На S1, S2 включены порты на аплинках и access для хоста. Активные интерфейсы  S1, S2 переведены в режим access. На них включен vlan1, spanning-tree portfast network. Просмотрим состояние интерфейсов:
 ```
 default int gi 0/0
 S2(config-if-range)#do sho ip int br
@@ -378,7 +378,7 @@ ipv6 route ::/0 GigabitEthernet0/0 FE80::2
 R2(config-if)#do show run | in ipv6 route
 ipv6 route ::/0 GigabitEthernet0/0 FE80::1
 ```
-Все настройки оборудования представлены по ссылкам [S1_ipv6_start](config/S1_ipv6_start), [R1_ipv6_start](config/R1_ipv6_start), [R2_ipv6_start](config/R2_ipv6_start), [S2_ipv6_start](config/S2_ipv6_start).
+Сделанные настройки оборудования представлены по ссылкам [S1_ipv6_start](config/S1_ipv6_start), [R1_ipv6_start](config/R1_ipv6_start), [R2_ipv6_start](config/R2_ipv6_start), [S2_ipv6_start](config/S2_ipv6_start).
 
 ### Этапы работы п.п.2
 2.1 Проверим работоспособность SLAAC на PC
@@ -528,6 +528,8 @@ Client: FE80::2196:C83E:DE34:CD04
 ```
 5.3 Проверка ip-связности между узлами прошла успешно.
 ![](VM1_VM2_ping2.jpg)
+
+Сделанные настройки оборудования представлены по ссылкам [S1_ipv6_start](config/S1_ipv6_start), [R1_DHCP ](config/R1_DHCP), [R2_Relay](config/R2_Relay), [S2_ipv6_start](config/S2_ipv6_start).
 
 ### Ответы на вопросы Л/р:
 - Произведена настройка ipv6 адресов сетевой инфраструктуры в соответствии с Таблицей назначения адресов
