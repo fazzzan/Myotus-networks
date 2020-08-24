@@ -12,19 +12,19 @@
 
 ###  Решение:
 ###   1. Предложить стек используемых технологий внутри каждого региона, обеспечивающий предоставление интернет-доступа во внешнюю сеть;
-Офис Москва, использутся классическая 3-уровневая схема:
+### Офис Москва, использутся классическая 3-уровневая схема:
 Access(Vlans, STP)-Distribution(VLANS, STP, uplinks-EtherChannelx2)-CoreSW(STP, Neigh-EtherChannelx3, VLAN balance by ROOT, HSRP with vlans balance, IVR, SLA, OSPF)
 CoreR(OSPF, NAT)
 
-Офис СПб, Используем схему CollapsedCore
+### Офис СПб, Используем схему CollapsedCore
 Access(Neigh-EtherChannelx2)
 CoreR(IVR, HSRP, NAT, SLA)
 
-Офис Чокурдах, Используем схему RouterOnStick
+### Офис Чокурдах, Используем схему RouterOnStick
 Access(VLAN, ISP VLANS)
 CoreR(IVR, HSRP, NAT, SLA)
 
-Офис Лабытнанги, Используем подключение на Router
+### Офис Лабытнанги, Используем подключение на Router
 CoreR(VLAN, IVR, NAT)
  
 ###   2. Разработать и задокументировать адресное пространство IPv4; 
