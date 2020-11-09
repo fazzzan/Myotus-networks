@@ -1,0 +1,60 @@
+en
+conf t
+do show run int e0/0
+do show run int e0/2
+
+do show run int e0/1
+
+
+R1
+ip dhcp excluded-address 192.168.1.1 192.168.1.10
+
+ip dhcp pool LAN
+network 192.168.1.0 255.255.255.0
+default-router 192.168.1.1
+domain-name lan1.local
+dns-server 192.168.1.1
+exit
+
+router ospf 1
+ router-id 1.1.1.1
+ network 10.0.0.0 0.0.0.255 area 10
+ network 20.0.0.0 0.0.0.255 area 10
+ network 192.168.1.0 0.0.0.255 area 10
+
+R2
+router ospf 1
+ router-id 2.2.2.2
+ network 20.0.0.0 0.0.0.255 area 10
+ network 40.0.0.0 0.0.0.255 area 0
+ 
+ R3
+ router ospf 1
+ router-id 3.3.3.3
+ network 10.0.0.0 0.0.0.255 area 10
+ network 30.0.0.0 0.0.0.255 area 0
+ 
+lo0: 10.0.0.1
+lo0: 10.0.0.2
+lo0: 10.0.0.3
+lo0: 10.0.0.6
+
+
+R2
+router bgp 1175
+ bgp log-neighbor-changes
+ neighbor 10.10.0.1 remote-as 1175
+ neighbor 10.10.0.1  
+ 
+ 
+ peer-group RF-CLIENTS
+ neighbor 10.10.0.3 peer-group RF-CLIENTS
+ neighbor 10.10.0.6 peer-group RF-CLIENTS
+R3
+R6
+
+
+
+R6 
+1. 0.0.0.0 0.0.0.0 - избыточный
+0.0.0.0 0.0.0.0 - должен быть от BGP 
