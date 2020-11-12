@@ -1,0 +1,8 @@
+router eigrp 1
+
+#eigrp router-id 3.3.3.3
+
+R3(config-router)#network 2.0.0.0
+R3(config-router)#no auto-summary
+
+#sh ip route eigrp | begin Gateway
