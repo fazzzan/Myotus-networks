@@ -39,3 +39,4 @@ Sending 5, 100-byte ICMP Echos to 30.1.1.1, timeout is 2 seconds:
 !!!!!
 Success rate is 100 percent (5/5), round-trip min/avg/max = 19/19/20 ms
 ```
+удобная функция - суммирование маршрутов 
