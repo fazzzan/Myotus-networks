@@ -58,3 +58,13 @@ R6
 R6 
 1. 0.0.0.0 0.0.0.0 - избыточный
 0.0.0.0 0.0.0.0 - должен быть от BGP 
+
+
+ip prefix-list DEFAULT-ROUTE-DR permit 9.9.9.9/32
+
+route-map DEFAULT-ROUTE-RM permit 100
+ match ip address prefix-list DEFAULT-ROUTE-DR
+ exit
+ 
+router bgp 127823
+ neighbor 100.6.7.2 route-map DEFAULT-ROUTE-RM out
