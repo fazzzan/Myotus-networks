@@ -221,6 +221,7 @@ terminal history size
 
 
 Организация
+
 ![](pictures/17.jpg)
 
 модуль1 - netacad
