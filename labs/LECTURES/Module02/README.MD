@@ -103,7 +103,3 @@ native vlan - хорошо рассмотрен тут: http://xgu.ru/wiki/Nativ
 ![](pictures/17.jpg)
 
 ![](pictures/16.jpg)
-
-текст
-
-![](pictures/18.jpg)
