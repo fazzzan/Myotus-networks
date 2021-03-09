@@ -1,0 +1,137 @@
+S2#sho run 
+Building configuration...
+
+Current configuration : 2057 bytes
+!
+! Last configuration change at 00:34:42 MSK Fri Jul 10 2020
+! NVRAM config last updated at 00:13:34 MSK Fri Jul 10 2020
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname S2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$MLFH$IxDJ89ntZrPBT5GfQ1Saa.
+!
+no aaa new-model
+clock timezone MSK 3 0
+!
+!         
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+! 
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ switchport access vlan 7
+ shutdown
+ no negotiation auto
+!
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan 3,4,8
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 8
+ switchport mode trunk
+ no negotiation auto
+!
+interface GigabitEthernet0/2
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ no negotiation auto
+!
+interface GigabitEthernet0/3
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ no negotiation auto
+!
+interface GigabitEthernet1/0
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ no negotiation auto
+!
+interface GigabitEthernet1/1
+ switchport access vlan 4
+ switchport mode access
+ no negotiation auto
+!
+interface GigabitEthernet1/2
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ no negotiation auto
+!
+interface GigabitEthernet1/3
+ switchport access vlan 7
+ switchport mode access
+ shutdown
+ no negotiation auto
+!
+interface Vlan3
+ ip address 192.168.3.12 255.255.255.0
+!
+ip default-gateway 192.168.3.1
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+!         
+!
+control-plane
+!
+banner motd ^CCThis device is private property. Access REstricted^C
+!
+line con 0
+ exec-timeout 0 0
+ password 7 060506324F41
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ exec-timeout 0 0
+ password 7 02050D480809
+ logging synchronous
+ login
+!
+!
+end
