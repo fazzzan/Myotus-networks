@@ -1,0 +1,133 @@
+[33m186cc3e[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m 20210315
+[33mcbc9368[m 20210315
+[33me693a70[m 20210315
+[33mf6ded48[m 20210312
+[33m9e93772[m 20210312
+[33m1ac1200[m 20210312
+[33mdf0d0f6[m 20210312
+[33m173a0c7[m 20210309
+[33m1013456[m 20210309
+[33m23d8892[m 20210309
+[33m488b798[m 20210305
+[33mb5a0fc9[m 20210305
+[33mb05e815[m 20210305
+[33m864bab9[m 20210305
+[33md5b0ae0[m 20210305
+[33m919d849[m 20210305
+[33mc6c5cd5[m 20210226
+[33m42465f8[m 20210226
+[33m9c138b5[m 20210226
+[33m6c9c1c2[m Merge branch 'master' of https://github.com/fazzzan/Myotus-networks into master
+[33mfd6eefc[m 20210226
+[33m1ee26c7[m 20210226
+[33md716d34[m Update eigrp.md
+[33m805aa0b[m move
+[33m5f047d1[m delete old file
+[33m8188438[m rename file
+[33m8742644[m Merge branch 'master' of https://github.com/fazzzan/Myotus-networks into master
+[33m6ec26f6[m 20201113
+[33m7d5ea8e[m Update eight.md
+[33m41ecd13[m Update eight.md
+[33m9ba0ed5[m Rename eight. md to eight.md
+[33m70c97d7[m Update eight. md
+[33m428d75a[m Create eight. md
+[33mce6aec5[m 20201109
+[33m87693f7[m 	modified:   BASE_CONF.cfg
+[33m99c5015[m 	modified:   BASE_CONF.cfg
+[33m4ca3876[m 	new file:   BASE_CONF.cfg
+[33m6e8834e[m Update README.md
+[33m9777501[m Update README.md
+[33m3382ae9[m Update README.md
+[33mfd1c455[m Update README.md
+[33mffbeeb9[m Create README.md
+[33m8bf8bb6[m Update RADME.md
+[33m460ebc2[m Add files via upload
+[33m63bbf75[m Update RADME.md
+[33m7de6d4c[m Update RADME.md
+[33m384f4ff[m Update RADME.md
+[33m4fefee1[m Add files via upload
+[33m716468c[m Update RADME.md
+[33m9c3ee45[m Update RADME.md
+[33m7f3de03[m Update RADME.md
+[33m0fcb0a7[m Create R2_Relay
+[33m8a03c2a[m Create R1_DHCP
+[33m36ed867[m Update RADME.md
+[33mb58f443[m Add files via upload
+[33m242e4bd[m Add files via upload
+[33mc780ea5[m Add files via upload
+[33mf24d752[m Add files via upload
+[33mddfa7a5[m Add files via upload
+[33me98b1bc[m Add files via upload
+[33m9a85306[m Add files via upload
+[33m91f5282[m Update RADME.md
+[33m6abfa3c[m Add files via upload
+[33m56449f6[m Update RADME.md
+[33m4552968[m Update RADME.md
+[33m8179d67[m Rename S1_ipv6 to S1_ipv6_start
+[33m251b298[m Create S2_ipv6_start
+[33m6199bb9[m Create R2_ipv6_start
+[33mb7c5743[m Create R1_ipv6_start
+[33m2cf850c[m Create S1_ipv6
+[33m60788f1[m Update RADME.md
+[33md1ce2d4[m Add files via upload
+[33m09dcc99[m Update RADME.md
+[33m7680849[m Update R2
+[33m598edf0[m Update R1
+[33m99d323d[m Update S2
+[33m663dc0e[m Update S1
+[33mb3aa20b[m Update RADME.md
+[33m4c26ef4[m Update RADME.md
+[33m91de1a5[m Add files via upload
+[33mfdb059c[m Add files via upload
+[33m0fc54db[m Add files via upload
+[33m0f687e8[m Add files via upload
+[33mf5e1321[m Update RADME.md
+[33mcf3cb55[m Add files via upload
+[33mbb06daf[m Add files via upload
+[33mad27e6c[m Update RADME.md
+[33m0e01d30[m Add files via upload
+[33m581c1da[m Create S2_vlan.dat
+[33m2157884[m Create S2
+[33maa55941[m Create R2
+[33ma8a0e24[m Create R1
+[33m6d1d4ac[m Create S1_vlan.dat
+[33m62ed219[m Create S1
+[33mef5e701[m Create RADME.md
+[33m92ef883[m Update RADME.md
+[33me2de437[m Update RADME.md
+[33mdd02d86[m Update RADME.md
+[33m941097b[m Add files via upload
+[33m6a79982[m Add files via upload
+[33m9c83d29[m Update RADME.md
+[33m43fa487[m Add files via upload
+[33mae65c9e[m Update RADME.md
+[33m6cffa96[m Update RADME.md
+[33mfd71ee3[m Update RADME.md
+[33m431e51c[m Add files via upload
+[33me6c0d50[m Update RADME.md
+[33m8c798e4[m Rename labs/lab2/S3 to labs/lab2/config/S3
+[33m797651c[m Rename labs/lab2/S2 to labs/lab2/config/S2
+[33mbcacbc9[m Rename labs/lab2/S1 to labs/lab2/config/S1
+[33mae2ab43[m Create S3
+[33m7d5cdfe[m Update S1
+[33mb5f574b[m Create S2
+[33m84224ce[m Create S1
+[33m5aacf09[m Create RADME.md
+[33m8523c18[m Update ANSIBLE+Windows
+[33mba23a18[m Update ANSIBLE+Windows
+[33m11ae31b[m Update ANSIBLE+Windows
+[33m2f5e7f7[m Update ANSIBLE+Windows
+[33md8bb060[m Update ANSIBLE+Windows
+[33mba2ef06[m Create ANSIBLE+Windows
+[33m3fc103b[m Update README.md
+[33m320e436[m Update README.md
+[33mee33501[m Create README.md
+[33mdce7f3e[m Add files via upload
+[33m5778133[m Delete R1
+[33m038b04f[m Delete lab
+[33me773580[m Create S2
+[33mcdc9414[m Create S1
+[33mf786000[m Create R1
+[33mc6e0dbe[m Create R1
+[33ma9b3489[m Create lab
+[33m874efa7[m[33m ([m[1;31morigin/lab01[m[33m)[m Initial commit
