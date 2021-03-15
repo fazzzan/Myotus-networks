@@ -19,7 +19,7 @@
    - service password envryption
    - line con 0
    - line vty 0 4
-
+   za
 ___ПРОВЕРКА___: ```show run```, ```show run | in user```
 
 ### 2. Настройка всех портов Switch1,2 командой range
