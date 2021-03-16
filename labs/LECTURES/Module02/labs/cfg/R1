@@ -1,330 +1,83 @@
-R1#show run
-Building configuration...
-
-Current configuration : 1653 bytes
-!
-! Last configuration change at 00:13:49 MSK Fri Jul 10 2020
-! NVRAM config last updated at 00:13:36 MSK Fri Jul 10 2020
-!
-version 15.6
-service timestamps debug datetime msec
-service timestamps log datetime msec
-service password-encryption
-!
-hostname R1
-!
-boot-start-marker
-boot-end-marker
-!
-!
-enable secret 5 $1$VHgV$HRZ8ouBsTRVdTaUrKtIhh0
-!
-no aaa new-model
-ethernet lmi ce
-!
-!
-          
-R1#
-R1#
-R1#
-R1#
-R1#
-R1#
-R1#
-R1#
-R1#do show run
-      ^
-% Invalid input detected at '^' marker.
-
-R1#show run
-Building configuration...
-
-Current configuration : 1653 bytes
-!
-! Last configuration change at 00:13:49 MSK Fri Jul 10 2020
-! NVRAM config last updated at 00:13:36 MSK Fri Jul 10 2020
-!
-version 15.6
-service timestamps debug datetime msec
-service timestamps log datetime msec
-service password-encryption
-!
-hostname R1
-!
-boot-start-marker
-boot-end-marker
-!
-!
-enable secret 5 $1$VHgV$HRZ8ouBsTRVdTaUrKtIhh0
-!
-no aaa new-model
-ethernet lmi ce
-!
-!
-!         
+Задаем timezone
 clock timezone MSK 3 0
-mmi polling-interval 60
-no mmi auto-configure
-no mmi pvc
-mmi snmp-timeout 180
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
+...
+Имя хоста
+hostname R1
+...
+ip domain-name otus.local
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+...
+Баннер
+banner motd ^CCThis device is private property. Access REstricted^C
+...
+Настройка длины пароля
+security passwords min-length 10
+...
+Задание secret с алгоритмом scrypt
+enable algorithm-type scrypt secret cisco12345
+...
+Задание username\pass с алгоритмом scrypt
+username admin algorithm-type scrypt secret cisco12345
+...
+Запрет на разрешение имени домена (на случай некорректного ввода команды
 no ip domain lookup
-ip cef
-no ipv6 cef
+...
+Добавим таймстамп в логах
+service timestamps debug datetime msec
+service timestamps log datetime msec
+...
+Настроим тормозной логин
+login delay 10
+...
+События в логи при входе/неудаче
+login on-success log 
+login on-failure log
+...
+"режим тишины" в случае некорректного троекратного ввода логина/пароля на 300 секунд
+login block-for 300 attempts 3 within 120
+...
+ACL обхода "режима тишины"
+ip access-list standard ACL-LOGIN-QM 
+permit host 192.168.3.1 
+exit 
+login quiet-mode access-class ACL-LOGIN-QM 
+...
+Настройка сабинтерфейсов
+interface f0/1
+ no shut
 !
-multilink bundle-name authenticated
-!
-!         
-!
-!
-!
-redundancy
-!
-!
-! 
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-interface GigabitEthernet0/0
- no ip address
- duplex auto
- speed auto
- media-type rj45
-!
-interface GigabitEthernet0/0.3
+interface f0/1.3
  encapsulation dot1Q 3
  ip address 192.168.3.1 255.255.255.0
+ exit
 !
-interface GigabitEthernet0/0.4
+interface f0/1.4
  encapsulation dot1Q 4
  ip address 192.168.4.1 255.255.255.0
+ exit
 !
-interface GigabitEthernet0/0.8
+interface f0/1.8
  encapsulation dot1Q 8
-!
-interface GigabitEthernet0/1
- no ip address
- shutdown
- duplex auto
- speed auto
- media-type rj45
-!
-interface GigabitEthernet0/2
- no ip address
- shutdown 
- duplex auto
- speed auto
- media-type rj45
-!
-interface GigabitEthernet0/3
- no ip address
- shutdown
- duplex auto
- speed auto
- media-type rj45
-!
-ip forward-protocol nd
+ exit
 !
 !
-no ip http server
-no ip http secure-server
-!
-!
-!
-!
-control-plane
-!
-banner motd ^CCThis device is private property. Access REstricted^C
-!
+Вход с использованием локального пользователя
+...
 line con 0
- exec-timeout 0 0
- password 7 05080F1C2243
- logging synchronous
- login
-line aux 0
+login local
+exec-timeout 5
+exit
+...
 line vty 0 4
- exec-timeout 0 0
- password 7 121A0C041104
- logging synchronous
- login
- transport input none
-!
-no scheduler allocate
-!
-end
+login local
+exec-timeout 5
+tran in ssh
+...
+Задаем время 
+clock set 00:01:00 16 March 2021
 
-R1#
-Jul  9 21:18:23.667: IP ARP: rcvd req src 192.168.3.3 0050.7966.6803, dst 192.168.3.1 GigabitEthernet0/0.3
-Jul  9 21:18:23.668: IP ARP: sent rep src 192.168.3.1 5000.0006.0000,
-                 dst 192.168.3.3 0050.7966.6803 GigabitEthernet0/0.3
-Jul  9 21:18:23.672: IP ARP: rcvd req src 192.168.4.3 0050.7966.6804, dst 192.168.4.1 GigabitEthernet0/0.4
-Jul  9 21:18:23.673: IP ARP: sent rep src 192.168.4.1 5000.0006.0000,
-                 dst 192.168.4.3 0050.7966.6804 GigabitEthernet0/0.4
-R1#show int reun
-             ^
-% Invalid input detected at '^' marker.
 
-R1#
-R1#
-R1#
-R1#^Z
-R1#
-R1#
-R1#
-R1#
-R1#
-R1#
-R1#show run
-Building configuration...
-
-Current configuration : 1653 bytes
-!
-! Last configuration change at 00:13:49 MSK Fri Jul 10 2020
-! NVRAM config last updated at 00:13:36 MSK Fri Jul 10 2020
-!
-version 15.6
-service timestamps debug datetime msec
-service timestamps log datetime msec
-service password-encryption
-!
-hostname R1
-!
-boot-start-marker
-boot-end-marker
-!
-!
-enable secret 5 $1$VHgV$HRZ8ouBsTRVdTaUrKtIhh0
-!
-no aaa new-model
-ethernet lmi ce
-!
-!
-!         
-clock timezone MSK 3 0
-mmi polling-interval 60
-no mmi auto-configure
-no mmi pvc
-mmi snmp-timeout 180
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-no ip domain lookup
-ip cef
-no ipv6 cef
-!
-multilink bundle-name authenticated
-!
-!         
-!
-!
-!
-redundancy
-!
-!
-! 
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-interface GigabitEthernet0/0
- no ip address
- duplex auto
- speed auto
- media-type rj45
-!
-interface GigabitEthernet0/0.3
- encapsulation dot1Q 3
- ip address 192.168.3.1 255.255.255.0
-!
-interface GigabitEthernet0/0.4
- encapsulation dot1Q 4
- ip address 192.168.4.1 255.255.255.0
-!
-interface GigabitEthernet0/0.8
- encapsulation dot1Q 8
-!
-interface GigabitEthernet0/1
- no ip address
- shutdown
- duplex auto
- speed auto
- media-type rj45
-!
-interface GigabitEthernet0/2
- no ip address
- shutdown 
- duplex auto
- speed auto
- media-type rj45
-!
-interface GigabitEthernet0/3
- no ip address
- shutdown
- duplex auto
- speed auto
- media-type rj45
-!
-ip forward-protocol nd
-!
-!
-no ip http server
-no ip http secure-server
-!
-!
-!
-!
-control-plane
-!
-banner motd ^CCThis device is private property. Access REstricted^C
-!
-line con 0
- exec-timeout 0 0
- password 7 05080F1C2243
- logging synchronous
- login
-line aux 0
-line vty 0 4
- exec-timeout 0 0
- password 7 121A0C041104
- logging synchronous
- login
- transport input none
-!
-no scheduler allocate
-!
-end
+Проверка
+show login
+show access-list
