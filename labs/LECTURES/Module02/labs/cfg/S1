@@ -13,7 +13,7 @@ banner motd #This device is private property. Access REstricted
 #
 ...
 Настройка длины пароля
-security passwords min-length 10 - не сработало в GNS3
+security passwords min-length 10 - не сработало в SW GNS3
 ...
 Задание secret с алгоритмом scrypt
 enable algorithm-type scrypt secret cisco12345
@@ -84,23 +84,23 @@ int ra e2/0 - 3
  switchport mode access
  switchport access vlan 7
  shutdown
- no negotiation auto
+ no negotiation auto - не работает
  exit
 !
 int ra e3/0 - 3
  switchport mode access
  switchport access vlan 7
  shutdown
- no negotiation auto
+ no negotiation auto - не работает
  exit
 !
 default int e1/1
 
-interface E1/1
+interface e1/1
  switchport mode access
  switchport access vlan 3
- shutdown
- no negotiation auto
+ no shutdown
+ no negotiation auto - не работает
 !
 Настройка аплинков транками
 !
@@ -116,7 +116,7 @@ interface e0/1
  switchport mode trunk
  switchport trunk allowed vlan 3,4,8
  switchport trunk native vlan 8
- no negotiation auto
+ no negotiation auto - не работает
 !
 !!
 !
@@ -139,3 +139,17 @@ clock set 00:01:00 16 March 2021
 Проверка
 show login
 show access-list
+
+При попытке подключения встречалась ошибка 
+```
+S1#ssh 192.168.3.1
+[Connection to 192.168.3.1 aborted: error status 0]
+S1#
+*Mar 16 20:13:34.274: %SSH-3-NO_MATCH: No matching cipher found: client aes128-ctr,aes192-ctr,aes256-ctr server aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc
+S1#ssh -l admin 192.168.3.1
+[Connection to 192.168.3.1 aborted: error status 0]
+S1#
+*Mar 16 20:13:44.470: %SSH-3-NO_MATCH: No matching cipher found: client aes128-ctr,aes192-ctr,aes256-ctr server aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc
+```
+Вылечил на S1 указанием алгоритмов:
+ip ssh client algorithm encryption aes128-cbc 3des-cbc aes192-cbc aes256-cbc
