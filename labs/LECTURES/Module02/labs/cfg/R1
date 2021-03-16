@@ -4,24 +4,25 @@ clock timezone MSK 3 0
 Имя хоста
 hostname R1
 ...
-ip domain-name otus.local
-crypto key generate rsa general-keys modulus 2048
-ip ssh version 2
-...
 Баннер
 banner motd ^CCThis device is private property. Access REstricted^C
 ...
+Запрет на разрешение имени домена (на случай некорректного ввода команды
+no ip domain lookup
+...
 Настройка длины пароля
 security passwords min-length 10
+...
+SSH
+ip domain-name otus.local
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
 ...
 Задание secret с алгоритмом scrypt
 enable algorithm-type scrypt secret cisco12345
 ...
 Задание username\pass с алгоритмом scrypt
 username admin algorithm-type scrypt secret cisco12345
-...
-Запрет на разрешение имени домена (на случай некорректного ввода команды
-no ip domain lookup
 ...
 Добавим таймстамп в логах
 service timestamps debug datetime msec
@@ -39,7 +40,7 @@ login block-for 300 attempts 3 within 120
 ...
 ACL обхода "режима тишины"
 ip access-list standard ACL-LOGIN-QM 
-permit host 192.168.3.1 
+permit host 192.168.3.3 
 exit 
 login quiet-mode access-class ACL-LOGIN-QM 
 ...

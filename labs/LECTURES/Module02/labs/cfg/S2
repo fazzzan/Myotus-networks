@@ -48,13 +48,15 @@ login quiet-mode access-class ACL-LOGIN-QM
 vlan 3
 name MANAGEMENT-VLAN
 !
+interface Vlan3
+ ip address 192.168.3.12 255.255.255.0
+ no shut
+ exit
+!
 vlan 4
 name OPERATRIONS-VLAN
 !
-interface Vlan4
- ip address 192.168.4.12 255.255.255.0
- no shut
- exit
+
  
 VLAN8
 name Native-VLAN
