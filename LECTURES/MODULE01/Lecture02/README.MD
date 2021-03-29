@@ -114,6 +114,6 @@ native vlan - хорошо рассмотрен тут: http://xgu.ru/wiki/Nativ
 
 Картинку см. выше
 
-- [pdf](lab01/4.2.8_Lab_Configure_Router-on-a-Stick_Inter-VLAN_Routing.docx)
+- [pdf](lab01/README.MD)
 
 Задача: Configure Router-on-a-Stick and Inter-VLAN Routing
