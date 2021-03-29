@@ -278,3 +278,25 @@ AD - нужна чтобы в таблицу маршрутизации попа
 
 [Файлы проекта](labs/floating_route)
 
+![](pictures/28.jpg)
+
+```
+R1(config)#do sho ip int br
+Interface                  IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0         10.2.1.1        YES NVRAM  up                    up      
+GigabitEthernet0/1         10.3.1.1        YES NVRAM  up                    up      
+GigabitEthernet0/2         192.168.0.1     YES NVRAM  up                    up      
+GigabitEthernet0/3         unassigned      YES NVRAM  administratively down down   
+
+R1(config)#do sho run | in ip route
+ip route 10.4.1.0 255.255.255.0 10.2.1.2
+ip route 10.5.1.0 255.255.255.0 10.3.1.3
+ip route 100.100.100.100 255.255.255.255 10.2.1.2
+ip route 100.100.100.100 255.255.255.255 10.3.1.3 5
+```
+
+Как видно, маршрут через R3 имеет худшую AD, чем через R2, поэтому его нет в таблице маршрутизации, пока с Gi0/0 все хорошо. Стоит Gi0/0 упасть, то ___CONNECTED___ маршрут через R2 пропадет из таблицы маршрутизации и на его место высплывет запасной ___floating___ маршрут. То есть маршрут как бы был в таблице маршрутов, но "всплыл" он тольк при падении основного маршрута. 
+
+![](pictures/29.jpg)
+
+![](pictures/30.jpg)
