@@ -150,6 +150,6 @@ Success rate is 100 percent (5/5), round-trip min/avg/max = 1/3/12 ms
 SA-11(config)#ipv6 route ::/0 2001:db8:acad:1::1
 ```
 
-И после этого обнаружил что ПК получил ipv6. Причем шзм6 получил как Win7, так и PCA1.
+И после этого обнаружил что ПК получил ipv6. Причем ipv6 получил как Win7, так и PCA1.
 
 [Дамп получения ipv6 тут](DHCPv6-get.pcapng)
