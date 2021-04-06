@@ -1,7 +1,7 @@
 # OTUS /05/ 20210316
 # DHCP server
 
-![](pictures\01.jpg)
+![](pictures/01.jpg)
 
 DHCP обладает пулом адресов, из которого выдает адреса. Адреса выдаются на какой-то срок (по-умолчанию 5-7 джней). DHCP - клиент-серверное приложение:
 - клиент отправляет запрос на DHCP
@@ -15,7 +15,7 @@ ___DORA___ - Выполняется BC - пакетами
 - DHCP ___D___ iscover (DHCPDISCOVER) - BC запрос (ip и MAC)
 - DHCP ___O___ ffer (DHCPOFFER) - BC Предложение от сервера
 
-![](pictures\03.jpg)
+![](pictures/03.jpg)
 
 - DHCP ___R___ equest (DHCPREQ) - Подтверждение приема предложения клиентом
 - DHCP ___A___ ck (DHCPACK) - Подтверждение выдачи сервером
@@ -26,11 +26,11 @@ ___DORA___ - Выполняется BC - пакетами
 - DHCP request (DHCPREQ) - Я хотел бы обновить
 - DHCP Ack (DHCPACK) - Подтверждение обновления сервером
 
-![](pictures\04.jpg)
+![](pictures/04.jpg)
 
 # Настройка
 
-![](pictures\05.jpg)
+![](pictures/05.jpg)
 
 ![](pictures\06.jpg)
 
