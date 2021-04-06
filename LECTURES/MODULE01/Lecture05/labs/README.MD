@@ -109,3 +109,47 @@ DHCPNAK              0
 Схема подходит для использованию внутри локальной сети, в случае, если DHCP - сервер небольшой компании обеспечивает работу нескольких маршрутизируемых сегментов, скажем RA-1 - LAN, RB-1 - Wi-Fi
 
 Для большой компании рекомендуется поднимать кластер DHCP на базе Windows server, или какого-либо решения Linux.
+
+
+
+
+# Lab - Внедрение DHCPv6
+## Задание: [docx](8.5.1_Lab-Configure_DHCPv6.docx)
+
+##  Задание:
+1. Создание сети, настройка основных параметров устройств
+2. Проверка работы SLAAC: назначение адресов от R1
+3. Настроить и проверить Stateless DHCPv6 на R1
+4. Настроить и проверить Statefull DHCPv6 на R1
+5. Настроить и проверить DHCPv6 relay на R2
+
+###  Решение:
+1. Графическая схема до начал работы, с нанесенной информацией о ip-адресации
+
+![](/LECTURES/MODULE01/Lecture05/pictures/44.jpg)
+
+Также хорошая картинка для примера настройки IPv6 
+![](/LECTURES/MODULE01/Lecture05/pictures/45. jpg)
+
+В конфиге SA-11 указал ipv6 - адрес на VLAN 100, также указал маршрут ::0/0
+```
+SA-11(config)#int vlan 100
+SA-11(config-if)#ipv6 address 2001:db8:acad:1::2/64
+SA-11(config-if)#no shut
+
+SA-11(config-if)#
+*Apr  6 21:36:13.959: %LINK-3-UPDOWN: Interface Vlan100, changed state to up
+*Apr  6 21:36:14.959: %LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan100, changed state to upexit
+...
+SA-11(config)#ipv6 unicast-routing - пока не понятно зачем
+SA-11(config)#do ping 2001:db8:acad:1::1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 2001:DB8:ACAD:1::1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 1/3/12 ms
+SA-11(config)#ipv6 route ::/0 2001:db8:acad:1::1
+```
+
+И после этого обнаружил что ПК получил ipv6. Причем шзм6 получил как Win7, так и PCA1.
+
+[Дамп получения ipv6 тут](DHCPv6-get.pcapng)
