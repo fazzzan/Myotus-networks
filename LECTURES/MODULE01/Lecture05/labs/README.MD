@@ -129,7 +129,7 @@ DHCPNAK              0
 ![](/LECTURES/MODULE01/Lecture05/pictures/44.jpg)
 
 Также хорошая картинка для примера настройки IPv6 
-![](/LECTURES/MODULE01/Lecture05/pictures/45. jpg)
+![](/LECTURES/MODULE01/Lecture05/pictures/45.jpg)
 
 В конфиге SA-11 указал ipv6 - адрес на VLAN 100, также указал маршрут ::0/0
 ```
