@@ -848,7 +848,7 @@
             },
             {
                 "filters": {},
-                "link_id": "7dfbf1b6-ab0a-43d6-896f-506d6d9a5742",
+                "link_id": "c56d731e-a191-4a46-be75-ed18eb6ca1a2",
                 "nodes": [
                     {
                         "adapter_number": 1,
@@ -856,8 +856,8 @@
                             "rotation": 0,
                             "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
                             "text": "Gi0/1",
-                            "x": 38,
-                            "y": 61
+                            "x": 59,
+                            "y": 44
                         },
                         "node_id": "01a9116e-998f-496b-b424-a68a2d9653c8",
                         "port_number": 0
@@ -868,8 +868,8 @@
                             "rotation": 0,
                             "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
                             "text": "e0",
-                            "x": 19,
-                            "y": -8
+                            "x": -1,
+                            "y": 8
                         },
                         "node_id": "3dddf5a3-47c5-418c-a030-58111dcdbb13",
                         "port_number": 0
@@ -1976,35 +1976,6 @@
                 "z": 1
             },
             {
-                "compute_id": "local",
-                "console": 5006,
-                "console_auto_start": false,
-                "console_type": "telnet",
-                "custom_adapters": [],
-                "first_port_name": null,
-                "height": 59,
-                "label": {
-                    "rotation": 0,
-                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                    "text": "PCB1",
-                    "x": 11,
-                    "y": -25
-                },
-                "locked": false,
-                "name": "PCB1",
-                "node_id": "ae284424-0cc3-44c5-91fc-0405ff6eb1a4",
-                "node_type": "vpcs",
-                "port_name_format": "Ethernet{0}",
-                "port_segment_size": 0,
-                "properties": {},
-                "symbol": ":/symbols/vpcs_guest.svg",
-                "template_id": "19021f99-e36f-394d-b4a1-8aaa902ab9cc",
-                "width": 65,
-                "x": 718,
-                "y": 43,
-                "z": 1
-            },
-            {
                 "compute_id": "vm",
                 "console": 5900,
                 "console_auto_start": false,
@@ -2068,8 +2039,8 @@
                 "symbol": ":/symbols/qemu_guest.svg",
                 "template_id": "9c7a5012-351a-4f79-82ce-f6792b6b629f",
                 "width": 65,
-                "x": 621,
-                "y": 103,
+                "x": 730,
+                "y": 40,
                 "z": 1
             },
             {
