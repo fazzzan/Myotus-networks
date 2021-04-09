@@ -131,25 +131,273 @@ DHCPNAK              0
 Также хорошая картинка для примера настройки IPv6 
 ![](/LECTURES/MODULE01/Lecture05/pictures/45.jpg)
 
-В конфиге SA-11 указал ipv6 - адрес на VLAN 100, также указал маршрут ::0/0
-```
-SA-11(config)#int vlan 100
-SA-11(config-if)#ipv6 address 2001:db8:acad:1::2/64
-SA-11(config-if)#no shut
+2. Настроим SW1 (создаем SVI 200, глушим все порты, задаем access, trunk), R1 (SUBif, WAN if), проверим работу SLAAC
 
-SA-11(config-if)#
-*Apr  6 21:36:13.959: %LINK-3-UPDOWN: Interface Vlan100, changed state to up
-*Apr  6 21:36:14.959: %LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan100, changed state to upexit
+SW1: Настройка Access - портов, Настройка Uplinks 
+```
+interface Vlan200
+ no ip address
+ ipv6 address FE80::2 link-local
+ ipv6 address 2001:DB8:ACAD:200::2/64
 ...
-SA-11(config)#ipv6 unicast-routing - пока не понятно зачем
-SA-11(config)#do ping 2001:db8:acad:1::1
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 2001:DB8:ACAD:1::1, timeout is 2 seconds:
-!!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 1/3/12 ms
-SA-11(config)#ipv6 route ::/0 2001:db8:acad:1::1
+interface Gi0/1
+ switchport access vlan 100
+no shut
+exit
+...
+interface Gi0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 100,200,1000
+ switchport trunk native vlan 1000
+ spanning-tree guard root
+ no negotiation auto 
+ no shut
+exit 
 ```
 
-И после этого обнаружил что ПК получил ipv6. Причем ipv6 получил как Win7, так и PCA1.
+RA-11: SUBif, WAN if, ipv6 unicast-routing - рассылка RA (флаги A=1;O=0;M=0 по-умолчанию) для SLAAC
+```
+interface Ethernet0/0
+ description ### TO WAN ###
+ ipv6 address 2001:db8:acad:2::1/64 
+ ipv6 address fe80::1 link-local
+no shut
+exit
+!
+interface Ethernet0/1
+no shut
+exit
+!
 
-[Дамп получения ipv6 тут](DHCPv6-get.pcapng)
+interface Ethernet0/1.100
+description ### Link to LAN ###
+ encapsulation dot1Q 100
+ ipv6 address fe80::1 link-local
+ ipv6 address 2001:db8:acad:100::1/64
+ ipv6 unicast-routing - рассылка RA (флаги A=1;O=0;M=0 по-умолчанию)
+ no shut 
+exit
+!
+! 
+interface Ethernet0/1.200
+description ### Link to MGM ###
+ encapsulation dot1Q 200
+ ipv6 address fe80::1 link-local
+ ipv6 address 2001:db8:acad:200::1/64
+ no shut  
+exit
+!
+
+interface Ethernet0/1.1000
+ description ### Native ###
+ encapsulation dot1Q 1000
+ no shut
+```
+
+В конфиге SA-11 указал ipv6 - адрес на MGM VLAN 200 и ничего про маршрутизацию, при этом ping до RA-11 заработал. После включения PCa1 - ПК получил создал самостоятельно IPv6 адрес и оказался в состоянии достучаться до RA-11.
+Также PCa1 заменил Win7. Процедура SLAAC получения  - IPv6-адреса представлена ниже
+
+![](/LECTURES/MODULE01/Lecture05/pictures/46.jpg)
+
+Проверка связности:
+
+![](/LECTURES/MODULE01/Lecture05/pictures/47.jpg)
+
+2. Настроим RB-11 (SUBif, WAN if), настроим на RA-11 маршрут до правой части сети, проверим  ip-связность
+
+```
+RB-11: 
+interface Ethernet0/0
+ description ### TO WAN ###
+ ipv6 address 2001:db8:acad:2::2/64 
+ ipv6 address fe80::2 link-local
+ duplex auto
+ no shut
+!
+interface Ethernet0/1
+ no ip address
+ duplex auto
+ no shut
+!
+interface Ethernet0/1.1
+ description ### LAN-B ###
+ encapsulation dot1Q 1
+ ipv6 address 2001:db8:acad:3::1/64
+ ipv6 helper-address 10.0.0.1
+ no shut 
+!
+interface Ethernet0/1.1000
+ description ### Native ###
+ encapsulation dot1Q 1000 native
+ no shut
+
+ipv6 route 2001:DB8:ACAD:1::/64 2001:DB8:ACAD:2::1
+
+RA-11
+ipv6 route 2001:db8:acad:1::0/64 2001:db8:acad:2::1
+```
+
+после настроек PCA1 смог достучаться до правой части сети
+
+![](/LECTURES/MODULE01/Lecture05/pictures/48.jpg)
+
+
+3. Настроим RA-11 на DHCPv6 Stateless (pool, SubIF e0/1.100), проверим получение PCA1 ipv6 и связность
+
+```
+ipv6 dhcp pool R1-STATELESS
+dns-server 2001:db8:acad::254
+domain-name fz.otus.local
+
+interface Ethernet0/1.100
+description ### Link to LAN ###
+ ipv6 nd other-config-flag
+ ipv6 dhcp server R1-STATELESS
+exit
+```
+Проверка:
+```
+RA-11#sho ipv6 dhcp interface 
+Ethernet0/1.100 is in server mode
+  Using pool: R1-STATELESS
+  Preference value: 0
+  Hint from client: ignored
+  Rapid-Commit: disabled
+```
+
+Cвойства IF ПК до STATELESS
+
+![](/LECTURES/MODULE01/Lecture05/pictures/49.jpg)
+
+и после - появился DNS-сервер, DNS-суффикс
+
+![](/LECTURES/MODULE01/Lecture05/pictures/50.jpg)
+
+3. Настроим RA-11 на DHCPv6 Statefull (pool, SubIF e0/1.100), проверим получение PCA1 ipv6 и связность
+
+```
+ipv6 dhcp pool R1-STATEFUL
+address prefix 2001:db8:acad:100::/64
+dns-server 2001:db8:acad::254
+domain-name fz1.otus.local
+
+interface Ethernet0/1.100
+description ### Link to LAN ###
+ no ipv6 nd other-config-flag
+ no ipv6 dhcp server IPV6-STATELESS
+ ipv6 nd managed-config-flag - (флаг M=1)
+ ipv6 nd prefix default no-advertise - (флага A=0)
+ ipv6 dhcp server R1-STATEFUL
+exit
+```
+
+Проверка:
+```
+RA-11#sho ipv6 dhcp interface 
+Ethernet0/1.100 is in server mode
+  Using pool: R1-STATEFUL
+  Preference value: 0
+  Hint from client: ignored
+  Rapid-Commit: disabled
+```
+
+Процесс получения адреса, полученный адрес, диапазоны пулов и арендованные ipv6-адрес представлены на рисунке ниже
+
+![](/LECTURES/MODULE01/Lecture05/pictures/51.jpg)
+
+проверка ipv6-связности до правой части
+
+![](/LECTURES/MODULE01/Lecture05/pictures/52.jpg)
+
+4. Настроим RB-11 на DHCPv6 Statefull (pool, IF e0/0), SB-11, проверим получение ipv6 с правой стороны и связность
+
+![](/LECTURES/MODULE01/Lecture05/pictures/54.jpg)
+
+SB-11
+```
+interface Vlan1
+ ipV6 address 2001:db8:acad:3::2/64
+ no shut
+exit 
+
+interface Gi0/0
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 1,1000
+ switchport trunk native vlan 1000
+ spanning-tree guard root
+ no negotiation auto 
+no shut
+ exit
+
+interface Gi0/1
+ switchport access vlan 1  
+```
+
+RB-11
+```
+interface Ethernet0/0
+ description ### TO WAN ###
+ ipv6 address 2001:db8:acad:2::2/64 
+ ipv6 address fe80::2 link-local
+ duplex auto
+ no shut
+
+interface Ethernet0/1
+ no ip address
+ duplex auto
+ no shut
+!
+interface Ethernet0/1.1
+ description ### LAN-B ###
+ encapsulation dot1Q 1
+ ipv6 address 2001:db8:acad:3::1/64
+ ipv6 dhcp relay destination 2001:DB8:ACAD:2::1 Ethernet0/0
+ no shut 
+!
+interface Ethernet0/1.1000
+ description ### Native ###
+ encapsulation dot1Q 1000 native
+ no shut
+!
+ipv6 route 2001:db8:acad:100::0/64 2001:db8:acad:2::1
+```
+RA-11 на новый   pool, который повесим на WAN-IF
+```
+ipv6 dhcp pool R2-STATEFUL
+address prefix 2001:db8:acad:3::/64 - задаем сегмент
+dns-server 2001:db8:acad::254
+domain-name fz3.otus.local
+
+interface Ethernet0/0
+ ipv6 nd managed-config-flag - (флаг M=1)
+ ipv6 dhcp server R2-STATEFUL
+
+exit
+```
+В результате, после подключения клиентом Win7, на DHCPv6, выдались ipv6 через relay
+
+```
+RA-11#sho ipv6 dhcp binding 
+Client: FE80::B03A:F97B:44EC:CC1B 
+  DUID: 000100011E996657500000010000
+  Username : unassigned
+  VRF : default
+  IA NA: IA ID 0x0E500000, T1 43200, T2 69120
+    Address: 2001:DB8:ACAD:100:8045:D5F0:C5BA:4C5B
+            preferred lifetime 86400, valid lifetime 172800
+            expires at Apr 11 2021 11:15 PM (169034 seconds)
+Client: FE80::B03A:F97B:44EC:CC1B 
+  DUID: 000100011E996657500000010000
+  Username : unassigned
+  VRF : default
+  IA NA: IA ID 0x0E500000, T1 43200, T2 69120
+    Address: 2001:DB8:ACAD:3:DC34:C07F:95A5:5F17
+            preferred lifetime 86400, valid lifetime 172800
+            expires at Apr 12 2021 12:09 AM (172245 seconds)
+```
+
+![](/LECTURES/MODULE01/Lecture05/pictures/53.jpg)
+
+
