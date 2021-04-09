@@ -131,6 +131,12 @@ DHCPNAK              0
 Также хорошая картинка для примера настройки IPv6 
 ![](/LECTURES/MODULE01/Lecture05/pictures/45.jpg)
 
+Настройка SW выполнена в соответствии с описанием в файлах
+- [SA-11](cfg/SA-11.cfg), 
+- [SB-11](cfg/SB-11.cfg), 
+- [RA-11](cfg/RA-11.cfg),
+- [RB-11](cfg/RB-11.cfg).
+
 2. Настроим SW1 (создаем SVI 200, глушим все порты, задаем access, trunk), R1 (SUBif, WAN if), проверим работу SLAAC
 
 SW1: Настройка Access - портов, Настройка Uplinks 
