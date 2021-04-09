@@ -103,8 +103,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"71\" width=\"8\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">\n\n</text></svg>",
-                "x": 194,
-                "y": -189,
+                "x": 193,
+                "y": -188,
                 "z": 2
             },
             {
@@ -112,8 +112,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"219\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">2001:db8:acad:2::0 /64 </text></svg>",
-                "x": 150,
-                "y": -148,
+                "x": 149,
+                "y": -147,
                 "z": 2
             },
             {
@@ -121,8 +121,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"24\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">.1</text></svg>",
-                "x": 149,
-                "y": -115,
+                "x": 148,
+                "y": -114,
                 "z": 2
             },
             {
@@ -130,8 +130,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"24\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">.2</text></svg>",
-                "x": 322,
-                "y": -112,
+                "x": 321,
+                "y": -111,
                 "z": 2
             },
             {
@@ -139,8 +139,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"70\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">fe80::1</text></svg>",
-                "x": 139,
-                "y": -178,
+                "x": 138,
+                "y": -177,
                 "z": 2
             },
             {
@@ -148,8 +148,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"70\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">fe80::2</text></svg>",
-                "x": 294,
-                "y": -180,
+                "x": 293,
+                "y": -179,
                 "z": 2
             },
             {
@@ -157,8 +157,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"70\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">fe80::1</text></svg>",
-                "x": 43,
-                "y": -140,
+                "x": 42,
+                "y": -139,
                 "z": 2
             },
             {
@@ -166,8 +166,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"209\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">2001:db8:acad:1::0/64</text></svg>",
-                "x": -192,
-                "y": -136,
+                "x": -193,
+                "y": -135,
                 "z": 2
             },
             {
@@ -175,8 +175,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"24\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">.1</text></svg>",
-                "x": 52,
-                "y": -104,
+                "x": 51,
+                "y": -103,
                 "z": 2
             },
             {
@@ -184,8 +184,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"214\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">2001:db8:acad:3::0 /64</text></svg>",
-                "x": 497,
-                "y": -126,
+                "x": 496,
+                "y": -125,
                 "z": 2
             },
             {
@@ -193,8 +193,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"24\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">.1</text></svg>",
-                "x": 417,
-                "y": -105,
+                "x": 416,
+                "y": -104,
                 "z": 2
             },
             {
@@ -202,8 +202,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"70\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">fe80::1</text></svg>",
-                "x": 418,
-                "y": -132,
+                "x": 417,
+                "y": -131,
                 "z": 2
             },
             {
@@ -211,8 +211,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"24\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">.2</text></svg>",
-                "x": 543,
-                "y": -74,
+                "x": 542,
+                "y": -73,
                 "z": 2
             },
             {
@@ -220,8 +220,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"29\" width=\"24\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">.2</text></svg>",
-                "x": -55,
-                "y": -83,
+                "x": -56,
+                "y": -82,
                 "z": 2
             }
         ],
@@ -1795,8 +1795,8 @@
                 "symbol": ":/symbols/router.svg",
                 "template_id": "6a250e7d-6d4a-4853-b5aa-0cb41228386f",
                 "width": 66,
-                "x": 84,
-                "y": -93,
+                "x": 83,
+                "y": -92,
                 "z": 1
             },
             {
@@ -1824,8 +1824,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "template_id": "19021f99-e36f-394d-b4a1-8aaa902ab9cc",
                 "width": 65,
-                "x": -275,
-                "y": -40,
+                "x": -276,
+                "y": -39,
                 "z": 1
             },
             {
@@ -1864,8 +1864,8 @@
                 "symbol": ":/symbols/router.svg",
                 "template_id": "6a250e7d-6d4a-4853-b5aa-0cb41228386f",
                 "width": 66,
-                "x": 349,
-                "y": -91,
+                "x": 348,
+                "y": -90,
                 "z": 1
             },
             {
@@ -1932,8 +1932,8 @@
                 "symbol": ":/symbols/classic/multilayer_switch.svg",
                 "template_id": "e3086f90-2b5f-4a4d-91c6-6efb344ff9e1",
                 "width": 51,
-                "x": -113,
-                "y": -63,
+                "x": -114,
+                "y": -62,
                 "z": 1
             },
             {
@@ -2000,8 +2000,8 @@
                 "symbol": ":/symbols/classic/multilayer_switch.svg",
                 "template_id": "e3086f90-2b5f-4a4d-91c6-6efb344ff9e1",
                 "width": 51,
-                "x": 570,
-                "y": -57,
+                "x": 569,
+                "y": -56,
                 "z": 1
             },
             {
@@ -2029,8 +2029,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "template_id": "19021f99-e36f-394d-b4a1-8aaa902ab9cc",
                 "width": 65,
-                "x": 719,
-                "y": 42,
+                "x": 718,
+                "y": 43,
                 "z": 1
             },
             {
@@ -2097,8 +2097,8 @@
                 "symbol": ":/symbols/qemu_guest.svg",
                 "template_id": "9c7a5012-351a-4f79-82ce-f6792b6b629f",
                 "width": 65,
-                "x": -261,
-                "y": 56,
+                "x": -262,
+                "y": 57,
                 "z": 1
             }
         ]
