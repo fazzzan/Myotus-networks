@@ -5,7 +5,7 @@
 
 Задание:
 - настроить OSPF в трех зонах: 0, 1, 12
-конфиги настроек оборудования: [P1R1](1/P1R1.cfg), [P1R2](1/P1R2.cfg), [P1R3](cfg/P1R3.cfg), [P12R1](cfg/P12R1.cfg), [P12R2](cfg/P12R2.cfg), [P12R3](cfg/P12R3.cfg), [BB](cfg/BB.cfg).
+конфиги настроек оборудования: [P1R1](1/P1R1.cfg), [P1R2](1 /P1R2.cfg), [P1R3](cfg/P1R3.cfg), [P12R1](cfg/P12R1.cfg), [P12R2](cfg/P12R2.cfg), [P12R3](cfg/P12R3.cfg), [BB](cfg/BB.cfg).
 
 
 
