@@ -179,12 +179,12 @@ sho ip ispf int gi 0/0
 
 Проверка соседей/смежности:
 
-FULL
- - DROTHER
- - DR
- - BDR
-2-way
- - DROTHER
+- FULL
+   - DROTHER
+   - DR
+   - BDR
+- 2-way
+   - DROTHER
 
 ```
 sho ip ospf nei
@@ -206,7 +206,7 @@ sho ip ospf nei
 ![](pictures/34.jpg)
 
 
-Настройка маршрута по-умолчанию  ```default information originate```. Такой маршрут улетит в другую зону как LSA5
+Настройка маршрута по-умолчанию  ```default information originate``` (не сработает, если на ABR не задана 0.0.0.0). Такой маршрут улетит в другую зону как LSA 5
 
 ![](pictures/35.jpg)
 
