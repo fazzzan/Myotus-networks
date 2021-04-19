@@ -406,6 +406,4 @@ Totally NSSA
 ![](pictures/66.jpg)
 
 
-### Тестовая л/р ### 
-
-
+### [Тестовая л/р](/LECTURES/MODULE02/Lecture13/labs/README.MD) ### 
