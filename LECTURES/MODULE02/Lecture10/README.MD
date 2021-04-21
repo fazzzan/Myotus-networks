@@ -130,3 +130,7 @@ STP - хуже, так как:
 ![](pictures/16.jpg)
 
 Имиджи оборудолвания взял тут: https://drive.google.com/drive/folders/102jxZ9ECpe6ZFtXYdK_81iEVuuFoGOGR
+
+L1 suspend заработал только с 
+- vios_l2-adventerprisek9-m.SSA.high_iron_20180619.qcow2
+- vios-adventerprisek9-m.vmdk.SPA.156-2.T
