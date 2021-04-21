@@ -128,3 +128,5 @@ STP - хуже, так как:
 ДЗ
 
 ![](pictures/16.jpg)
+
+Имиджи оборудолвания взял тут: https://drive.google.com/drive/folders/102jxZ9ECpe6ZFtXYdK_81iEVuuFoGOGR
