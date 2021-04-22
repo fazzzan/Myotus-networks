@@ -1,9 +1,10 @@
 # Разбиение адресного пространства #
 
-Итак, изначально схема была в EVE-NG, но я решил ее переделать под GNS3
+Итак, изначально схема была в EVE-NG:
+
 ![](/LECTURES/MODULE02/Lecture10/pictures/16.jpg)
 
-Схему буду постепенно обновлять
+Но я решил ее переделать под GNS3: cхему буду постепенно обновлять
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/17.jpg)
 
@@ -31,3 +32,13 @@
 ![](/LECTURES/MODULE02/Lecture10/pictures/18.jpg)
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/19.jpg)
+
+![](/LECTURES/MODULE02/Lecture10/pictures/22.jpg)
+
+Настройки WAN
+
+![](/LECTURES/MODULE02/Lecture10/pictures/23.jpg)
+
+Думаю пока как представить результат в виде:
+
+![](/LECTURES/MODULE02/Lecture10/pictures/20.jpg)
