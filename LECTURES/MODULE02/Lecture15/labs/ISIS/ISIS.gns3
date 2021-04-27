@@ -172,8 +172,8 @@
                             "rotation": 0,
                             "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
                             "text": "Gi0/0",
-                            "x": 36,
-                            "y": 32
+                            "x": 55,
+                            "y": 34
                         },
                         "node_id": "3040ff91-038f-4e31-ab54-85c11e082262",
                         "port_number": 0
