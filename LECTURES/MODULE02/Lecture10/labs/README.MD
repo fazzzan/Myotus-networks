@@ -8,6 +8,10 @@
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/17.jpg)
 
+все оформление веду в DRAW.IO - очень удобно
+
+![](/LECTURES/MODULE02/Lecture10/pictures/31.jpg)
+
 ##  Задание:
 1. Разбиение адресного пространства
 
