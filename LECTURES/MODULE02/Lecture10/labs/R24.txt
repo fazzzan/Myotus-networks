@@ -1,0 +1,25 @@
+hostname R24
+!
+interface GigabitEthernet0/0
+ ip address 52.0.56.69 255.255.255.252
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 52.0.56.2 255.255.255.240
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/2
+ ip address 52.0.56.33 255.255.255.240
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/3
+ ip address 52.0.56.73 255.255.255.252
+ no negotiation auto
+ duplex full
+ no shutdown

@@ -1,0 +1,42 @@
+hostname AGGRSWDC2
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.17.0.154 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.17.0.170 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/0
+ no switchport
+ ip address 172.17.2.17 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/1
+ no switchport
+ ip address 172.17.2.25 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+exit
+!
+interface ra GigabitEthernet1/0 - 1
+ no switchport
+ channel-group 1 mode active
+exit
+!
+interface Port-channel1
+ no switchport
+ ip address 172.17.0.178 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown

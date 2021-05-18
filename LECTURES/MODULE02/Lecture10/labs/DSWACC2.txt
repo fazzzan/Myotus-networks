@@ -1,0 +1,41 @@
+hostname DSWACC2
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.17.0.122 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.17.0.106 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/0
+ no switchport
+ ip address 172.17.3.17 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/1
+ no switchport
+ ip address 172.17.3.25 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface ra GigabitEthernet1/0 - 1
+ no switchport
+ channel-group 1 mode active
+exit
+!
+interface Port-channel1
+ no switchport
+ ip address 172.17.0.138 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown

@@ -1,0 +1,55 @@
+hostname DSWWAN2
+!
+interface GigabitEthernet0/0
+ switchport access vlan 120
+ switchport mode access
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ switchport access vlan 120
+ switchport mode access
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/2
+ no switchport
+ ip address 172.17.0.10 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/3
+ no switchport
+ ip address 172.17.0.202 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/0
+ no switchport
+ ip address 172.17.0.73 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/1
+ no switchport
+ ip address 172.17.0.81 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+exit
+!
+interface ra Gi1/0 - 1
+ no switchport
+ channel-group 1 mode active
+exit
+!
+interface Port-channel1
+ no switchport
+ ip address 172.17.0.50 255.255.255.248
+ no shutdown
+!
