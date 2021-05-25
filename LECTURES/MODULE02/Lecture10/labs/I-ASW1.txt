@@ -1,0 +1,50 @@
+hostname ASW1
+!
+no ip domain lookup
+!
+vlan 61
+name ###PC-FLOOR1###
+vlan 71
+name ###PRN-FLOOR1###
+vlan 98
+name ###BLACKHOLE###
+exit
+!
+interface Vlan61
+ ip address 172.17.64.254 255.255.255.0
+ ip helper-address 172.17.16.1 
+!
+interface Vlan71
+ ip address 172.17.70.62 255.255.255.192
+ ip helper-address 172.17.16.1 
+!
+int ra gi 1/0 - 3, gi 2/0 - 3, gi 3/0 - 3
+ switchport mode access
+ switchport access vlan 98
+ shutdown
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.17.3.2 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.17.3.18 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet1/0
+ switchport access vlan 61
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet3/0
+ switchport access vlan 71
+ no negotiation auto
+ duplex full
+ no shutdown

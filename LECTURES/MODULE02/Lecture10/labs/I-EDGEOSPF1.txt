@@ -1,0 +1,19 @@
+hostname MOWOSPF1
+!
+no ip domain lookup
+!
+interface Loopback0
+ ip address 172.17.1.1 255.255.255.248
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/0
+ ip address 172.17.0.201 255.255.255.248
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 172.17.0.193 255.255.255.248
+ duplex full
+ no shutdown
+!

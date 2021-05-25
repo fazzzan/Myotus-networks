@@ -1,0 +1,29 @@
+hostname DCSW1
+!
+no ip domain lookup
+!
+vlan 16
+name ###SRV_NET1###
+exit
+!
+interface Vlan16
+ ip address 172.17.16.254 255.255.255.0
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.17.2.2 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.17.2.18 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet1/0
+ switchport access vlan 16
+ switchport mode access
+ negotiation auto

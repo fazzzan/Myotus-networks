@@ -1,0 +1,33 @@
+hostname EDGE-R31
+!
+no ip domain lookup
+!
+interface GigabitEthernet0/0
+ ip address 52.0.56.74 255.255.255.252
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 172.18.0.1 255.255.255.248
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/2
+ ip address 52.0.56.78 255.255.255.252
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/3
+ ip address 172.18.0.9 255.255.255.248
+ duplex full
+ no shutdown
+!
+
+ip dhcp excluded-address 172.18.64.1 172.18.64.10
+ip dhcp excluded-address 172.18.64.254
+ip dhcp excluded-address 172.18.70.1 172.18.70.10
+ip dhcp excluded-address 172.17.70.62
+ip dhcp pool PC-FLOOR1
+ network 172.18.64.0 255.255.255.0
+ default-router 172.18.64.254 
+ dns-server 172.18.0.1 

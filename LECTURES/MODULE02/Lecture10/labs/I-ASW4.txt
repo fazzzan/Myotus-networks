@@ -1,0 +1,48 @@
+hostname ASW4
+!
+no ip domain lookup
+!
+vlan 62
+name ###PC-FLOOR2###
+vlan 72
+name ###PRN-FLOOR2###
+vlan 98
+name ###BLACKHOLE###
+exit
+!
+interface Vlan62
+ ip address 172.18.65.254 255.255.255.0
+!
+interface Vlan72
+ ip address 172.18.70.126 255.255.255.192
+!
+int ra gi 0/0 - 3, gi 1/0 - 3, gi 2/0 - 3, gi 3/0 - 3
+ switchport mode access
+ switchport access vlan 98
+ shutdown
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.18.0.66 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.18.0.82 255.255.255.248
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet1/0
+ switchport access vlan 62
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet3/0
+ switchport access vlan 72
+ no negotiation auto
+ duplex full
+ no shutdown

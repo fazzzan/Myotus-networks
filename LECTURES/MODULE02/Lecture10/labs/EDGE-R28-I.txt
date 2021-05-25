@@ -1,0 +1,47 @@
+hostname EDGE-R28
+!
+no ip domain lookup
+!
+interface GigabitEthernet0/0
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/0.110
+ encapsulation dot1Q 110
+ ip address 52.0.56.82 255.255.255.252
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/0.120
+ encapsulation dot1Q 120
+ ip address 52.0.56.86 255.255.255.252
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1.10
+ encapsulation dot1Q 10
+ ip address 172.19.0.1 255.255.255.248
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1.61
+ encapsulation dot1Q 61
+ ip address 172.19.64.1 255.255.255.0
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1.71
+ encapsulation dot1Q 71
+ ip address 172.19.70.1 255.255.255.192
+ duplex full
+ no shutdown
+!
+
+
+
+
+
