@@ -4,6 +4,8 @@
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/26.jpg)
 
+Цель задачи: настроить NAT на бранче, так чтобы иметь возможность направлять трафик соответствующего VLAN через конкретного провайдера.
+
 Настройка NAT
 ```
 interface GigabitEthernet0/0.110
@@ -131,3 +133,29 @@ interface GigabitEthernet0/1.71
 Дополнительно настраиваем временный DHCP, чтобы клиенты автоматически получали IPv4.
 
 [06-1-EDGE-R28](/LECTURES/MODULE02/Lecture10/labs/06-1-EDGE-R28-PBR.txt)
+
+как видно, трафик идет по разным ISP, что отвечает поставленной задаче:
+```
+PC9> trace 8.8.8.8
+trace to 8.8.8.8, 8 hops max, press Ctrl+C to stop
+ 1   172.19.64.1   71.867 ms  23.979 ms  16.011 ms
+ 2   52.0.56.81   87.262 ms  74.411 ms  85.621 ms
+ 3   52.0.56.33   85.637 ms  138.237 ms  142.705 ms
+ 4   52.0.56.70   103.350 ms  83.129 ms  74.242 ms
+ 5   *100.1.1.5   171.168 ms (ICMP type:3, code:3, Destination port unreachable)
+
+PC10> trace 8.8.8.8
+trace to 8.8.8.8, 8 hops max, press Ctrl+C to stop
+ 1   172.19.70.1   53.495 ms  22.850 ms  39.927 ms
+ 2   52.0.56.85   194.632 ms  80.107 ms  104.987 ms
+ 3   52.0.56.17   194.418 ms  112.602 ms  108.939 ms
+ 4   *52.0.56.66   115.517 ms (ICMP type:3, code:3, Destination port unreachable)
+```
+
+Работу NAT демонстрируеца содержимым таблицы трансляции на R:
+```
+EDGE-R28#show ip nat tran
+Pro Inside global      Inside local       Outside local      Outside global
+udp 52.0.56.82:9169    172.19.64.11:9169  8.8.8.8:9170       8.8.8.8:9170
+udp 52.0.56.86:10401   172.19.70.3:10401  8.8.8.8:10402      8.8.8.8:10402
+```
