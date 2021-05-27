@@ -2649,7 +2649,7 @@
         "nodes": [
             {
                 "compute_id": "vm",
-                "console": 5000,
+                "console": 5008,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2704,7 +2704,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -2717,7 +2717,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5002,
+                "console": 5010,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2772,7 +2772,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -2785,7 +2785,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5004,
+                "console": 5012,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2840,7 +2840,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -2853,7 +2853,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5006,
+                "console": 5014,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2908,7 +2908,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -2921,7 +2921,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5015,
+                "console": 5016,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2976,7 +2976,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -2989,7 +2989,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5017,
+                "console": 5018,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3044,7 +3044,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3057,7 +3057,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5019,
+                "console": 5020,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3112,7 +3112,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3125,7 +3125,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5021,
+                "console": 5022,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3180,7 +3180,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3193,7 +3193,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5023,
+                "console": 5024,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3248,7 +3248,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3261,7 +3261,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5025,
+                "console": 5026,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3316,7 +3316,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3329,7 +3329,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5027,
+                "console": 5028,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3384,7 +3384,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3397,7 +3397,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5029,
+                "console": 5030,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3452,7 +3452,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3581,7 +3581,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5031,
+                "console": 5032,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3636,7 +3636,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3649,7 +3649,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5033,
+                "console": 5034,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3704,7 +3704,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3717,7 +3717,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5035,
+                "console": 5036,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3772,7 +3772,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3785,7 +3785,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5024,
+                "console": 5038,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3840,7 +3840,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3853,7 +3853,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5028,
+                "console": 5040,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3908,7 +3908,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3921,7 +3921,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5032,
+                "console": 5042,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3976,7 +3976,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -3989,7 +3989,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5036,
+                "console": 5044,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4044,7 +4044,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4057,7 +4057,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5042,
+                "console": 5046,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4112,7 +4112,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4180,7 +4180,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4248,7 +4248,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4316,7 +4316,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4384,7 +4384,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4568,7 +4568,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4723,7 +4723,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4791,15 +4791,15 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 768,
+                    "ram": 512,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
                 "symbol": ":/symbols/affinity/square/blue/switch.svg",
                 "template_id": "e3086f90-2b5f-4a4d-91c6-6efb344ff9e1",
                 "width": 60,
-                "x": -489,
-                "y": 246,
+                "x": -488,
+                "y": 244,
                 "z": 1
             },
             {
@@ -4872,7 +4872,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5051,
+                "console": 5064,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4927,7 +4927,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -4940,7 +4940,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5055,
+                "console": 5066,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4995,7 +4995,7 @@
                     "platform": "x86_64",
                     "process_priority": "normal",
                     "qemu_path": "/usr/bin/qemu-system-x86_64",
-                    "ram": 512,
+                    "ram": 384,
                     "replicate_network_connection_state": true,
                     "usage": "There is no default password and enable password. There is no default configuration present."
                 },
@@ -5037,7 +5037,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5053,
+                "console": 5068,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],

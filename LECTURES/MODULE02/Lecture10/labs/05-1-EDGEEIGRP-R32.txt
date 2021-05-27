@@ -1,4 +1,4 @@
-hostname EDGEOSPF2
+hostname EDGEEIGRP-R32
 !
 no ip domain lookup
 !
