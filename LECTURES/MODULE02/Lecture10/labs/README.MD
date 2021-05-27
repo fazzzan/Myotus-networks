@@ -39,17 +39,7 @@
 ![](/LECTURES/MODULE02/Lecture10/pictures/33.jpg)
 
 
+Настройки WAN представлены в pdf-файле
 
-![](/LECTURES/MODULE02/Lecture10/pictures/18.jpg)
+[AddressSpace20210528.pdf](/LECTURES/MODULE02/Lecture10/labs/AddressSpace20210528.pdf)
 
-![](/LECTURES/MODULE02/Lecture10/pictures/19.jpg)
-
-![](/LECTURES/MODULE02/Lecture10/pictures/22.jpg)
-
-Настройки WAN
-
-![](/LECTURES/MODULE02/Lecture10/pictures/23.jpg)
-
-Думаю пока как представить результат в виде:
-
-![](/LECTURES/MODULE02/Lecture10/pictures/20.jpg)
