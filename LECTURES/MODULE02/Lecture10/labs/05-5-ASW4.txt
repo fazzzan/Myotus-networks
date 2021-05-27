@@ -2,6 +2,10 @@ hostname ASW4
 !
 no ip domain lookup
 !
+interface Loopback10
+ ip address 10.0.5.104 255.255.255.0
+ no shut
+!
 vlan 62
 name ###PC-FLOOR2###
 vlan 72

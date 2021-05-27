@@ -7,6 +7,10 @@ interface Loopback0
  duplex full
  no shutdown
 !
+interface Loopback10
+ ip address 10.0.3.13 255.255.255.0
+ no shut
+!
 interface GigabitEthernet0/0
  ip address 172.17.0.201 255.255.255.248
  duplex full

@@ -2,6 +2,10 @@ hostname ASW3
 !
 no ip domain lookup
 !
+interface Loopback10
+ ip address 10.0.5.103 255.255.255.0
+ no shut
+!
 vlan 61
 name ###PC-FLOOR1###
 vlan 71

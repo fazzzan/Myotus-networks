@@ -2,6 +2,10 @@ hostname EDGEEIGRP-R32
 !
 no ip domain lookup
 !
+interface Loopback10
+ ip address 10.0.5.12 255.255.255.0
+ no shut
+!
 interface Loopback0
  ip address 172.18.1.1 255.255.255.248
  no shutdown

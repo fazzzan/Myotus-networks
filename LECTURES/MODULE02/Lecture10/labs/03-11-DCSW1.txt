@@ -2,6 +2,10 @@ hostname DCSW1
 !
 no ip domain lookup
 !
+interface Loopback10
+ ip address 10.0.3.111 255.255.255.0
+ no shut
+!
 vlan 16
 name ###SRV_NET1###
 exit

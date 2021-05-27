@@ -2,6 +2,10 @@ hostname EDGE-R31
 !
 no ip domain lookup
 !
+interface Loopback10
+ ip address 10.0.5.11 255.255.255.0
+ no shut
+!
 interface GigabitEthernet0/0
  ip address 52.0.56.74 255.255.255.252
  duplex full

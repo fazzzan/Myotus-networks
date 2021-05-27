@@ -2,6 +2,10 @@ hostname DSWWAN17
 !
 no ip domain lookup
 !
+interface Loopback10
+ ip address 10.0.5.22 255.255.255.0
+ no shut
+!
 vlan 110
 name ###ISP1###
 !

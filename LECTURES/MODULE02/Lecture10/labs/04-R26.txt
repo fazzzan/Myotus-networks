@@ -2,6 +2,10 @@ hostname R26
 !
 no ip domain lookup
 !
+interface Loopback10
+ ip address 10.0.4.26 255.255.255.0
+ no shut
+!
 interface GigabitEthernet0/0
  ip address 52.0.56.81 255.255.255.252
  duplex full
