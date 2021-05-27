@@ -132,7 +132,7 @@ interface GigabitEthernet0/1.71
 
 Дополнительно настраиваем временный DHCP, чтобы клиенты автоматически получали IPv4.
 
-[06-1-EDGE-R28](/LECTURES/MODULE02/Lecture10/labs/06-1-EDGE-R28-PBR.txt)
+[06-1-EDGE-R28](/LECTURES/MODULE02/Lecture11/labs/06-1-EDGE-R28-PBR.txt)
 
 как видно, трафик идет по разным ISP, что отвечает поставленной задаче:
 ```
