@@ -43,7 +43,7 @@
 
 [AddressSpace20210528.pdf](/LECTURES/MODULE02/Lecture10/labs/AddressSpace20210528.pdf)
 
-Настройки оборудования пока выполнены для ipv4
+Настройки оборудования, в том числе для подсети управления пока выполнены для ipv4.
 
 [01-ISP1](/LECTURES/MODULE02/Lecture10/labs/01-ISP1.txt)
 [02-ISP2](/LECTURES/MODULE02/Lecture10/labs/02-ISP2.txt)
