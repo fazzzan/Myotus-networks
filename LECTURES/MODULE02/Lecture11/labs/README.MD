@@ -152,7 +152,7 @@ trace to 8.8.8.8, 8 hops max, press Ctrl+C to stop
  4   *52.0.56.66   115.517 ms (ICMP type:3, code:3, Destination port unreachable)
 ```
 
-Работу NAT демонстрируеца содержимым таблицы трансляции на R:
+Работу NAT демонстрируеуется содержимым таблицы трансляции на R:
 ```
 EDGE-R28#show ip nat tran
 Pro Inside global      Inside local       Outside local      Outside global
