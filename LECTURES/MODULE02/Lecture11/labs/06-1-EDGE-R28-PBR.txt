@@ -32,32 +32,6 @@ ip route 8.8.4.4 255.255.255.255 GigabitEthernet0/0.110 52.0.56.81
 !
 !
 !
-Настройка NAT
-!
-interface GigabitEthernet0/0.110
- ip nat outside
-!
-interface GigabitEthernet0/0.120
- ip nat outside
-!
-interface GigabitEthernet0/1.61
- ip nat inside
-!
-interface GigabitEthernet0/1.71
- ip nat inside
-!
-Создание route-map, на выходящий IF
-!
-route-map ISP1 permit 10
- match interface GigabitEthernet0/0.110
-!
-route-map ISP2 permit 10
- match interface GigabitEthernet0/0.120
-!
-!
-ip nat inside source route-map ISP1 interface GigabitEthernet0/0.110 overload
-ip nat inside source route-map ISP2 interface GigabitEthernet0/0.120 overload
-!
 Настройка PBR для переключения трафика через оставшегося в живых провайдера
 !
 Добавляем отслеживание второго ISP (track6)
