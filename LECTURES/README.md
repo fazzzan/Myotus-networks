@@ -24,6 +24,7 @@ Cодержимое
 - [Lecture2.22](MODULE02/Lecture22/README.MD) - BGP
 - [Lecture2.23](MODULE02/Lecture23/README.MD) - BGP - Advanced: Атрибуты, Next-hop
 - [Lecture2.24](MODULE02/Lecture24/README.MD) - BGP - iBGP
+- [Lecture2.25](MODULE02/Lecture25/README.MD) - BGP. Advanced
 
 
 
