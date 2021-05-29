@@ -237,9 +237,20 @@ router bgp 2
 
 ![](pictures/35.jpg)
 
+<details>
+  <summary>Пример Wrong AS</summary>
+*May 29 16:22:32.694: %BGP-3-NOTIFICATION: received from neighbor 1.1.1.1 passive 2/2 (peer in wrong AS) 2 bytes 0002
+R2#
+*May 29 16:22:32.695: %BGP-5-NBR_RESET: Neighbor 1.1.1.1 passive reset (BGP Notification received)
+*May 29 16:22:32.696: %BGP-5-ADJCHANGE: neighbor 1.1.1.1 passive Down BGP Notification received
+*May 29 16:22:32.697: %BGP_SESSION-5-ADJCHANGE: neighbor 1.1.1.1 IPv4 Unicast topology base removed from session  BGP Notification received
+</details>
+
 - настройки аутентификации
 - уникальные BGP Router-ID
 - одинаковая BGP версия (текущая - ver. 4)
+
+Процесс BGP может существовать только для одной AS на R. R - не даст запустить другую AS, если уже одна создана
 
 При этом процесс BGP-пиринга проходит через несколько состояний:
 - IDLE - изначальное состояние соседства
