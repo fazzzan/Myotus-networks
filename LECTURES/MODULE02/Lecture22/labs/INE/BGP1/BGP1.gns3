@@ -120,7 +120,7 @@
                         "port_number": 0
                     }
                 ],
-                "suspend": false
+                "suspend": true
             },
             {
                 "filters": {},
@@ -151,7 +151,7 @@
                         "port_number": 0
                     }
                 ],
-                "suspend": false
+                "suspend": true
             },
             {
                 "filters": {},
@@ -438,5 +438,5 @@
     "type": "topology",
     "variables": null,
     "version": "2.2.19",
-    "zoom": 100
+    "zoom": 71
 }
