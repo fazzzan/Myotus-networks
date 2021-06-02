@@ -25,7 +25,7 @@ Cодержимое
 - [Lecture2.23](MODULE02/Lecture23/README.MD) - BGP - Advanced: Атрибуты, Next-hop
 - [Lecture2.24](MODULE02/Lecture24/README.MD) - BGP - iBGP
 - [Lecture2.25](MODULE02/Lecture25/README.MD) - BGP. Advanced
-
+- [Lecture2.26](MODULE02/Lecture26/README.MD) - BGP. Attributes
 
 
 Модуль 3 - протокол BGP
