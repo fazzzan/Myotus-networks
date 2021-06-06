@@ -111,8 +111,8 @@
                 "drawing_id": "f6e7703d-9304-4e1b-bc9a-4a1bd814f436",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"40\" width=\"151\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Lo0: 105.0.0.0/21\nLo6: 2001:bbbb::1/64</text></svg>",
-                "x": 781,
+                "svg": "<svg height=\"40\" width=\"151\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Lo0: 105.0.0.101/21\nLo6: 2001:bbbb::1/64</text></svg>",
+                "x": 780,
                 "y": -108,
                 "z": 2
             },
@@ -120,7 +120,7 @@
                 "drawing_id": "633696fe-2bcb-4f3d-b582-7cf5fee81196",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"40\" width=\"124\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Lo0: 103.0.0.0/22\nLo1: 120.0.0.0/24</text></svg>",
+                "svg": "<svg height=\"56\" width=\"140\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Lo0: 103.0.0.0/22\nLo1: 120.0.0.0/24\nLo5: 105.0.0.101/21</text></svg>",
                 "x": 468,
                 "y": -417,
                 "z": 2
@@ -129,7 +129,7 @@
                 "drawing_id": "37594891-0e5b-4f95-bcfe-a586b2b1bde5",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"24\" width=\"92\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">101.0.0.8/30</text></svg>",
+                "svg": "<svg height=\"56\" width=\"92\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">OSPF100\niBGP - 64501\n101.0.0.8/30</text></svg>",
                 "x": 284,
                 "y": -228,
                 "z": 2
@@ -183,9 +183,9 @@
                 "drawing_id": "8ad419a3-3556-44ef-a9fd-bcbfbb1d9394",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"24\" width=\"92\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">101.0.0.4/30</text></svg>",
-                "x": 464,
-                "y": -110,
+                "svg": "<svg height=\"40\" width=\"92\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">eBGP\n101.0.0.4/30</text></svg>",
+                "x": 468,
+                "y": -122,
                 "z": 2
             },
             {
@@ -504,7 +504,7 @@
                         "port_number": 0
                     }
                 ],
-                "suspend": false
+                "suspend": true
             },
             {
                 "filters": {},
@@ -797,12 +797,12 @@
                 "label": {
                     "rotation": 0,
                     "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                    "text": "AS64503",
+                    "text": "AS64501-2",
                     "x": -10,
                     "y": -25
                 },
                 "locked": false,
-                "name": "AS64503",
+                "name": "AS64501-2",
                 "node_id": "d7cbbeca-11aa-4bd5-a0f0-9644c3653c43",
                 "node_type": "qemu",
                 "port_name_format": "Gi0/{0}",

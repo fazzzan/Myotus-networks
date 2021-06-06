@@ -638,9 +638,53 @@ auto-summary
 <bgp>
 ```
 Проверка ```do sho ip bgp``` покажет какие маршруты в BGP-таблице
-![](pictures/79.jpg)
+
 ![](pictures/78.jpg)
 
+Если бы пиринг был iBGP, то AD у нас было бы 200, а для eBGP = 20
+![](pictures/79.jpg)
+
+Еще 1 вариант инжектирования - с указанием ключевого слова backdoor, в этом случае если маршрут прилетает по какому-либо IGP протоколу и по eBGP, то в таблицу маршрутизации он попадет с AD и метрикой того протокола, откуда он прилетел. 
+Например, мы точно уверены, что ip который у нас в IGP мог прилететь откуда-то, но только случайно, в результате какой-либо ошибки
+
+![](pictures/80.jpg)
+
+В этом случае объявляем этот маршрут как ```backdoor``` 
+```
+router bgp 64501
+ bgp router-id 2.2.2.1
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 2001:1111::2 remote-as 64502
+ neighbor 101.0.0.2 remote-as 64500
+ neighbor 101.0.0.6 remote-as 64502
+ neighbor 101.0.0.10 remote-as 64501
+ !
+ address-family ipv4
+  network 101.0.0.0
+  network 104.0.0.0 mask 255.255.240.0
+  network 105.0.0.0 mask 255.255.252.0 backdoor
+  neighbor 101.0.0.2 activate
+  neighbor 101.0.0.6 activate
+  neighbor 101.0.0.10 activate
+  auto-summary
+ exit-address-family
+ !
+ address-family ipv6
+  network 2001:AAAA::/64
+  neighbor 101.0.0.6 activate
+  neighbor 101.0.0.6 route-map INE out
+ exit-address-family
+```
+Он прилетел как BGP
+![](pictures/81.jpg)
+
+Но в таблице маршрутизации есть еще /32 маршрут на IGP - непонятно пока
+![](pictures/82.jpg)
+
+
+
+  
 
 ### INE:... ###
 ### INE:... ###
