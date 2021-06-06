@@ -93,9 +93,9 @@
                 "drawing_id": "596072d0-db8e-4fa1-ad75-5df085c111e5",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"24\" width=\"124\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Lo0: 101.0.0.0/20</text></svg>",
-                "x": 146,
-                "y": -79,
+                "svg": "<svg height=\"40\" width=\"151\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Lo0: 104.0.0.0/20\nLo6: 2001:aaaa::1/64</text></svg>",
+                "x": 112,
+                "y": -100,
                 "z": 2
             },
             {
@@ -111,9 +111,9 @@
                 "drawing_id": "f6e7703d-9304-4e1b-bc9a-4a1bd814f436",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"24\" width=\"124\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Lo0: 102.0.0.0/21</text></svg>",
-                "x": 788,
-                "y": -94,
+                "svg": "<svg height=\"40\" width=\"151\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Lo0: 105.0.0.0/21\nLo6: 2001:bbbb::1/64</text></svg>",
+                "x": 781,
+                "y": -108,
                 "z": 2
             },
             {
@@ -184,8 +184,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"24\" width=\"92\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">101.0.0.4/30</text></svg>",
-                "x": 463,
-                "y": -103,
+                "x": 464,
+                "y": -110,
                 "z": 2
             },
             {
@@ -202,8 +202,8 @@
                 "locked": false,
                 "rotation": 0,
                 "svg": "<svg height=\"24\" width=\"20\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">.6</text></svg>",
-                "x": 661,
-                "y": -109,
+                "x": 643,
+                "y": -110,
                 "z": 2
             },
             {
@@ -258,6 +258,33 @@
                 "svg": "<svg height=\"24\" width=\"20\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">.1</text></svg>",
                 "x": 674,
                 "y": -73,
+                "z": 2
+            },
+            {
+                "drawing_id": "23f5aad8-5fca-4da6-8fba-4d888916c8d3",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg height=\"24\" width=\"111\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">2001:1111::/64</text></svg>",
+                "x": 460,
+                "y": -80,
+                "z": 2
+            },
+            {
+                "drawing_id": "4a8b79f1-e5d0-4b94-859e-58d60b7193c4",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg height=\"24\" width=\"26\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">::1</text></svg>",
+                "x": 389,
+                "y": -80,
+                "z": 2
+            },
+            {
+                "drawing_id": "aac609e4-dafc-4ab1-b8d0-75d9ef3439e1",
+                "locked": false,
+                "rotation": 0,
+                "svg": "<svg height=\"24\" width=\"26\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">::2</text></svg>",
+                "x": 643,
+                "y": -81,
                 "z": 2
             }
         ],
@@ -824,7 +851,7 @@
                 "template_id": "1b4877dc-7776-4a0b-bf7d-8fb80611ac23",
                 "width": 60,
                 "x": 488,
-                "y": -333,
+                "y": -334,
                 "z": 1
             },
             {
