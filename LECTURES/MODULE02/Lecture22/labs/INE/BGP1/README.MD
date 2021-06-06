@@ -137,8 +137,24 @@ B   2001:AAAA::/64 [20/0]
 
 ![](/LECTURES/MODULE02/Lecture22/pictures/73.jpg)
 
-Еще проверка:
+Еще проверка 
+
+```do sho ip bgp nei 101.0.0.5```:
 
 ![](/LECTURES/MODULE02/Lecture22/pictures/75.jpg)
 
+```do sho ip bgp ipv6 uni```
+
 ![](/LECTURES/MODULE02/Lecture22/pictures/76.jpg)
+
+Ну и куда же без проверки ```do sho ipv6 route```
+
+```
+AS64501(config-router-af)#do sho ipv6 route bgp
+...
+       B - BGP, HA - Home Agent, MR - Mobile Router, R - RIP
+...
+B   2001:BBBB::/64 [20/0]
+     via FE80::EF7:38FF:FE17:6302, GigabitEthernet0/2
+```
+
