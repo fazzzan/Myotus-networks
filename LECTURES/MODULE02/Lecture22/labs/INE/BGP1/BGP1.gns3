@@ -504,7 +504,7 @@
                         "port_number": 0
                     }
                 ],
-                "suspend": true
+                "suspend": false
             },
             {
                 "filters": {},

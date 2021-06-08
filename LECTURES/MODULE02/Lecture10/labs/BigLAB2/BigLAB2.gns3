@@ -120,7 +120,7 @@
                 "drawing_id": "96160d62-ae3a-4afa-97b1-ea8dc51a6f6c",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"50\" width=\"64\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Triada\nAS520</text></svg>",
+                "svg": "<svg height=\"40\" width=\"50\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Triada\nAS520</text></svg>",
                 "x": 261,
                 "y": -754,
                 "z": 2
@@ -210,7 +210,7 @@
                 "drawing_id": "19b46a67-7415-49a8-80dc-ac39a50f98b8",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"29\" width=\"120\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Chockurdakh</text></svg>",
+                "svg": "<svg height=\"24\" width=\"91\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">Chockurdakh</text></svg>",
                 "x": 1290,
                 "y": -452,
                 "z": 2
@@ -246,7 +246,7 @@
                 "drawing_id": "66c5873e-7555-42b0-9fff-538325008366",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"29\" width=\"103\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">AREA 2222</text></svg>",
+                "svg": "<svg height=\"24\" width=\"80\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">AREA 2222</text></svg>",
                 "x": 430,
                 "y": -735,
                 "z": 2
@@ -264,7 +264,7 @@
                 "drawing_id": "16d9e272-b185-42af-ae6e-dff8cb365c84",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"29\" width=\"81\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">AREA 24</text></svg>",
+                "svg": "<svg height=\"24\" width=\"64\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">AREA 24</text></svg>",
                 "x": 297,
                 "y": -604,
                 "z": 2
@@ -282,7 +282,7 @@
                 "drawing_id": "4709190f-4e3c-445f-84e7-a39e05a1a513",
                 "locked": false,
                 "rotation": 0,
-                "svg": "<svg height=\"29\" width=\"81\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">AREA 26</text></svg>",
+                "svg": "<svg height=\"24\" width=\"64\"><text fill=\"#000000\" fill-opacity=\"1.0\" font-family=\"TypeWriter\" font-size=\"10.0\" font-weight=\"bold\">AREA 26</text></svg>",
                 "x": 504,
                 "y": -607,
                 "z": 2
@@ -2649,7 +2649,7 @@
         "nodes": [
             {
                 "compute_id": "vm",
-                "console": 5008,
+                "console": 5014,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2717,7 +2717,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5010,
+                "console": 5016,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2785,7 +2785,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5012,
+                "console": 5018,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2853,7 +2853,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5014,
+                "console": 5020,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2921,7 +2921,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5016,
+                "console": 5022,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -2989,7 +2989,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5018,
+                "console": 5024,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3057,7 +3057,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5020,
+                "console": 5026,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3125,7 +3125,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5022,
+                "console": 5028,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3193,7 +3193,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5024,
+                "console": 5030,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3261,7 +3261,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5026,
+                "console": 5032,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3329,7 +3329,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5028,
+                "console": 5034,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3397,7 +3397,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5030,
+                "console": 5036,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3581,7 +3581,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5032,
+                "console": 5038,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3649,7 +3649,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5034,
+                "console": 5040,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3717,7 +3717,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5036,
+                "console": 5042,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3785,7 +3785,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5038,
+                "console": 5044,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3853,7 +3853,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5040,
+                "console": 5046,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3921,7 +3921,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5042,
+                "console": 5048,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -3989,7 +3989,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5044,
+                "console": 5050,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4057,7 +4057,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5046,
+                "console": 5052,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4125,7 +4125,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5048,
+                "console": 5054,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4193,7 +4193,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5052,
+                "console": 5056,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4261,7 +4261,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5054,
+                "console": 5058,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4329,7 +4329,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5056,
+                "console": 5060,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4513,7 +4513,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5060,
+                "console": 5062,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4668,7 +4668,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5057,
+                "console": 5064,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4736,7 +4736,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5059,
+                "console": 5066,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4804,7 +4804,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5062,
+                "console": 5068,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4872,7 +4872,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5064,
+                "console": 5070,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -4940,7 +4940,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5066,
+                "console": 5072,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -5037,7 +5037,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5068,
+                "console": 5074,
                 "console_auto_start": false,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -5108,5 +5108,5 @@
     "type": "topology",
     "variables": [],
     "version": "2.2.19",
-    "zoom": 58
+    "zoom": 82
 }
