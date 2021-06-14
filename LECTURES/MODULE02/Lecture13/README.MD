@@ -407,3 +407,7 @@ Totally NSSA
 
 
 ### [Тестовая л/р](/LECTURES/MODULE02/Lecture13/labs/README.MD) ### 
+
+## Редистрибуция при помощи Route-map ##
+
+![](pictures/78.jpg)
