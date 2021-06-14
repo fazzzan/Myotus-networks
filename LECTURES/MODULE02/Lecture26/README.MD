@@ -196,3 +196,6 @@ R8
 router bgp 65010
 neighbor 50.0.1.1 route-map LEFT in
 ```
+
+## Community ##
+DM 02:38:03
