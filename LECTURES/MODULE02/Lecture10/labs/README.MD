@@ -45,9 +45,10 @@ ___Москва___
 <details>
 <summary>OSPF</summary>
 
-| OSPF IPv4 SUMMARY 172.17.0-15.0/24      |     | OSPF IPv6 SUMMARY 2000:AAAD:1::/48 = 256x256/56   |     |                          |
+
+|:  OSPF IPv4 SUMMARY 172.17.0.0/28*      :|| *OSPF IPv6 SUMMARY 2000:AAAD:1::/48 = 256x256/56*   |||
 |-----------------------------------------|-----|---------------------------------------|-----|--------------------------|
-| OSPF0 IPv4 SUMMARY 172.17.0.0 /24: 31x172.17.0.0 /29|     | OSPF0 IPv6 SUMMARY  2000:AAAD:1:100::/56 = 256 /64 |     |                          |
+| OSPF0 IPv4 SUMMARY 172.17.0.0 /28: 31x172.17.0.0 /29     || OSPF0 IPv6 SUMMARY  2000:AAAD:1:100::/56 = 256 /64  |||
 | PREFIX                                  | MASK| PREFIX                                  | MASK| Description/Device(port) |
 | 172.17.0.0                              | /29 | 2000:AAAD:1:100::                     | /64 | EDGE1<->DSWWAN1          |
 | 172.17.0.8                              | /29 | 2000:AAAD:1:101::                     | /64 | EDGE2<->DSWWAN2          |
@@ -78,7 +79,7 @@ ___Москва___
 | …                                       |     | …                                     | /64 |                          |
 | 172.17.0.248                            | /29 | 2000:AAAD:1:1ff::                     | /64 | REZERVED                 |
 |                                         |     |                                       |     |                          |
-| OSPF1 IPv4 SUMMARY 172.17.1.0 /24: 31x172.17.1.0 /29|     | OSPF1 IPv6 SUMMARY 2000:AAAD:1:200::/56 = 256 /64  |     |                          |
+| OSPF1 IPv4 SUMMARY 172.17.1.0 /24: 31x172.17.1.0 /29|| OSPF1 IPv6 SUMMARY 2000:AAAD:1:200::/56 = 256 /64  |||
 | PREFIX                                  | MASK| PREFIX                                  | MASK| Description/Device(port) |
 | 172.17.1.0                              | /29 | 2000:AAAD:1:200::                     | /64 | MOWOSPF1<->Lo0           |
 | 172.17.1.8                              | /29 | 2000:AAAD:1:201::                     | /64 | REZERVED                 |
@@ -86,7 +87,7 @@ ___Москва___
 | 172.17.1.248                            | /29 | 2000:AAAD:1:2ff::/64                  | /64 | REZERVED                 |
 | …                                       | /29 | …                                     | …   |                          |
 |                                         |     |                                       |     |                          |
-| OSPF2 IPv4 SUMMARY 172.17.2.0 /24: 31x172.17.2.0 /29|     | OSPF2 IPv6 SUMMARY 2000:AAAD:1:300::/56 = 256 /64  |     |                          |
+| OSPF2 IPv4 SUMMARY 172.17.2.0 /24: 31x172.17.2.0 /29|| OSPF2 IPv6 SUMMARY 2000:AAAD:1:300::/56 = 256 /64  |||
 | PREFIX                                  | MASK| PREFIX                                  | MASK| Description/Device(port) |
 | 172.17.2.0                              | /29 | 2000:AAAD:1:300::                     | /64 | AGGRSWDC1<->DCSW1        |
 | 172.17.2.8                              | /29 | 2000:AAAD:1:301::                     | /64 | AGGRSWDC1<->DCSW2        |
@@ -97,7 +98,7 @@ ___Москва___
 | 172.17.2.248                            | /29 | 2000:AAAD:1:3ff::/64                  | /64 | REZERVED                 |
 | …                                       |     | …                                     |     |                          |
 |                                         |     |                                       |     |                          |
-| OSPF3 IPv4 SUMMARY 172.17.3.0 /24: 31x172.17.3.0 /29|     | OSPF3 IPv6 SUMMARY 2000:AAAD:1:400::/56 = 256 /64  |     |                          |
+| OSPF3 IPv4 SUMMARY 172.17.3.0 /24: 31x172.17.3.0 /29|| OSPF3 IPv6 SUMMARY 2000:AAAD:1:400::/56 = 256 /64  |||
 | PREFIX                                  | MASK| PREFIX                                  | MASK| Description/Device(port) |
 | 172.17.3.0                              | /29 | 2000:AAAD:1:400::                     | /64 | DSWACC1<->ASW1           |
 | 172.17.3.8                              | /29 | 2000:AAAD:1:401::                     | /64 | DSWACC1<->ASW2           |
@@ -113,7 +114,7 @@ ___Москва___
 
 | SERVER 172.17.16-31.0 /24 |     | SERVER 2000:AAAD:1:500::/56 = 256 /64 |     |      |            |
 |---------------------------|-----|---------------------------------------|-----|------|------------|
-|PREFIX               | MASK | PREFIX                           | MASK | VLAN | Description/Device(port) |
+|PREFIX                    | MASK | PREFIX                               | MASK | VLAN | Description/Device(port) |
 | 172.17.16.0               | /24 | 2000:AAAD:1:500::                     | /64 | 16   | SRV_NET1   |
 | 172.17.17.0               | /24 | 2000:AAAD:1:501::                     | /64 | 17   | SRV_NET2   |
 | 172.17.18.0               | /24 | 2000:AAAD:1:502::                     | /64 |      | REZERVED  |
@@ -125,9 +126,9 @@ ___Москва___
 <details>
 <summary>Клиентские сети </summary>
 
-| ACCESS 172.17.64-127.0 /24                   |     | ACCESS 2000:AAAD:1:600::/56 = 256 /64                                |     |        |                  |
+| ACCESS 172.17.64-127.0 /26                   || ACCESS 2000:AAAD:1:600::/56 = 256 /64                                |    |||
 |----------------------------------------------|-----|----------------------------------------------------------------------|-----|--------|------------------|
-| ACCESS PC 172.17.64-69.0 /24                 |     | ACCESS PC: 15 networks 2000:AAAD:1:600::/64 - 2000:AAAD:1:60f::/64   |     |        |                  |
+| ACCESS PC 172.17.64-69.0 /26                 |     | ACCESS PC: 15 networks 2000:AAAD:1:600::/64 - 2000:AAAD:1:60f::/64   |     |       |                  |
 | PREFIX                                       | MASK | PREFIX                                                              | MASK | VLAN  | примечание       |
 | 172.17.64.0                                  | /24 | 2000:AAAD:1:601::                                                    | /64 | VLAN61 | PC - Floor1      |
 | 172.17.65.0                                  | /24 | 2000:AAAD:1:602::                                                    | /64 | VLAN62 | PC - Floor2      |
