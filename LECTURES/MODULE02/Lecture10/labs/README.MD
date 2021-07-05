@@ -7,7 +7,7 @@
 - настроить VLAN управления для сетевых устройств
 - настроить сети офисов так, чтобы не возникало broadcast штормов, а использование линков было максимально оптимизировано
 
-Cхема сети ipv4
+Cхема сети ipv4, ipv6
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/31.jpg)
 
@@ -17,13 +17,112 @@ Cхема сети ipv4
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/34.jpg)
 <details>
-<summary>ISP</summary>
+<summary>ISP: ASN, Summary</summary>
 
 |     Офис   |   ASN  |  Подсети IPv4 |   Подсети IPv6  |  Устройства  |
 |------------|--------|---------------|-----------------|--------------|
 | WAN TRIADA | AS520  | 50.0.56.0/24  | 2000:AAAA::/32  | R23, R24, R25, R26|
 | WAN KITORN | AS101  | 100.1.1.0/24  | 2000:AAAB::/32  | R-ISP1  |
 | WAN LIMAS  | AS301  | 30.1.35.0/24  | 2000:AAAC::/32  | R-ISP2  |
+</details>
+
+<details>
+<summary>TRIADA</summary>
+
+| ISP-TRIADA                     |     | ISP-TRIADA: 2000:AAAA::0 / 48                            |      |                                    |                                 |
+|--------------------------------|-----|----------------------------------------------------------|------|------------------------------------|---------------------------------|
+| TRIADA INSIDE: 52.0.56.0/26    |     | TRIADA INSIDE:  2000:AAAA:0::/48                         |      |                                    |                                 |
+| NET Address                    | NET | NET Address                                              | NET  | Description                        | примечание                      |
+| 52.0.56.0                      | /29 | 2000:AAAA::0                                             | /126 | R23 (Gi0/1) - R24 (Gi0/1)          | TRIADAR23-TO-TRIADAR24          |
+| 52.0.56.8                      | /29 | 2000:AAAA::8                                             | /126 | R23 (Gi0/2) - R25 (Gi0/2)          | TRIADAR23-TO-TRIADAR25          |
+| 52.0.56.16                     | /29 | 2000:AAAA::10                                            | /126 | R24 (Gi0/2) - R26 (Gi0/2)          | TRIADAR24-TO-TRIADAR26          |
+| 52.0.56.24                     | /29 | 2000:AAAA::18                                            | /126 | R25 (Gi0/1) - R26 (Gi0/1)          | TRIADAR25-TO-TRIADAR26          |
+| 52.0.56.32                     | /29 | 2000:AAAA::20                                            | /126 | REZERVED                           |                                 |
+| 52.0.56.40                     | /29 | 2000:AAAA::28                                            | /126 | REZERVED                           |                                 |
+| 52.0.56.48                     | /29 | 2000:AAAA::30                                            | /126 | REZERVED                           |                                 |
+| 52.0.56.56                     | /29 | 2000:AAAA::38                                            | /126 | REZERVED                           |                                 |
+|                                |     | …                                                        |      |                                    |                                 |
+| TRIADA OUTSIDE1: 52.0.56.64/26 |     | TRIADA OUTSIDE1: 2000:AAAA:1::/48                        |      |                                    |                                 |
+| NET Address                    | NET | NET Address                                              | NET  | Description                        | примечание                      |
+| 52.0.56.64                     | /30 | 2000:AAAA:1:1::0                                         | /64  | R23 (Gi0/0) - ISP1 (Gi0/0)         | TRIADA-TO-KITORN_ISP1           |
+| 52.0.56.68                     | /30 | 2000:AAAA:1:2::0                                         | /64  | R24 (Gi0/0) - ISP2 (Gi0/0)         | TRIADA-TO-LAMAS_ISP2            |
+|                                |     | TRIADA OUTSIDE2: 2000:AAAA:400::0-2000:AAAA:АААА::0 / 64 |      |                                    |                                 |
+| 52.0.56.72                     | /30 | 2000:AAAA:400::0                                         | /64  | R24 (Gi0/3) - EDGE-R31 (Gi0/0)     | TRIADA-TO-SPB-1                 |
+| 52.0.56.76                     | /30 | 2000:AAAA:401::0                                         | /64  | R26 (Gi0/3) - EDGE-R31 (Gi0/1)     | TRIADA-TO-SPB-2                 |
+| 52.0.56.80                     | /30 | 2000:AAAA:402::0                                         | /64  | R26 (Gi0/0) - EDGE-R28 (Gi0/0.110) | TRIADA-TO-CHOKURDAKHR_EDGE-28-1 |
+| 52.0.56.84                     | /30 | 2000:AAAA:403::0                                         | /64  | R25 (Gi0/0) - EDGE-R28 (Gi0/0.120) | TRIADA-TO-CHOKURDAKH_EDGE-R28-2 |
+| 52.0.56.88                     | /30 | 2000:AAAA:404::0                                         | /64  | R25 (Gi0/3) - EDGE-R27 (Gi0/0)     | TRIADA-TO-LABYTNANGI_EDGE-R27   |
+| 52.0.56.92                     | /30 | 2000:AAAA:405::0                                         | /64  | REZERVED                           |                                 |
+| …                              | …   | …                                                        | …    |                                    |                                 |
+| 52.0.56.124                    | /30 | 2000:AAAA:FFFF::FFFF                                     | /30  | REZERVED                           |                                 |
+
+</details>
+
+<details>
+<summary>КИТОРН</summary>
+
+| ISP-KITORN                      |     | WAN KITORN AS101 2000:AAAB::/32                          |     |                              |                       |
+|---------------------------------|-----|----------------------------------------------------------|-----|------------------------------|-----------------------|
+| ISP-KITORN to ISP-TRIADA        |     | ISP-KITORN to ISP-TRIADA                                 |     |                              |                       |
+| NET Address                     | NET | NET Address                                              | NET | Description                  | примечание            |
+| 52.0.56.64                      | /30 | 2000:AAAA:1:1::0                                         | /64 | R23 (Gi0/0) - ISP1 (Gi0/0)   | KITORN_ISP1-TO-TRIADA |
+|                                 |     |                                                          |     |                              |                       |
+| KITORN INSIDE: 100.1.1.0 /26    |     | KITORN INSIDE:  2000:AAAB:0::/48                         |     |                              |                       |
+| NET Address                     | NET | NET Address                                              | NET | Description                  | примечание            |
+| 100.1.1.0                       | /29 |                                                          |     | REZERVED                     |                       |
+| 100.1.1.8                       | /29 |                                                          |     | REZERVED                     |                       |
+| 100.1.1.16                      | /29 |                                                          |     | REZERVED                     |                       |
+| 100.1.1.24                      | /29 |                                                          |     | REZERVED                     |                       |
+| 100.1.1.32                      | /29 |                                                          |     | REZERVED                     |                       |
+| 100.1.1.40                      | /29 |                                                          |     | REZERVED                     |                       |
+| 100.1.1.48                      | /29 |                                                          |     | REZERVED                     |                       |
+| 100.1.1.56                      | /29 |                                                          |     | REZERVED                     |                       |
+|                                 |     |                                                          |     |                              |                       |
+| KITORN OUTSIDE1: 100.1.1.64 /27 |     | KITORN OUTSIDE1: 2000:AAAB:1::/48                        |     |                              |                       |
+| NET Address                     | NET | NET Address                                              | NET | Description                  | примечание            |
+| 100.1.1.64                      | /30 | 2000:AAAB:1:1::0                                         | /64 | EDGE1 (Gi0/1) - ISP1 (Gi0/1) | KITORN_ISP1-TO-LIMAS_ISP2 |
+| …                               | /30 |                                                          |     |                              |                       |
+| 100.1.1.95                      | /30 |                                                          |     | REZERVED                     |                       |
+| KITORN OUTSIDE2: 100.1.1.96 /27 |     | KITORN OUTSIDE2: 2000:AAAB:400::0 / 64                   |     |                              |                       |
+| NET Address                     | NET | NET Address                                              | NET | Description                  | примечание            |
+| 100.1.1.96                      | /30 | 2000:AAAB:400::0                                         | /64 | EDGE1 (Gi0/1) - ISP1 (Gi0/1) | KITORN_ISP1-TO-EDGE1  |
+| …                               | /30 | …                                                        |     |                              |                       |
+| 100.1.1.127                     | /30 | 2000:AAAB:АААА::0                                        | /64 | REZERVED                     |                       |
+</details>
+
+<details>
+<summary>ЛИМАС</summary>
+
+| WAN LIMAS AS301 30.1.35.0 /24  |     | WAN LIMAS AS301 2000:AAAC::/32                          |      |                              |                           |
+|--------------------------------|-----|---------------------------------------------------------|------|------------------------------|---------------------------|
+| ISP-LIMAS to ISP-TRIADA        |     | ISP-LIMAS to ISP-TRIADA                                 |      |                              |                           |
+| NET Address                    | NET | NET Address                                             | NET  | Description                  | примечание                |
+| 52.0.56.68                     | /30 | 2000:AAAA:1:2::0                                        | /64  | R24 (Gi0/0) - ISP2 (Gi0/0)   | LIMAS_ISP2-TO-TRIADA      |
+|                                |     |                                                         |      |                              |                           |
+| ISP-LIMAS to ISP KITORN        |     | ISP-LIMAS to ISP-KITORN                                 |      |                              |                           |
+| NET Address                    | NET | NET Address                                             | NET  | Description                  | примечание                |
+| 100.1.1.64                     | /30 | 2000:AAAB:1:1::0                                        | /64  | ISP1 (Gi0/2) - ISP2 (Gi0/2)  | KITORN_ISP1-TO-LIMAS_ISP2 |
+|                                |     |                                                         |      |                              |                           |
+| LIMAS INSIDE: 30.1.35.0 /26    |     | LIMAS INSIDE:  2000:AAAC:0::/48                         |      |                              |                           |
+| NET Address                    | NET | NET Address                                             | NET  | Description                  | примечание                |
+| 30.1.35.0                      | /29 | 2000:AAAC::0                                            | /126 | REZERVED                     |                           |
+| 30.1.35.8                      | /29 | 2000:AAAC::8                                            | /126 | REZERVED                     |                           |
+| 30.1.35.16                     | /29 | 2000:AAAC::10                                           | /126 | REZERVED                     |                           |
+| 30.1.35.24                     | /29 | 2000:AAAC::18                                           | /126 | REZERVED                     |                           |
+| ...                            | /29 |                                                         |      | REZERVED                     |                           |
+| 30.1.35.56                     | /29 |                                                         |      | REZERVED                     |                           |
+|                                |     |                                                         |      |                              |                           |
+| LIMAS OUTSIDE1: 30.1.35.64 /27 |     | LIMAS OUTSIDE1: 2000:AAAC:1::/48                        |      |                              |                           |
+| NET Address                    | NET | NET Address                                             | NET  | Description                  | примечание                |
+| 30.1.35.64                     | /30 | 2000:AAAC:1:1::0                                        | /64  | REZERVED                     |                           |
+| ...                            | /30 | ...                                                     |      | REZERVED                     |                           |
+| 30.1.35.92                     | /30 | 2000:AAAC:1:399::0                                      | /64  | REZERVED                     |                           |
+|                                |     |                                                         |      |                              |                           |
+| LIMAS OUTSIDE2: 100.1.1.64 /26 |     | LIMAS OUTSIDE2: 2000:AAAC:400::0-2000:AAAC:АААА::0 / 64 |      |                              |                           |
+| NET Address                    | NET | NET Address                                             | NET  | Description                  | примечание                |
+| 30.1.35.96                     | /30 | 2000:AAAC:400::0                                        | /64  | EDGE2 (Gi0/1) - ISP2 (Gi0/1) | LIMAS_ISP2-TO-EDGE2       |
+| ...                            | /30 | ...                                                     |      | REZERVED                     |                           |
+| 30.1.35.127                    | /30 | 2000:AAAC:АААА::0                                       | /64  |                              |                           |
 </details>
 
 <details>
@@ -317,6 +416,15 @@ ___Лабытнанги___
 
 
 ##  Задание 2: настроить адреса (ipv4 и ipv6) на каждом активном порту
+
+<details>
+<summary>ISP</summary>
+
+|     Офис   |   ASN   |  Подсети IPv4 |   Подсети IPv6  |  Устройства  |
+|------------|---------|---------------|-----------------|--------------|
+|     MOW    | AS1001  | 35.10.10.0/24 | 2001:BBBB:200A::/48  |       |
+|     SPb    | AS2042  | 50.50.96.0/24 | 2001:BBBB:200B::/48  |       |
+</details>
 
 ##  Задание 3: настроить VLAN управления для сетевых устройств
 ##  Задание 4: настроить сети офисов так, чтобы не возникало broadcast штормов, а использование линков было максимально оптимизировано
