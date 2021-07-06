@@ -30,6 +30,7 @@ int ra gi 1/0 - 3, gi 2/0 - 3, gi 3/0 - 3
 interface GigabitEthernet0/0
  no switchport
  ip address 172.17.3.10 255.255.255.248
+ ipv6 address 2000:AAAD:1:401::2/64
  no negotiation auto
  duplex full
  no shutdown
@@ -37,6 +38,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
  no switchport
  ip address 172.17.3.26 255.255.255.248
+ ipv6 address 2000:AAAD:1:403::2/64
  no negotiation auto
  duplex full
  no shutdown

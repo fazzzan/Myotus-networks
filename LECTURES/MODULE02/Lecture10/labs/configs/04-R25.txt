@@ -7,21 +7,25 @@ interface Loopback10
  no shut
 !
 interface GigabitEthernet0/0
- ip address 52.0.56.85 255.255.255.252
+ ip address 52.0.56.105 255.255.255.252
+ ipv6 address 2000:AAAA:403::1/64
  duplex full
  no shutdown
 !
 interface GigabitEthernet0/1
- ip address 52.0.56.49 255.255.255.240
+ ip address 52.0.56.25 255.255.255.248
+ ipv6 address 2000:AAAA::19/126
  duplex full
  no shutdown
 !
 interface GigabitEthernet0/2
- ip address 52.0.56.18 255.255.255.240
+ ip address 52.0.56.10 255.255.255.248
+ ipv6 address 2000:AAAA::a/126
  duplex full
  no shutdown
 !
 interface GigabitEthernet0/3
- ip address 52.0.56.89 255.255.255.252
+ ip address 52.0.56.109 255.255.255.252
+ ipv6 address 2000:AAAA:404::1/64
  duplex full
  no shutdown

@@ -16,6 +16,7 @@ interface Vlan16
 interface GigabitEthernet0/0
  no switchport
  ip address 172.17.2.2 255.255.255.248
+ ipv6 address 2000:AAAD:1:300::2/64
  no negotiation auto
  duplex full
  no shutdown
@@ -23,6 +24,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
  no switchport
  ip address 172.17.2.18 255.255.255.248
+ ipv6 address 2000:AAAD:1:302::2/64
  no negotiation auto
  duplex full
  no shutdown
@@ -31,3 +33,5 @@ interface GigabitEthernet1/0
  switchport access vlan 16
  switchport mode access
  negotiation auto
+ no shut
+!

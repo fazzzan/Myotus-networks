@@ -9,6 +9,7 @@ interface Loopback10
 interface GigabitEthernet0/0
  no switchport
  ip address 172.17.0.154 255.255.255.248
+ ipv6 address 2000:AAAD:1:122::2/64
  no negotiation auto
  duplex full
  no shutdown
@@ -16,6 +17,7 @@ interface GigabitEthernet0/0
 interface GigabitEthernet0/1
  no switchport
  ip address 172.17.0.170 255.255.255.248
+ ipv6 address 2000:AAAD:1:124::2/64
  no negotiation auto
  duplex full
  no shutdown
@@ -23,6 +25,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet2/0
  no switchport
  ip address 172.17.2.17 255.255.255.248
+ ipv6 address 2000:AAAD:1:302::1/64
  no negotiation auto
  duplex full
  no shutdown
@@ -30,6 +33,7 @@ interface GigabitEthernet2/0
 interface GigabitEthernet2/1
  no switchport
  ip address 172.17.2.25 255.255.255.248
+ ipv6 address 2000:AAAD:1:303::1/64
  no negotiation auto
  duplex full
  no shutdown
@@ -43,6 +47,7 @@ exit
 interface Port-channel1
  no switchport
  ip address 172.17.0.178 255.255.255.248
+ ipv6 address 2000:AAAD:1:125::2/64
  no negotiation auto
  duplex full
  no shutdown
