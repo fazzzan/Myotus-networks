@@ -159,3 +159,15 @@ Pro Inside global      Inside local       Outside local      Outside global
 udp 52.0.56.82:9169    172.19.64.11:9169  8.8.8.8:9170       8.8.8.8:9170
 udp 52.0.56.86:10401   172.19.70.3:10401  8.8.8.8:10402      8.8.8.8:10402
 ```
+
+Лишний кусок конфига R31
+```
+ip dhcp excluded-address 172.18.64.1 172.18.64.10
+ip dhcp excluded-address 172.18.64.254
+ip dhcp excluded-address 172.18.70.1 172.18.70.10
+ip dhcp excluded-address 172.17.70.62
+ip dhcp pool PC-FLOOR1
+ network 172.18.64.0 255.255.255.0
+ default-router 172.18.64.254 
+ dns-server 172.18.0.1 
+```
