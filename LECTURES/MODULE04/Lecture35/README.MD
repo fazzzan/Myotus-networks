@@ -112,3 +112,7 @@ VPN - наш TP
 
 ![](pictures/19.jpg)
 
+
+по линуксу можно вот это, в виде игры https://overthewire.org/wargames/bandit/
+и еще вот https://linuxjourney.com/
+
