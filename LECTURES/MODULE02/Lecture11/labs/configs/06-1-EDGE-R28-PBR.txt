@@ -8,7 +8,7 @@ ip sla 441
 ip sla schedule 441 life forever start-time now
 !
 ip sla 5681
- icmp-echo 52.0.56.81 source-interface GigabitEthernet0/0.110
+ icmp-echo 52.0.56.101 source-interface GigabitEthernet0/0.110
  frequency 5
 ip sla schedule 5681 life forever start-time now
 
@@ -26,9 +26,9 @@ track 3 list boolean and
 !
 Настройка дефолтных маршрутов, в зависимости от состояния трека и добавление проверки 8.8.4.4 через ISP1 - R26
 !
-ip route 0.0.0.0 0.0.0.0 52.0.56.81 track 3
-ip route 0.0.0.0 0.0.0.0 52.0.56.85 10
-ip route 8.8.4.4 255.255.255.255 GigabitEthernet0/0.110 52.0.56.81
+ip route 0.0.0.0 0.0.0.0 52.0.56.101 track 3
+ip route 0.0.0.0 0.0.0.0 52.0.56.105 10
+ip route 8.8.4.4 255.255.255.255 GigabitEthernet0/0.110 52.0.56.101
 !
 !
 !
@@ -42,11 +42,11 @@ ip sla 551
 ip sla schedule 551 life forever start-time now
 !
 ip sla 5685
- icmp-echo 52.0.56.85 source-interface GigabitEthernet0/0.120
+ icmp-echo 52.0.56.105 source-interface GigabitEthernet0/0.120
  frequency 5
 ip sla schedule 5685 life forever start-time now
 !
-ip route 8.8.5.5 255.255.255.255 GigabitEthernet0/0.120 52.0.56.85
+ip route 8.8.5.5 255.255.255.255 GigabitEthernet0/0.120 52.0.56.105
 !
 track 4 ip sla 551 reachability
 !
@@ -69,13 +69,13 @@ ip access-list extended VLAN71
 !
 route-map PBR-ISP1 permit 10
  match ip address VLAN61
- set ip next-hop verify-availability 52.0.56.81 10 track 3
- set ip next-hop verify-availability 52.0.56.85 20 track 6
+ set ip next-hop verify-availability 52.0.56.101 10 track 3
+ set ip next-hop verify-availability 52.0.56.105 20 track 6
 !
 route-map PBR-ISP2 permit 10
  match ip address VLAN71
- set ip next-hop verify-availability 52.0.56.85 10 track 6
- set ip next-hop verify-availability 52.0.56.81 20 track 3
+ set ip next-hop verify-availability 52.0.56.105 10 track 6
+ set ip next-hop verify-availability 52.0.56.101 20 track 3
 !
 Вешаем соответствующие роут-мапы на внутренние сабы
 !

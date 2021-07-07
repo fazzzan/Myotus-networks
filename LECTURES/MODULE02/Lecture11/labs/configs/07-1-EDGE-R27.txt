@@ -1,0 +1,10 @@
+ip route 0.0.0.0 0.0.0.0 52.0.56.109
+!
+ip nat inside source list NAT interface GigabitEthernet0/0 overload
+ip route 0.0.0.0 0.0.0.0 52.0.56.109
+!
+ip access-list extended NAT
+ permit ip 172.20.0.0 0.0.0.255 any
+
+do wr mem
+!
