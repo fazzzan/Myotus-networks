@@ -18,6 +18,7 @@ Cхема сети ipv4, ipv6
 ### 1.1 Подсети и BGP AS: ISP,WAN
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/34.jpg)
+
 <details>
 <summary>ISP: ASN, Summary</summary>
 
