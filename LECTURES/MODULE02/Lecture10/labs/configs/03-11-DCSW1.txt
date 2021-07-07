@@ -1,6 +1,7 @@
 hostname DCSW1
 !
 no ip domain lookup
+ipv6 unicast-routing
 !
 interface Loopback10
  ip address 10.0.3.111 255.255.255.0
@@ -32,6 +33,9 @@ interface GigabitEthernet0/1
 interface GigabitEthernet1/0
  switchport access vlan 16
  switchport mode access
- negotiation auto
- no shut
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+do wr mem
 !

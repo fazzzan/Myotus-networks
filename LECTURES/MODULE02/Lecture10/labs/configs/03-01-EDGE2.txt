@@ -1,6 +1,7 @@
 hostname EDGE2
 !
 no ip domain lookup
+ipv6 unicast-routing
 !
 interface Loopback10
  ip address 10.0.3.12 255.255.255.0
@@ -18,3 +19,4 @@ interface GigabitEthernet0/2
  duplex full
  no shutdown
 !
+do wr mem

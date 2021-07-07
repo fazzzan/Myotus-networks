@@ -4066,12 +4066,12 @@
                 "label": {
                     "rotation": 0,
                     "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
-                    "text": "EDGEOSPF1",
-                    "x": -25,
+                    "text": "MOWOSPF1",
+                    "x": -10,
                     "y": -25
                 },
                 "locked": false,
-                "name": "EDGEOSPF1",
+                "name": "MOWOSPF1",
                 "node_id": "89475ebf-f666-4663-83af-e86815ab5e5e",
                 "node_type": "qemu",
                 "port_name_format": "Gi0/{0}",

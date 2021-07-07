@@ -1,6 +1,7 @@
 hostname EDGE-R31
 !
 no ip domain lookup
+ipv6 unicast-routing
 !
 interface Loopback10
  ip address 10.0.5.11 255.255.255.0
@@ -30,4 +31,5 @@ interface GigabitEthernet0/3
  duplex full
  no shutdown
 !
-
+do wr mem
+!

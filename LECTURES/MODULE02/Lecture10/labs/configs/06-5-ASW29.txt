@@ -68,3 +68,5 @@ interface GigabitEthernet2/1
  duplex full
  no shutdown
 !
+do wr mem
+!

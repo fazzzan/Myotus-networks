@@ -1,6 +1,7 @@
 hostname R27
 !
 no ip domain lookup
+ipv6 unicast-routing
 !
 interface Loopback10
  ip address 10.0.7.11 255.255.255.0
@@ -24,3 +25,6 @@ interface GigabitEthernet0/2
  ipv6 address 2000:AAAd:4:102::1/64
  duplex full
  no shutdown
+!
+do wr mem
+!

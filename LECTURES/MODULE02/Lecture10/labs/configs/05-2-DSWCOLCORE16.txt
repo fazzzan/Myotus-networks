@@ -1,6 +1,7 @@
 hostname DSWWAN16
 !
 no ip domain lookup
+ipv6 unicast-routing
 !
 interface Loopback10
  ip address 10.0.5.21 255.255.255.0
@@ -67,4 +68,5 @@ interface Port-channel1
  ipv6 address 2000:AAAd:2:106::2/64
  no shutdown
 !
-
+do wr mem
+!

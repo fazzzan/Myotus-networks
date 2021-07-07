@@ -1,6 +1,7 @@
 hostname CORE1
 !
 no ip domain lookup
+ipv6 unicast-routing
 !
 no ip domain lookup
 interface Loopback10
@@ -63,4 +64,6 @@ interface Port-channel1
  no switchport
  ip address 172.17.0.89 255.255.255.248
  ipv6 address 2000:AAAD:1:115::1/64
+!
+do wr mem
 !
