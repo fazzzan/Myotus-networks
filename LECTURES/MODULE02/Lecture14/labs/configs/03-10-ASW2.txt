@@ -1,0 +1,60 @@
+hostname ASW2
+!
+no ip domain lookup
+ipv6 unicast-routing
+!
+interface Loopback10
+ ip address 10.0.3.102 255.255.255.0
+ no shut
+!
+vlan 62
+name ###PC-FLOOR2###
+vlan 72
+name ###PRN-FLOOR2###
+vlan 98
+name ###BLACKHOLE###
+exit
+!
+interface Vlan62
+ ip address 172.17.65.254 255.255.255.0
+ ip helper-address 172.17.16.1 
+!
+interface Vlan72
+ ip address 172.17.70.126 255.255.255.192
+ ip helper-address 172.17.16.1 
+!
+int ra gi 1/0 - 3, gi 2/0 - 3, gi 3/0 - 3
+ switchport mode access
+ switchport access vlan 98
+ shutdown
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.17.3.10 255.255.255.248
+ ipv6 address 2000:AAAD:1:401::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.17.3.26 255.255.255.248
+ ipv6 address 2000:AAAD:1:403::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet1/0
+ switchport access vlan 62
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet3/0
+ switchport access vlan 72
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+do wr mrm
+!

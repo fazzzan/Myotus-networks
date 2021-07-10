@@ -1,0 +1,32 @@
+hostname R24
+!
+no ip domain lookup
+ipv6 unicast-routing
+!
+interface Loopback10
+ ip address 10.0.4.24 255.255.255.0
+ no shut
+!
+interface GigabitEthernet0/0
+ ip address 52.0.56.69 255.255.255.252
+ ipv6 address 2000:AAAA:1:2::1/64
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 52.0.56.2 255.255.255.248
+ ipv6 address 2000:AAAA::2/126
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/2
+ ip address 52.0.56.17 255.255.255.248
+ ipv6 address 2000:AAAA::11/126
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/3
+ ip address 52.0.56.93 255.255.255.252
+ ipv6 address 2000:AAAA:400::1/64
+ duplex full
+ no shutdown

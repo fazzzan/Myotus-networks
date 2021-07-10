@@ -1,0 +1,39 @@
+### Включаем OSPF, назнчаем RID, выключаем на всех IF, кроме Gi0/2
+router ospf 1
+ router-id 1.1.1.1
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+
+### Активируем OSPF на IF
+interface GigabitEthernet0/2
+ ip ospf 1 area 0
+
+### Вбрасываем дефолтный маршрут в OSPF IPv4
+### https://github.com/fazzzan/Specialist/blob/master/CCNA70_LABS03/Module02/README.MD
+###2.5.1 Propagate a Default Static Route in OSPFv2
+router ospf 1
+ default-information originate
+
+do sho ip int br
+do sho ip proto
+do sho ip route ospf
+do sho ip ospf databas
+sho ip ospf int gi 0/2
+
+
+### Включаем OSPFv3, назнчаем RID
+ipv6 router ospf 1
+router-id 1.1.1.1
+exit
+
+
+### Активируем OSPFv3 на IF
+interface GigabitEthernet0/2
+ ipv6 ospf 1 area 0
+exit
+
+do sho ipv6 int br
+do sho ipv6 proto
+do sho ipv6 route ospf
+do sho ipv6 ospf databas
+sho ip ospf int gi 0/0

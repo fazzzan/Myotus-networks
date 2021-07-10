@@ -1,0 +1,25 @@
+hostname MOWOSPF1
+!
+no ip domain lookup
+ipv6 unicast-routing
+!
+interface Loopback0
+ ip address 172.17.1.1 255.255.255.248
+ no shutdown
+!
+interface Loopback10
+ ip address 10.0.3.13 255.255.255.0
+ no shut
+!
+interface GigabitEthernet0/0
+ ip address 172.17.0.201 255.255.255.248
+ ipv6 address 2000:AAAD:1:131::1/64
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 172.17.0.193 255.255.255.248
+ ipv6 address 2000:AAAD:1:130::1/64
+ duplex full
+ no shutdown
+!

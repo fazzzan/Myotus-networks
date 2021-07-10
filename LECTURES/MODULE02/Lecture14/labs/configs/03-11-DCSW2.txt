@@ -1,0 +1,42 @@
+hostname DCSW2
+!
+no ip domain lookup
+ipv6 unicast-routing
+!
+interface Loopback10
+ ip address 10.0.3.112 255.255.255.0
+ no shut
+do wr mem
+!
+vlan 17
+name ###SRV_NET2###
+exit
+!
+interface Vlan17
+ ip address 172.17.17.254 255.255.255.0
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.17.2.10 255.255.255.248
+ ipv6 address 2000:AAAD:1:301::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.17.2.26 255.255.255.248
+ ipv6 address 2000:AAAD:1:303::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet1/0
+ switchport access vlan 17
+ switchport mode access
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+do wr mem
+!

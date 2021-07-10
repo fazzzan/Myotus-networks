@@ -1,0 +1,58 @@
+hostname ASW3
+!
+no ip domain lookup
+ipv6 unicast-routing
+!
+interface Loopback10
+ ip address 10.0.5.103 255.255.255.0
+ no shut
+!
+vlan 61
+name ###PC-FLOOR1###
+vlan 71
+name ###PRN-FLOOR1###
+vlan 98
+name ###BLACKHOLE###
+exit
+!
+interface Vlan61
+ ip address 172.18.64.254 255.255.255.0
+!
+interface Vlan71
+ ip address 172.18.70.62 255.255.255.192
+!
+int ra gi 0/0 - 3, gi 1/0 - 3, gi 2/0 - 3, gi 3/0 - 3
+ switchport mode access
+ switchport access vlan 98
+ shutdown
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.18.0.58 255.255.255.248
+ ipv6 address 2000:AAAd:2:107::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.18.0.74 255.255.255.248
+ ipv6 address 2000:AAAd:2:109::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet1/0
+ switchport access vlan 61
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet3/0
+ switchport access vlan 71
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+do wr mem
+!

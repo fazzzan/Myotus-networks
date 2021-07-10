@@ -1,0 +1,70 @@
+hostname CORE2
+!
+no ip domain lookup
+ipv6 unicast-routing
+!
+interface Loopback10
+ ip address 10.0.3.32 255.255.255.0
+ no shut
+!
+interface GigabitEthernet0/0
+ no switchport
+ ip address 172.17.0.66 255.255.255.248
+ ipv6 address 2000:AAAD:1:112::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 172.17.0.82 255.255.255.248
+ ipv6 address 2000:AAAD:1:114::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/0
+ no switchport
+ ip address 172.17.0.121 255.255.255.248
+ ipv6 address 2000:AAAD:1:119::1/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/1
+ no switchport
+ ip address 172.17.0.113 255.255.255.248
+ ipv6 address 2000:AAAD:1:118::1/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/2
+ no switchport
+ ip address 172.17.0.161 255.255.255.248
+ ipv6 address 2000:AAAD:1:123::1/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/3
+ no switchport
+ ip address 172.17.0.169 255.255.255.248
+ ipv6 address 2000:AAAD:1:124::1/64
+ no negotiation auto
+ duplex full
+ no shutdown
+ exit
+!
+interface ra GigabitEthernet1/0 - 1
+ no switchport
+ channel-group 1 mode active
+ exit
+!
+interface Port-channel1
+ no switchport
+ ip address 172.17.0.90 255.255.255.248
+ ipv6 address 2000:AAAD:1:115::2/64
+!
+do wr mem
+!
