@@ -40,13 +40,13 @@ Cодержимое
 
 Модуль 4 -  Управдение и защита сетевой инфраструктуры
 
-- [Lecture2.30](MODULE03/Lecture30/README.MD) -  Основные протоколы сети интернет 
-- [Lecture2.31](MODULE03/Lecture31/README.MD) -  AAA 
-- [Lecture2.32](MODULE03/Lecture32/README.MD) - ZBF - Zone-Based Firewall
-- [Lecture2.33](MODULE03/Lecture33/README.MD) - VPN
-- [Lecture2.34](MODULE03/Lecture34/README.MD) - DMVPN
-- [Lecture2.35](MODULE03/Lecture35/README.MD) - IPSec
-- [Lecture2.36](MODULE03/Lecture36/README.MD) - IPSec 2
+- [Lecture2.30](MODULE04/Lecture30/README.MD) -  Основные протоколы сети интернет 
+- [Lecture2.31](MODULE04/Lecture31/README.MD) -  AAA 
+- [Lecture2.32](MODULE04/Lecture32/README.MD) - ZBF - Zone-Based Firewall
+- [Lecture2.33](MODULE04/Lecture33/README.MD) - VPN
+- [Lecture2.34](MODULE04/Lecture34/README.MD) - DMVPN
+- [Lecture2.35](MODULE04/Lecture35/README.MD) - IPSec
+- [Lecture2.36](MODULE04/Lecture36/README.MD) - IPSec 2
 
 
 Модуль 5- Проектный модуль
