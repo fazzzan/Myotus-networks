@@ -21,11 +21,20 @@ Cодержимое
 - [Lecture2.15](MODULE02/Lecture15/README.MD) - IS-IS - Продолжение
 - [Lecture2.16](MODULE02/Lecture16/README.MD) - EIGRP
 - [Lecture2.17](MODULE02/Lecture17/README.MD) - EIGRP - NAMED EIGRP
-- [Lecture2.22](MODULE02/Lecture22/README.MD) - BGP
-- [Lecture2.23](MODULE02/Lecture23/README.MD) - BGP - Advanced: Атрибуты, Next-hop
-- [Lecture2.24](MODULE02/Lecture24/README.MD) - BGP - iBGP
-- [Lecture2.25](MODULE02/Lecture25/README.MD) - BGP. Advanced
-- [Lecture2.26](MODULE02/Lecture26/README.MD) - BGP. Attributes
+- [Lecture2.19](MODULE02/Lecture19/README.MD) - EIGRP - NAMED EIGRP
+
+Модуль 3 - Построение локальных сетей
+
+- [Lecture2.20](MODULE03/Lecture20/README.MD) - BGP
+- [Lecture2.21](MODULE03/Lecture21/README.MD) - BGP
+- [Lecture2.22](MODULE03/Lecture22/README.MD) - BGP
+- [Lecture2.23](MODULE03/Lecture23/README.MD) - BGP - Advanced: Атрибуты, Next-hop
+- [Lecture2.24](MODULE03/Lecture24/README.MD) - BGP - iBGP
+- [Lecture2.25](MODULE03/Lecture25/README.MD) - BGP. Advanced
+- [Lecture2.26](MODULE03/Lecture26/README.MD) - BGP. Attributes
+- [Lecture2.27](MODULE03/Lecture27/README.MD) - BGP. Attributes
+- [Lecture2.28](MODULE03/Lecture28/README.MD) - BGP. Attributes
+
 
 
 Модуль 3 - протокол BGP
