@@ -24,4 +24,13 @@ interface Ethernet0/2
 interface Ethernet0/3
  no ip address
  shutdown
-!
+
+
+### 2.В области ISP каждый маршрутизатор - своя AS 
+router bgp 8
+ neighbor 100.7.8.2 remote-as 7
+ neighbor 100.8.4.2 remote-as 4
+ neighbor 100.8.5.2 remote-as 5
+ network 100.7.8.0 mask 255.255.255.0
+ network 100.8.4.0 mask 255.255.255.0
+ network 100.8.5.0 mask 255.255.255.0

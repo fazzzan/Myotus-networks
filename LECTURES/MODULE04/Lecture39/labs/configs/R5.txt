@@ -33,8 +33,13 @@ interface Ethernet0/3
  no ip address
  shutdown
 !
+### 2.В области ISP каждый маршрутизатор - своя AS 
 router bgp 5
- bgp log-neighbor-changes
+ neighbor 100.5.9.1 remote-as 127823
+ neighbor 100.8.5.1 remote-as 8
  network 100.5.9.0 mask 255.255.255.0
- neighbor 100.5.9.1 remote-as 12823
+ network 100.8.5.0 mask 255.255.255.0
 !
+### 11. Маршрутизатор R9 принимает по BGP default+префиксы сети офиса OSPF
+router bgp 5
+ neighbor 100.5.9.1  default-originate

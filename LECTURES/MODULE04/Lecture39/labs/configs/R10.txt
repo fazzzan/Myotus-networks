@@ -17,7 +17,7 @@ multilink bundle-name authenticated
 !
 interface Ethernet0/0
  ip address 80.0.0.1 255.255.255.0
- ip nat outside
+ ip nat inside
  ip virtual-reassembly in
 !         
 interface Ethernet0/1
@@ -26,7 +26,7 @@ interface Ethernet0/1
 !
 interface Ethernet0/2
  ip address 70.0.0.2 255.255.255.0
- ip nat inside
+ ip nat outside
  ip virtual-reassembly in
 !
 interface Ethernet0/3
@@ -34,13 +34,22 @@ interface Ethernet0/3
  shutdown
 !
 !
-router eigrp 2
+router eigrp 1
  network 70.0.0.0 0.0.0.255
  network 80.0.0.0 0.0.0.255
+ passive-interface default
  passive-interface Ethernet0/0
+ no pass Ethernet0/2
+ no auto-summ
+
 !
 ip forward-protocol nd
 !
-ip nat inside source static 70.0.0.2 80.0.0.10
+### 10 .Трафик VPC12 должен натироваться во второй адрес интерфейса e0/2 маршрутизатора R10. Трансляция работает адрес в адрес.
+interface Ethernet0/0
+ ip nat inside
 !
+interface Ethernet0/2
+ ip nat outside
 !
+ip nat inside source static 80.0.0.10 70.0.0.2

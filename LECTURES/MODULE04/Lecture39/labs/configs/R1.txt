@@ -14,11 +14,12 @@ no ipv6 cef
 interface Ethernet0/0
  ip address 10.0.0.1 255.255.255.0
  ip mtu 1300
+ no shutdown
 !
 interface Ethernet0/1
  ip address 20.0.0.1 255.255.255.0
  ip mtu 1300
- shutdown
+ no shutdown
 !
 interface Ethernet0/2
  ip address 192.168.1.1 255.255.255.0
@@ -34,3 +35,12 @@ router ospf 1
  network 192.168.1.0 0.0.0.255 area 0
 !
 ip forward-protocol nd
+
+### 14. VPC11 получает IP адрес через DHCP сервер с R1
+ip dhcp excluded-address 192.168.1.1 192.168.1.10
+
+!
+ip dhcp pool PC
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1 
+ dns-server 192.168.1.1 

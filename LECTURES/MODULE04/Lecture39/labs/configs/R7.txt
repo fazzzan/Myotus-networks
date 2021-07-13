@@ -26,3 +26,14 @@ interface Ethernet0/3
  no ip address
  shutdown
 !
+### 2.В области ISP каждый маршрутизатор - своя AS 
+router bgp 7
+ network 100.7.8.0 mask 255.255.255.0
+ network 100.6.7.0 mask 255.255.255.0
+ neighbor 100.6.7.1 remote-as 1175
+ neighbor 100.7.8.1 remote-as 8
+
+### 12. Маршрутизатор R6 принимает по BGP только default - на R7 настроить default для R6
+router bgp 7
+ neighbor 100.6.7.1  default-originate
+

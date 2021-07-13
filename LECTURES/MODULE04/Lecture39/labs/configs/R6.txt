@@ -40,7 +40,20 @@ router ospf 1
  network 100.6.7.0 0.0.0.255 area 0
 !
 router bgp 1175
- bgp log-neighbor-changes
- network 100.6.7.0 mask 255.255.255.0
  neighbor 100.6.7.2 remote-as 7
+ network 100.6.7.0 mask 255.255.255.0
 !
+
+### 12. Маршрутизатор R6 принимает по BGP только default - на R7 настроить default
+ip prefix-list DEF_ROUTE description default route
+ip prefix-list DEF_ROUTE seq 10 permit 0.0.0.0/0
+
+route-map MY-PEER-IN permit 100
+ match ip address prefix-list DEF_ROUTE
+
+router bgp 1175
+neighbor 100.6.7.2 route-map MY-PEER-IN in
+
+### 11. Маршрутизатор R9 принимает по BGP default+префиксы сети офиса OSPF
+router bgp 1175
+redistribute ospf 1
