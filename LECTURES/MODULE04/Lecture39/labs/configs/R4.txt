@@ -1,0 +1,39 @@
+hostname R4
+!
+no logging console
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!         
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+redundancy
+!
+interface Ethernet0/0
+ ip address 100.4.9.2 255.255.255.0
+!
+interface Ethernet0/1
+ ip address 100.8.4.2 255.255.255.0
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router bgp 4
+ bgp log-neighbor-changes
+ network 100.4.9.0 mask 255.255.255.0
+ neighbor 100.4.9.1 remote-as 127823
+!

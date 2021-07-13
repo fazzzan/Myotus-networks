@@ -1,0 +1,28 @@
+hostname R7
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+interface Ethernet0/0
+ ip address 100.7.8.2 255.255.255.0
+!
+interface Ethernet0/1
+ no ip address
+ shutdown
+!
+interface Ethernet0/2
+ ip address 100.6.7.2 255.255.255.0
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!

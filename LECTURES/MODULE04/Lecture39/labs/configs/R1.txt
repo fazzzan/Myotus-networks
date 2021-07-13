@@ -1,0 +1,36 @@
+hostname R1
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+ip cef
+no ipv6 cef
+!
+!
+interface Ethernet0/0
+ ip address 10.0.0.1 255.255.255.0
+ ip mtu 1300
+!
+interface Ethernet0/1
+ ip address 20.0.0.1 255.255.255.0
+ ip mtu 1300
+ shutdown
+!
+interface Ethernet0/2
+ ip address 192.168.1.1 255.255.255.0
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 1.1.1.1
+ network 10.0.0.0 0.0.0.255 area 1
+ network 20.0.0.0 0.0.0.255 area 1
+ network 192.168.1.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
