@@ -17,11 +17,13 @@ exit
 !
 interface Vlan62
  ip address 172.17.65.254 255.255.255.0
- ip helper-address 172.17.16.1 
+ ipv6 address 2000:AAAD:1:602:ffff:ffff:ffff:fffe/64
+no shutdown
 !
 interface Vlan72
  ip address 172.17.70.126 255.255.255.192
- ip helper-address 172.17.16.1 
+ ipv6 address 2000:AAAD:1:612:ffff:ffff:ffff:fffe/64
+no shutdown
 !
 int ra gi 1/0 - 3, gi 2/0 - 3, gi 3/0 - 3
  switchport mode access
@@ -56,5 +58,5 @@ interface GigabitEthernet3/0
  duplex full
  no shutdown
 !
-do wr mrm
+do wr mem
 !

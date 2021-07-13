@@ -18,7 +18,7 @@ do sho ip int br
 do sho ip proto
 do sho ip route ospf
 do sho ip ospf databas
-sho ip ospf int gi 0/2
+do sho ip ospf int gi 0/2
 
 
 ### Включаем OSPFv3, назнчаем RID

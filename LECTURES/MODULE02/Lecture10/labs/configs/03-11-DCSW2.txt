@@ -14,6 +14,8 @@ exit
 !
 interface Vlan17
  ip address 172.17.17.254 255.255.255.0
+ ipv6 address 2000:AAAD:1:501:ffff:ffff:ffff:fffe/64
+no shut
 !
 interface GigabitEthernet0/0
  no switchport

@@ -49,8 +49,6 @@ interface Port-channel1
  no switchport
  ip address 172.17.0.178 255.255.255.248
  ipv6 address 2000:AAAD:1:125::2/64
- no negotiation auto
- duplex full
  no shutdown
 !
 do wr mem

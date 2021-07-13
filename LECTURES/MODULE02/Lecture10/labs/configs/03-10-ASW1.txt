@@ -17,11 +17,14 @@ exit
 !
 interface Vlan61
  ip address 172.17.64.254 255.255.255.0
- ip helper-address 172.17.16.1 
+ ipv6 address 2000:AAAD:1:601:ffff:ffff:ffff:fffe/64
+no shutdown
+
 !
 interface Vlan71
  ip address 172.17.70.62 255.255.255.192
- ip helper-address 172.17.16.1 
+ ipv6 address 2000:AAAD:1:611:ffff:ffff:ffff:fffe/64
+no shutdown
 !
 int ra gi 1/0 - 3, gi 2/0 - 3, gi 3/0 - 3
  switchport mode access

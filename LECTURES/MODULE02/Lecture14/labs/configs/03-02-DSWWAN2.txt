@@ -7,6 +7,7 @@ router ospf 1
  no passive-interface GigabitEthernet2/0
  no passive-interface GigabitEthernet2/1
  no passive-interface Port-channel1
+exit
 
 ### Активируем OSPF на IF
 interface GigabitEthernet0/2

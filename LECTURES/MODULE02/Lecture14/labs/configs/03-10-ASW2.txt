@@ -1,60 +1,322 @@
+### Включаем OSPF, назнчаем RID, выключаем на всех IF, кроме Gi0/2
+router ospf 1
+ router-id 1.1.2.7
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+exit
+
+### Активируем OSPF на IF
+interface GigabitEthernet0/0
+ ip ospf 1 area 3
+ exit
+interface GigabitEthernet0/1
+ ip ospf 1 area 3
+ exit
+interface Vlan62
+ ip ospf 1 area 3
+exit
+interface Vlan72
+ ip ospf 1 area 3
+exit
+
+
+### проверка
+do sho ip int br
+do sho ip proto
+do sho ip route ospf
+do sho ip ospf databas
+sho ip ospf int gi 0/2
+
+
+### Включаем OSPFv3, назнчаем RID
+ipv6 router ospf 1
+router-id 1.1.2.7
+exit
+
+
+### Активируем OSPFv3 на IF
+interface GigabitEthernet0/0
+ ipv6 ospf 1 area 3
+ exit
+interface GigabitEthernet0/1
+ ipv6 ospf 1 area 3
+ exit
+interface Vlan62
+ ip ospf 1 area 3
+exit
+interface Vlan72
+ ip ospf 1 area 3
+exit
+
+do sho ipv6 int br
+do sho ipv6 proto
+do sho ipv6 route ospf
+do sho ipv6 ospf databas
+do sho ipv6 ospf int gi 0/2
+
+### Назначение ip-helper
+interface Vlan62
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
+ no shutdown
+!
+interface Vlan72
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
+ no shutdown
+!
+
+
+ASW2#show vlan
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Gi0/2, Gi0/3
+62   ###PC-FLOOR2###                  active    Gi1/0
+72   ###PRN-FLOOR2###                 active    Gi3/0
+98   ###BLACKHOLE###                  active    Gi1/1, Gi1/2, Gi1/3, Gi2/0
+                                                Gi2/1, Gi2/2, Gi2/3, Gi3/1
+                                                Gi3/2, Gi3/3
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1    enet  100001     1500  -      -      -        -    -        0      0   
+62   enet  100062     1500  -      -      -        -    -        0      0   
+72   enet  100072     1500  -      -      -        -    -        0      0   
+98   enet  100098     1500  -      -      -        -    -        0      0   
+1002 fddi  101002     1500  -      -      -        -    -        0      0   
+1003 tr    101003     1500  -      -      -        -    -        0      0   
+1004 fdnet 101004     1500  -      -      -        ieee -        0      0   
+          
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1005 trnet 101005     1500  -      -      -        ibm  -        0      0   
+
+Remote SPAN VLANs
+------------------------------------------------------------------------------
+
+
+Primary Secondary Type              Ports
+------- --------- ----------------- ------------------------------------------
+
+
+ASW2#show run
+Building configuration...
+
+Current configuration : 4743 bytes
+!
+! Last configuration change at 15:33:56 UTC Sun Jul 11 2021
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
 hostname ASW2
 !
-no ip domain lookup
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!         
+!
+!
+!
+no ip domain-lookup
+ip cef
 ipv6 unicast-routing
+ipv6 cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
 !
 interface Loopback10
  ip address 10.0.3.102 255.255.255.0
- no shut
-!
-vlan 62
-name ###PC-FLOOR2###
-vlan 72
-name ###PRN-FLOOR2###
-vlan 98
-name ###BLACKHOLE###
-exit
-!
-interface Vlan62
- ip address 172.17.65.254 255.255.255.0
- ip helper-address 172.17.16.1 
-!
-interface Vlan72
- ip address 172.17.70.126 255.255.255.192
- ip helper-address 172.17.16.1 
-!
-int ra gi 1/0 - 3, gi 2/0 - 3, gi 3/0 - 3
- switchport mode access
- switchport access vlan 98
- shutdown
 !
 interface GigabitEthernet0/0
  no switchport
  ip address 172.17.3.10 255.255.255.248
- ipv6 address 2000:AAAD:1:401::2/64
- no negotiation auto
+ ip ospf 1 area 3
  duplex full
- no shutdown
+ no negotiation auto
+ ipv6 address 2000:AAAD:1:401::2/64
 !
 interface GigabitEthernet0/1
  no switchport
  ip address 172.17.3.26 255.255.255.248
- ipv6 address 2000:AAAD:1:403::2/64
- no negotiation auto
+ ip ospf 1 area 3
  duplex full
- no shutdown
+ no negotiation auto
+ ipv6 address 2000:AAAD:1:403::2/64
+!         
+interface GigabitEthernet0/2
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ negotiation auto
 !
 interface GigabitEthernet1/0
  switchport access vlan 62
- no negotiation auto
+ switchport mode access
  duplex full
- no shutdown
+ no negotiation auto
+!
+interface GigabitEthernet1/1
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet2/0
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet2/1
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet2/2
+ switchport access vlan 98
+ switchport mode access
+ shutdown 
+ negotiation auto
+!
+interface GigabitEthernet2/3
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
 !
 interface GigabitEthernet3/0
  switchport access vlan 72
- no negotiation auto
+ switchport mode access
  duplex full
- no shutdown
+ no negotiation auto
 !
-do wr mrm
+interface GigabitEthernet3/1
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
 !
+interface GigabitEthernet3/2
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
+!
+interface GigabitEthernet3/3
+ switchport access vlan 98
+ switchport mode access
+ shutdown
+ negotiation auto
+!
+interface Vlan62
+ ip address 172.17.65.254 255.255.255.0
+ ip helper-address 172.17.16.1 
+ shutdown
+!
+interface Vlan72
+ ip address 172.17.70.126 255.255.255.192
+ ip helper-address 172.17.16.1 
+ shutdown
+!
+router ospf 1
+ router-id 1.1.2.7
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+!
+ip forward-protocol nd
+!
+ip http server
+!
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+!
+!
+end
