@@ -17,9 +17,13 @@
 - Зона 3 - выделяется оборудование access уровня: получает все маршруты, кроме маршрутов до сетей зоны 1
 - Настройка для IPv6 повторяет логику IPv4
 
+Дополнительно реализован DHCP сервер для ACCESS уровня
+
 Cхема сети ipv4, ipv6
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/31.jpg)
+
+![](/LECTURES/MODULE02/Lecture14/pictures/16.jpg)
 
 ##  Задание 1: Зона 0
 
@@ -144,6 +148,7 @@ exit
          - ACCESS
             - [03-10-ASW1](/LECTURES/MODULE02/Lecture14/labs/configs/03-10-ASW1.txt)
             - [03-10-ASW2](/LECTURES/MODULE02/Lecture14/labs/configs/03-10-ASW2.txt)
+            - [DHCP](/LECTURES/MODULE02/Lecture14/labs/configs/DHCP.txt)
 - СПб (05)
    - EDGE
       - [05-01-EDGE-R31](/LECTURES/MODULE02/Lecture14/labs/configs/05-1-EDGE-R31.txt)
