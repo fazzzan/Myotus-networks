@@ -23,7 +23,7 @@ Cхема сети ipv4, ipv6
 
 ![](/LECTURES/MODULE02/Lecture10/pictures/31.jpg)
 
-![](/LECTURES/MODULE02/Lecture13/pictures/79.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/79.jpg)
 
 ##  Задание 1: Зона 0
 
@@ -117,54 +117,54 @@ exit
 Настройки оборудования представлены по соответствующим ссылкам ниже как для ipv4, так и для ipv6.
 
 - Киторн (01):
-   - [01-ISP1](/LECTURES/MODULE02/Lecture13/labs/configs/01-ISP1.txt)
+   - [01-ISP1](/LECTURES/MODULE02/Lecture14/labs/configs/01-ISP1.txt)
 - Лимас (02):
-   - [02-ISP2](/LECTURES/MODULE02/Lecture13/labs/configs/02-ISP2.txt)
+   - [02-ISP2](/LECTURES/MODULE02/Lecture14/labs/configs/02-ISP2.txt)
 - Триада (04): 
-   - [04-R23](/LECTURES/MODULE02/Lecture13/labs/configs/04-R23.txt)
-   - [04-R24](/LECTURES/MODULE02/Lecture13/labs/configs/04-R24.txt)
-   - [04-R25](/LECTURES/MODULE02/Lecture13/labs/configs/04-R25.txt)
-   - [04-R26](/LECTURES/MODULE02/Lecture13/labs/configs/04-R26.txt)
+   - [04-R23](/LECTURES/MODULE02/Lecture14/labs/configs/04-R23.txt)
+   - [04-R24](/LECTURES/MODULE02/Lecture14/labs/configs/04-R24.txt)
+   - [04-R25](/LECTURES/MODULE02/Lecture14/labs/configs/04-R25.txt)
+   - [04-R26](/LECTURES/MODULE02/Lecture14/labs/configs/04-R26.txt)
 - Москва (03)
    - EDGE: 
-      - [03-01-EDGE1](/LECTURES/MODULE02/Lecture13/labs/configs/03-01-EDGE1.txt)
-      - [03-01-EDGE2](/LECTURES/MODULE02/Lecture13/labs/configs/03-01-EDGE2.txt)
-      - [03-01-EDGEOSPF1](/LECTURES/MODULE02/Lecture13/labs/configs/03-01-EDGEOSPF1.txt)
+      - [03-01-EDGE1](/LECTURES/MODULE02/Lecture14/labs/configs/03-01-EDGE1.txt)
+      - [03-01-EDGE2](/LECTURES/MODULE02/Lecture14/labs/configs/03-01-EDGE2.txt)
+      - [03-01-EDGEOSPF1](/LECTURES/MODULE02/Lecture14/labs/configs/03-01-EDGEOSPF1.txt)
    - Distribution UP: 
-      - [03-02-DSWWAN1](/LECTURES/MODULE02/Lecture13/labs/configs/03-02-DSWWAN1.txt)
-      - [03-02-DSWWAN2](/LECTURES/MODULE02/Lecture13/labs/configs/03-02-DSWWAN2.txt)
+      - [03-02-DSWWAN1](/LECTURES/MODULE02/Lecture14/labs/configs/03-02-DSWWAN1.txt)
+      - [03-02-DSWWAN2](/LECTURES/MODULE02/Lecture14/labs/configs/03-02-DSWWAN2.txt)
    - CORE:
-      - [03-03-CORE1](/LECTURES/MODULE02/Lecture13/labs/configs/03-03-CORE1.txt)
-      - [03-03-CORE2](/LECTURES/MODULE02/Lecture13/labs/configs/03-03-CORE2.txt)
+      - [03-03-CORE1](/LECTURES/MODULE02/Lecture14/labs/configs/03-03-CORE1.txt)
+      - [03-03-CORE2](/LECTURES/MODULE02/Lecture14/labs/configs/03-03-CORE2.txt)
    - Aggregation
-      - [03-04-AGGRSWDC1](/LECTURES/MODULE02/Lecture13/labs/configs/03-04-AGGRSWDC1.txt)
-      - [03-04-AGGRSWDC2](/LECTURES/MODULE02/Lecture13/labs/configs/03-04-AGGRSWDC2.txt)
+      - [03-04-AGGRSWDC1](/LECTURES/MODULE02/Lecture14/labs/configs/03-04-AGGRSWDC1.txt)
+      - [03-04-AGGRSWDC2](/LECTURES/MODULE02/Lecture14/labs/configs/03-04-AGGRSWDC2.txt)
          - ACCESS
-            - [03-11-DCSW1](/LECTURES/MODULE02/Lecture13/labs/configs/03-11-DCSW1.txt)
-            - [03-11-DCSW2](/LECTURES/MODULE02/Lecture13/labs/configs/03-11-DCSW2.txt)
+            - [03-11-DCSW1](/LECTURES/MODULE02/Lecture14/labs/configs/03-11-DCSW1.txt)
+            - [03-11-DCSW2](/LECTURES/MODULE02/Lecture14/labs/configs/03-11-DCSW2.txt)
    - Distribution DOWN
-      - [03-05-DSWACC1](/LECTURES/MODULE02/Lecture13/labs/configs/03-05-DSWACC1.txt)
-      - [03-05-DSWACC2](/LECTURES/MODULE02/Lecture13/labs/configs/03-05-DSWACC2.txt)
+      - [03-05-DSWACC1](/LECTURES/MODULE02/Lecture14/labs/configs/03-05-DSWACC1.txt)
+      - [03-05-DSWACC2](/LECTURES/MODULE02/Lecture14/labs/configs/03-05-DSWACC2.txt)
          - ACCESS
-            - [03-10-ASW1](/LECTURES/MODULE02/Lecture13/labs/configs/03-10-ASW1.txt)
-            - [03-10-ASW2](/LECTURES/MODULE02/Lecture13/labs/configs/03-10-ASW2.txt)
-            - [DHCP](/LECTURES/MODULE02/Lecture13/labs/configs/DHCP.txt)
+            - [03-10-ASW1](/LECTURES/MODULE02/Lecture14/labs/configs/03-10-ASW1.txt)
+            - [03-10-ASW2](/LECTURES/MODULE02/Lecture14/labs/configs/03-10-ASW2.txt)
+            - [DHCP](/LECTURES/MODULE02/Lecture14/labs/configs/DHCP.txt)
 - СПб (05)
    - EDGE
-      - [05-01-EDGE-R31](/LECTURES/MODULE02/Lecture13/labs/configs/05-1-EDGE-R31.txt)
-      - [05-01-EDGEEIGRP-R32](/LECTURES/MODULE02/Lecture13/labs/configs/05-1-EDGEEIGRP-R32.txt)
+      - [05-01-EDGE-R31](/LECTURES/MODULE02/Lecture14/labs/configs/05-1-EDGE-R31.txt)
+      - [05-01-EDGEEIGRP-R32](/LECTURES/MODULE02/Lecture14/labs/configs/05-1-EDGEEIGRP-R32.txt)
    - CollapsedCORE
-      - [05-02-DSWCOLCORE16](/LECTURES/MODULE02/Lecture13/labs/configs/05-2-DSWCOLCORE16.txt)
-      - [05-02-DSWCOLCORE17](/LECTURES/MODULE02/Lecture13/labs/configs/05-2-DSWCOLCORE17.txt)
+      - [05-02-DSWCOLCORE16](/LECTURES/MODULE02/Lecture14/labs/configs/05-2-DSWCOLCORE16.txt)
+      - [05-02-DSWCOLCORE17](/LECTURES/MODULE02/Lecture14/labs/configs/05-2-DSWCOLCORE17.txt)
    - ACCESS
-      - [05-10-ASW3](/LECTURES/MODULE02/Lecture13/labs/configs/05-5-ASW3.txt)
-      - [05-10-ASW4](/LECTURES/MODULE02/Lecture13/labs/configs/05-5-ASW4.txt)
+      - [05-10-ASW3](/LECTURES/MODULE02/Lecture14/labs/configs/05-5-ASW3.txt)
+      - [05-10-ASW4](/LECTURES/MODULE02/Lecture14/labs/configs/05-5-ASW4.txt)
 - Чокурдах (06)
    - EDGE
-      - [06-1-EDGE-R28](/LECTURES/MODULE02/Lecture13/labs/configs/06-1-EDGE-R28.txt)
+      - [06-1-EDGE-R28](/LECTURES/MODULE02/Lecture14/labs/configs/06-1-EDGE-R28.txt)
    - ACCESS
-      - [06-5-ASW29](/LECTURES/MODULE02/Lecture13/labs/configs/06-5-ASW29.txt)
+      - [06-5-ASW29](/LECTURES/MODULE02/Lecture14/labs/configs/06-5-ASW29.txt)
 - Лабытнанги (07)
    - EDGE
-      - [07-1-EDGE-R27](/LECTURES/MODULE02/Lecture13/labs/configs/07-1-EDGE-R27.txt)
+      - [07-1-EDGE-R27](/LECTURES/MODULE02/Lecture14/labs/configs/07-1-EDGE-R27.txt)
 
