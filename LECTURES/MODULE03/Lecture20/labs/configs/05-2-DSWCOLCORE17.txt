@@ -1,0 +1,50 @@
+hostname DSWCOLCORE17
+!
+### Включаем EIGRP, назначаем RID, выключаем на всех IF, кроме Gi0/2, Gi0/3, Gi2/0, Gi2/1,  Po1 задаем сети
+!
+router eigrp 100
+eigrp router-id 0.0.0.17
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ no passive-interface GigabitEthernet0/3
+ no passive-interface GigabitEthernet2/0
+ no passive-interface GigabitEthernet2/1
+ no passive-interface Port-channel1
+ network 172.18.0.0 0.0.0.7
+ network 172.18.0.16 0.0.0.7
+ network 172.18.0.48 0.0.0.7
+ network 172.18.0.56 0.0.0.7
+ network 172.18.0.64 0.0.0.7
+
+### Включаем EIGRP IPv6
+
+ipv6 router eigrp 100
+eigrp router-id 0.0.0.17
+
+interface GigabitEthernet0/2
+ipv6 eigrp 100
+exit
+interface GigabitEthernet0/3
+ipv6 eigrp 100
+exit
+interface GigabitEthernet2/0
+ipv6 eigrp 100
+exit
+interface GigabitEthernet2/1
+ipv6 eigrp 100
+exit
+interface Port-channel1
+ipv6 eigrp 100
+exit
+
+### EDGEEIGRP-R32 получает только маршрут по-умолчанию
+interface gi0/3
+ip summary-address eigrp 100 0.0.0.0 0.0.0.0
+ipv6 summary-address eigrp 100 0::0/0
+
+### Преобразуем в NAMED EIGRP - не получается на L2 имидже
+router eigrp 100
+eigrp upgrade-cli NG
+
+ipv6 router eigrp 100
+eigrp upgrade-cli NG6

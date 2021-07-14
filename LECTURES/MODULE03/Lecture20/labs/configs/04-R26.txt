@@ -1,0 +1,30 @@
+router isis
+
+router isis 0026
+ net 49.0026.2626.2626.2626.00
+ passive-interface gi 0/0
+ passive-interface gi 0/2
+ passive-interface gi 0/3
+ redistribute static ip
+
+interface GigabitEthernet0/0
+ip router isis 0026
+ipv6 router isis 0026
+ exit
+
+interface GigabitEthernet0/1
+ip router isis 0026
+ipv6 router isis 0026
+isis circuit-type level-2-only
+ exit
+
+interface GigabitEthernet0/2
+ip router isis 0026
+ipv6 router isis 0026
+ exit
+
+interface GigabitEthernet0/3
+ip router isis 0026
+ipv6 router isis 0026
+ exit
+

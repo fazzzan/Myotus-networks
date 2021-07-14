@@ -1,0 +1,36 @@
+hostname EDGEEIGRP-R32
+!
+router eigrp 100
+ eigrp router-id 0.0.0.32
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+ network 172.18.0.16 0.0.0.7
+ network 172.18.0.24 0.0.0.7
+
+### Включаем EIGRP IPv6
+
+ipv6 router eigrp 100
+eigrp router-id 0.0.0.32
+
+interface GigabitEthernet0/0
+ipv6 eigrp 100
+exit
+interface GigabitEthernet0/1
+ipv6 eigrp 100
+exit
+!
+!
+router eigrp 101
+ eigrp router-id 0.0.0.32
+ passive-interface default
+ network 172.18.1.0 0.0.0.7
+
+### Включаем EIGRP IPv6
+
+ipv6 router eigrp 101
+eigrp router-id 0.0.0.32
+
+interface loo0
+ipv6 eigrp 100
+exit

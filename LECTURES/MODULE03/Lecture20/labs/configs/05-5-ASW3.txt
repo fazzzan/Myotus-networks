@@ -1,0 +1,23 @@
+hostname ASW3
+
+router eigrp 100
+ eigrp router-id 0.0.0.23
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+ network 172.18.0.56 0.0.0.7
+ network 172.18.0.72 0.0.0.7
+ network 172.18.64.0 0.0.0.255
+ network 172.18.70.0 0.0.0.63
+
+### Включаем EIGRP IPv6
+
+ipv6 router eigrp 100
+eigrp router-id 0.0.0.23
+
+interface GigabitEthernet0/0
+ipv6 eigrp 100
+exit
+interface GigabitEthernet0/1
+ipv6 eigrp 100
+exit
