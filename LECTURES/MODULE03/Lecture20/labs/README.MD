@@ -109,8 +109,24 @@ int gi 0/2
 ip summary-address eigrp 100 172.18.64.0 255.255.192.0
 ipv6 summary-address eigrp 100 2000:AAAD:2:600::0/56
 ```
+Таблица маршрутизации после применения команды на  16, 17:
+
+![](/LECTURES/MODULE03/Lecture20/pictures/49.jpg)
+
 
 ##  Задание 4: Использовать EIGRP named-mode для настройки сети
+
+На L3 имиджах протестирована команда
+```
+### Преобразуем в NAMED EIGRP
+router eigrp 100
+eigrp upgrade-cli NG
+
+ipv6 router eigrp 100
+eigrp upgrade-cli NG6
+```
+
+![](/LECTURES/MODULE03/Lecture20/pictures/48.jpg)
 
 Пока не получилось для L2 имиджей
 
