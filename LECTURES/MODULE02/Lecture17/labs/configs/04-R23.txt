@@ -1,0 +1,23 @@
+router isis
+
+router isis 2222
+ net 49.2222.2323.2323.2323.00
+ redistribute static ip
+
+interface GigabitEthernet0/0
+ ip router isis 2222
+ ipv6 router isis 2222
+ exit
+
+interface GigabitEthernet0/1
+ ip router isis 2222
+ ipv6 router isis 2222
+ isis circuit-type level-2-only
+ exit
+
+interface GigabitEthernet0/2
+ ip router isis 2222
+ ipv6 router isis 2222
+ isis circuit-type level-2-only
+ exit
+

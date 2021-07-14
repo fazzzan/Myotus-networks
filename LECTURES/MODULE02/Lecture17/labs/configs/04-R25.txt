@@ -1,0 +1,27 @@
+router isis
+
+router isis 2222
+ net 49.2222.2525.2525.2525.00
+
+interface GigabitEthernet0/0
+ ip router isis 2222
+ ipv6 router isis 2222
+ exit
+
+interface GigabitEthernet0/1
+ ip router isis 2222
+ ipv6 router isis 2222
+ isis circuit-type level-2-only
+ exit
+
+interface GigabitEthernet0/2
+ ip router isis 2222
+ ipv6 router isis 2222
+ isis circuit-type level-2-only
+ exit
+
+interface GigabitEthernet0/3
+ ipv6 router isis 2222
+ ip router isis 2222
+ exit
+

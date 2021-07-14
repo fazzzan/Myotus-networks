@@ -1,0 +1,35 @@
+hostname EDGE-R31
+!
+no ip domain lookup
+ipv6 unicast-routing
+!
+interface Loopback10
+ ip address 10.0.5.11 255.255.255.0
+ no shut
+!
+interface GigabitEthernet0/0
+ ip address 52.0.56.94 255.255.255.252
+ ipv6 address 2000:AAAa:400::2/64
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 172.18.0.1 255.255.255.248
+ ipv6 address 2000:AAAD:2:100::1/64
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/2
+ ip address 52.0.56.98 255.255.255.252
+ ipv6 address 2000:AAAa:401::2/64
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/3
+ ip address 172.18.0.9 255.255.255.248
+ ipv6 address 2000:AAAD:2:101::1/64
+ duplex full
+ no shutdown
+!
+do wr mem
+!
