@@ -38,7 +38,8 @@ interface Port-channel1
 ipv6 eigrp 100
 exit
 
-### EDGEEIGRP-R32 получает только маршрут по-умолчанию
-interface gi0/3
-ip summary-address eigrp 100 0.0.0.0 0.0.0.0
-ipv6 summary-address eigrp 100 0::0/0
+### R16-17 анонсируют только суммарные префиксы для ACCESS подсетей 
+
+int gi 0/2
+ip summary-address eigrp 100 172.18.64.0 255.255.192.0
+ipv6 summary-address eigrp 100 2000:AAAD:2:600::0/56

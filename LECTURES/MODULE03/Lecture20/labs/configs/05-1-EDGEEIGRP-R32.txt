@@ -34,3 +34,27 @@ eigrp router-id 0.0.0.32
 interface loo0
 ipv6 eigrp 100
 exit
+
+### Преобразуем в NAMED EIGRP
+router eigrp 100
+eigrp upgrade-cli NG
+
+ipv6 router eigrp 100
+eigrp upgrade-cli NG6
+
+### Машрутизатор R32 получает маршруты по-умолчанию:
+#### Создадим prefix-list для IPv4 и IPv6
+
+(config)#ip prefix-list ONLYZERO seq 5 permit 0.0.0.0/0
+(config)#ipv6 prefix-list ONLYZEROV6 seq 5 permit ::/0
+
+#### Укажем prefix-list в конфигурации EIGRP на маршрутизаторе для фильтрации префиксов 0.0.0.0.0 и ::/0
+router eigrp NG
+address-family ipv4 unicast autonomous-system 100
+topology base
+distribute-list prefix ONLYZERO in
+
+router eigrp NG6
+address-family ipv6 unicast autonomous-system 100
+topology base
+distribute-list prefix-list ONLYZEROV6 in
