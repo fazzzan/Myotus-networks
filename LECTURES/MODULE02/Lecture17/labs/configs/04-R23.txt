@@ -2,6 +2,7 @@ router isis
 
 router isis 2222
  net 49.2222.2323.2323.2323.00
+ passive-interface gi 0/0
  redistribute static ip
 
 interface GigabitEthernet0/0

@@ -2,6 +2,9 @@ router isis
 
 router isis 0024
  net 49.0024.2424.2424.2424.00
+ passive-interface gi 0/0
+ passive-interface gi 0/2
+ passive-interface gi 0/3
  redistribute static ip
 
 interface GigabitEthernet0/0

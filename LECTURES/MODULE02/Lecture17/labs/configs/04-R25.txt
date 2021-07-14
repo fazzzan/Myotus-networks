@@ -1,6 +1,8 @@
 router isis
 
 router isis 2222
+ passive-interface gi 0/0
+ passive-interface gi 0/3
  net 49.2222.2525.2525.2525.00
 
 interface GigabitEthernet0/0
