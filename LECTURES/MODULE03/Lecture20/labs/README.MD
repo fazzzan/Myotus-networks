@@ -68,18 +68,51 @@ exit
 
 ![](/LECTURES/MODULE03/Lecture20/pictures/46.jpg)
 
+Преобразуем в NAMED EIGRP
 
+```
+router eigrp 100
+eigrp upgrade-cli NG
+
+ipv6 router eigrp 100
+eigrp upgrade-cli NG6
+```
 
 ##  Задание 2: EDGEEIGRP-R32 получает только маршрут по-умолчанию
 
-попробовал безуспешно командой на обоих DSWCOLCORE17, 16
+Так как не анонсировались ::/0, то и в списке маршрутов ipv6 их нет. Надо думать.
+
 ```
-### EDGEEIGRP-R32 получает только маршрут по-умолчанию
-interface gi0/3
-ip summary-address eigrp 100 0.0.0.0 0.0.0.0
-ipv6 summary-address eigrp 100 0::0/0
+#### Создадим prefix-list для IPv4 и IPv6
+
+(config)#ip prefix-list ONLYZERO seq 5 permit 0.0.0.0/0
+(config)#ipv6 prefix-list ONLYZEROV6 seq 5 permit ::/0
+
+#### Укажем prefix-list в конфигурации EIGRP на маршрутизаторе для фильтрации префиксов 0.0.0.0.0 и ::/0
+router eigrp NG
+address-family ipv4 unicast autonomous-system 100
+topology base
+distribute-list prefix ONLYZERO in
+
+router eigrp NG6
+address-family ipv6 unicast autonomous-system 100
+topology base
+distribute-list prefix-list ONLYZEROV6 in
 ```
+
 ##  Задание 3: R16-17 анонсируют только суммарные префиксы
+
+```
+### R16-17 анонсируют только суммарные префиксы для ACCESS подсетей 
+
+int gi 0/2
+ip summary-address eigrp 100 172.18.64.0 255.255.192.0
+ipv6 summary-address eigrp 100 2000:AAAD:2:600::0/56
+```
+
+##  Задание 4: Использовать EIGRP named-mode для настройки сети
+
+Пока не получилось для L2 имиджей
 
 Настройки оборудования представлены по соответствующим ссылкам ниже как для ipv4, так и для ipv6.
 
