@@ -1,0 +1,77 @@
+### Включаем OSPF, назнчаем RID, выключаем на всех IF, кроме Gi0/2
+router ospf 1
+ router-id 1.1.2.5
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet2/0
+ no passive-interface GigabitEthernet2/1
+ no passive-interface Port-channel1
+exit
+
+### Активируем OSPF на IF
+interface GigabitEthernet0/0
+ ip ospf 1 area 0
+ exit
+interface GigabitEthernet0/1
+ ip ospf 1 area 0
+ exit
+interface Port-channel1
+ ip ospf 1 area 0
+ exit
+interface GigabitEthernet2/0
+ ip ospf 1 area 2
+ exit
+interface GigabitEthernet2/1
+ ip ospf 1 area 2
+ exit
+
+
+
+### проверка
+do sho ip int br
+do sho ip proto
+do sho ip route ospf
+do sho ip ospf databas
+sho ip ospf int gi 0/2
+
+
+### Включаем OSPFv3, назнчаем RID
+ipv6 router ospf 1
+router-id 1.1.2.5
+exit
+
+
+### Активируем OSPFv3 на IF
+interface GigabitEthernet0/0
+ ipv6 ospf 1 area 0
+ exit
+interface GigabitEthernet0/1
+ ipv6 ospf 1 area 0
+ exit
+interface Port-channel1
+ ipv6 ospf 1 area 0
+ exit
+interface GigabitEthernet2/0
+ ipv6 ospf 1 area 2
+ exit
+interface GigabitEthernet2/1
+ ipv6 ospf 1 area 2
+ exit
+
+do sho ipv6 int br
+do sho ipv6 proto
+do sho ipv6 route ospf
+do sho ipv6 ospf databas
+do sho ipv6 ospf int gi 0/2
+
+### OSPF AREA2 - Totally STUB
+router ospf 1
+area 2 stub
+area 2 stub no-summary
+exit
+
+ipv6 router ospf 1
+area 2 stub
+area 2 stub no-summary
+exit

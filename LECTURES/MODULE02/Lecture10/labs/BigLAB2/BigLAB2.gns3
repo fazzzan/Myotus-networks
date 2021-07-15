@@ -504,7 +504,7 @@
                         "port_number": 0
                     }
                 ],
-                "suspend": false
+                "suspend": true
             },
             {
                 "filters": {},
@@ -690,7 +690,7 @@
                         "port_number": 0
                     }
                 ],
-                "suspend": false
+                "suspend": true
             },
             {
                 "filters": {},
@@ -5108,5 +5108,5 @@
     "type": "topology",
     "variables": [],
     "version": "2.2.19",
-    "zoom": 116
+    "zoom": 82
 }
