@@ -13,7 +13,7 @@
 
 Cхема сети ipv4, ipv6
 
-![](/LECTURES/MODULE03/Lecture23/pictures/31.jpg)
+![](/LECTURES/MODULE02/Lecture10/pictures/31.jpg)
 
 
 ##  Задание 1,2,3,4
@@ -59,7 +59,7 @@ router bgp 301
 
 ![](/LECTURES/MODULE03/Lecture23/pictures/26.jpg)
 
-прилетевшие маршруты на ISP2
+маршруты на ISP2
 
 ![](/LECTURES/MODULE03/Lecture23/pictures/27.jpg)
 
