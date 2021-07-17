@@ -4969,7 +4969,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5037,
+                "console": 5051,
                 "console_auto_start": true,
                 "console_type": "telnet",
                 "custom_adapters": [],
@@ -5037,7 +5037,7 @@
             },
             {
                 "compute_id": "vm",
-                "console": 5039,
+                "console": 5057,
                 "console_auto_start": true,
                 "console_type": "telnet",
                 "custom_adapters": [],

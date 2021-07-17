@@ -1,29 +1,23 @@
-router isis
+### Включаем ISIS
 
 router isis 2222
- passive-interface gi 0/0
- passive-interface gi 0/3
  net 49.2222.2525.2525.2525.00
 
-interface GigabitEthernet0/0
- ip router isis 2222
- ipv6 router isis 2222
- exit
+address-family ipv6
+ redistribute static
+exit
 
+### задаем на IF, смежном с STUB level-2-only
 interface GigabitEthernet0/1
  ip router isis 2222
  ipv6 router isis 2222
  isis circuit-type level-2-only
  exit
 
+### задаем на IF BB level-2-only
 interface GigabitEthernet0/2
  ip router isis 2222
  ipv6 router isis 2222
  isis circuit-type level-2-only
- exit
-
-interface GigabitEthernet0/3
- ipv6 router isis 2222
- ip router isis 2222
  exit
 

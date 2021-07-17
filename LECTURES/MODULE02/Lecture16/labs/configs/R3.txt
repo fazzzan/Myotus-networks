@@ -1,0 +1,56 @@
+host R3
+
+interface Loopback0
+ ip address 33.0.0.1 255.255.255.255
+ ipv6 add 2001::3/128
+ no shut
+
+interface Loopback1
+ ip address 2.3.0.1 255.255.255.0
+ ipv6 add 2001:3:0:0::1/64
+ no shut
+interface Loopback2
+ ip address 2.3.1.1 255.255.255.0
+ ipv6 add 2001:3:0:1::1/64
+ no shut
+interface Loopback3
+ ip address 2.3.2.1 255.255.255.0
+ ipv6 add 2001:3:0:2::1/64
+ no shut
+
+!
+interface GigabitEthernet0/0
+ ip address 13.0.13.3 255.255.255.0
+ ipv6 address 2001:0:0:13::3/64
+ duplex full
+ no shutdown
+
+### Включаем ISIS (R1-R3 AREA 13.0000). Настройку начинать с R1
+
+router isis 0003
+ net 13.0000.0000.0000.0003.00
+ is-type level-1
+exit
+
+
+### активируем на IF isis
+ipv6 unicast-routing
+
+interface GigabitEthernet0/0
+ ip router isis 0003
+ ipv6 router isis 0003
+ exit
+
+### Разрешаем отправку Lo0
+router isis 0003
+passive-int lo0
+exit
+
+### Для задания 3 - разрешаем рассылку lo3
+router isis 0003
+passive-int lo3
+exit
+
+do sho ipv6 route isis
+do sho clns nei
+do sho clns int gi 0/0

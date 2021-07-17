@@ -1,0 +1,64 @@
+host R2
+
+interface Loopback0
+ ip address 22.0.0.2 255.255.255.255
+ ipv6 add 2001::2/128
+ no shut
+
+interface Loopback1
+ ip address 2.0.0.1 255.255.255.0
+ ipv6 add 2001:2:0:0::2/64
+ no shut
+interface Loopback2
+ ip address 2.0.1.1 255.255.255.0
+ ipv6 add 2001:2:0:1::2/64
+ no shut
+interface Loopback3
+ ip address 2.0.2.1 255.255.255.0
+ ipv6 add 2001:2:0:2::2/64
+ no shut
+
+!
+interface GigabitEthernet0/0
+ ip address 12.0.12.2 255.255.255.0
+ ipv6 address 2001:0:0:12::2/64
+ duplex full
+ no shutdown
+
+
+
+### Включаем ISIS (R2 AREA 12.2222) и задаем ппассивные IF. Настройку начинать с R1
+
+ipv6 unicast-routing
+
+do deb isis adj-pack
+
+
+router isis 2222
+ net 12.2222.0000.0000.0002.00
+exit
+
+### задаем на IF, смежном с STUB level-1
+interface GigabitEthernet0/0
+ ip router isis 2222
+ ipv6 router isis 2222
+ isis circuit-type level-2-only
+ exit
+
+### Разрешаем отправку Lo0
+router isis 2222
+passive-int lo0
+exit
+
+### Задание 3 - на дефолтный маршрут: Рассылаем маршрут к R2 как default в обоих контекстах - Pv4/IPv6
+router isis 2222
+default-information originate
+address-family ipv6 unicast
+ default-information originate
+exit
+
+do sho ipv6 route isis
+do sho clns nei
+do sho clns int gi 0/0
+do sho isis database
+do sho isis database detail

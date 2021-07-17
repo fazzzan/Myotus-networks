@@ -1,30 +1,51 @@
+### Немного изменим ISIS и Инициируем ISIS на Lo11
+interface Loopback11
+ ip address 192.168.1.26 255.255.255.255
+ ipv6 address 2000:AAAA::26/128
+ no shut
+
+router isis 0026
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/3
+ passive-int lo11
+exit
+
+### Заменим принципы eBGB на iBGP для AS 520, сделаем R23 RR
+
 router bgp 520
  no bgp default ipv4-unicast
- neighbor 2000:AAAA::19 remote-as 520
- neighbor 52.0.56.25 remote-as 520
+ no neighbor 2000:AAAA::19 remote-as 520
+ no neighbor 52.0.56.25 remote-as 520
+ no neighbor 2000:AAAA::9 remote-as 520
+ no neighbor 52.0.56.9 remote-as 520
+ no neighbor 2000:AAAA::2 remote-as 520
+ no neighbor 52.0.56.2 remote-as 520
+
+ neighbor 192.168.1.23 remote-as 520
+ neighbor 192.168.1.23 update-source Loopback11
+ neighbor 2000:AAAA::23 remote-as 520
+ neighbor 2000:AAAA::23 update-source Loopback11
+
  neighbor 2000:AAAA:401::2 remote-as 2042
  neighbor 52.0.56.98 remote-as 2042
-
- neighbor 2000:AAAA::9 remote-as 520
- neighbor 52.0.56.9 remote-as 520
- neighbor 2000:AAAA::2 remote-as 520
- neighbor 52.0.56.2 remote-as 520
 
 
  !
  address-family ipv4
- neighbor 52.0.56.9 activate
- neighbor 52.0.56.2 activate
-
-  neighbor 52.0.56.25 activate
+ no neighbor 52.0.56.9 activate
+ no neighbor 52.0.56.2 activate
+ no neighbor 52.0.56.25 activate
+ 
+neighbor 192.168.1.23 activate
   neighbor 52.0.56.98 activate
  exit-address-family
  !
  address-family ipv6
- neighbor 2000:AAAA::9 activate
- neighbor 2000:AAAA::2 activate
+no neighbor 2000:AAAA::9 activate
+no neighbor 2000:AAAA::2 activate
+no neighbor 2000:AAAA::19 activate
 
-  neighbor 2000:AAAA::19 activate
+ neighbor 2000:AAAA::23 activate
   neighbor 2000:AAAA:401::2 activate
  exit-address-family
 
@@ -38,3 +59,8 @@ router bgp 520
   network 2000:AAAA::18/126
   network 2000:AAAA:402::/64
   network 2000:AAAA:401::/64
+
+
+
+sho ip bgp summ
+sho bgp ipv6 summ

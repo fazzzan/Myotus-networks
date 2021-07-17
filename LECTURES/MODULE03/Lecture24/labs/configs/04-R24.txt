@@ -1,45 +1,76 @@
+### Немного изменим ISIS и Инициируем ISIS на Lo11
+interface Loopback11
+ ip address 192.168.1.24 255.255.255.255
+ ipv6 address 2000:AAAA::24/128
+ no shut
+
+router isis 0024
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/3
+ passive-int lo11
+exit
+
+
+### Заменим принципы eBGB на iBGP для AS 520, сделаем R23 RR
 router bgp 520
  no bgp default ipv4-unicast
+ no neighbor 2000:AAAA::1 remote-as 520
+ no neighbor 52.0.56.1 remote-as 520
+ no neighbor 2000:AAAA::a remote-as 520
+ no neighbor 52.0.56.10 remote-as 520
+ no neighbor 2000:AAAA::1a remote-as 520
+ no neighbor 52.0.56.26 remote-as 520
+
+ neighbor 192.168.1.23 remote-as 520
+ neighbor 192.168.1.23 update-source Loopback11
+ neighbor 2000:AAAA::23 remote-as 520
+ neighbor 2000:AAAA::23 update-source Loopback11
+
  neighbor 2000:AAAA:1:2::2 remote-as 301
  neighbor 52.0.56.70 remote-as 301
  neighbor 2000:AAAA:400::2 remote-as 2042
  neighbor 52.0.56.94 remote-as 2042
- neighbor 2000:AAAA::1 remote-as 520
- neighbor 52.0.56.1 remote-as 520
-
- neighbor 2000:AAAA::a remote-as 520
- neighbor 52.0.56.10 remote-as 520
- neighbor 2000:AAAA::1a remote-as 520
- neighbor 52.0.56.26 remote-as 520
-
 
  !
  address-family ipv4
- neighbor 52.0.56.10 activate
- neighbor 52.0.56.26 activate
+no neighbor 52.0.56.1 activate
+no neighbor 52.0.56.10 activate
+no neighbor 52.0.56.26 activate
 
-  neighbor 52.0.56.70 activate
-  neighbor 52.0.56.1 activate
-  neighbor 52.0.56.94 activate
+ neighbor 192.168.1.23 activate
+
+ neighbor 52.0.56.70 activate
+ neighbor 52.0.56.94 activate
  exit-address-family
  !
  address-family ipv6
-neighbor 2000:AAAA::a activate
- neighbor 2000:AAAA::1a activate
+no neighbor 2000:AAAA::1 activate
+no neighbor 2000:AAAA::a activate
+no neighbor 2000:AAAA::1a activate
+ neighbor 2000:AAAA::23 activate
 
-  neighbor 2000:AAAA:1:2::2 activate
-  neighbor 2000:AAAA::1 activate
-  neighbor 2000:AAAA:400::2 activate
- exit-address-family
+
+ neighbor 2000:AAAA:1:2::2 activate
+ neighbor 2000:AAAA:400::2 activate
+exit-address-family
 
 router bgp 520
  address-family ipv4
   network 52.0.56.68 mask 255.255.255.252
   network 52.0.56.0 mask 255.255.255.248
   network 52.0.56.92 mask 255.255.255.252
-
- 
+ exit-address-family
+ !
  address-family ipv6
   network 2000:AAAA:1:2::/64
   network 2000:AAAA::/126
   network 2000:AAAA:400::/126
+ exit-address-family
+ !
+
+
+
+
+
+sho ip bgp summ
+sho bgp ipv6 summ
