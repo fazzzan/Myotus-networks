@@ -53,4 +53,4 @@ Cодержимое
 
 - [Module 08](ModuleXX/LectureYY/README.MD) - 
 
-[ALL_LABS.drawio](ALL_LABS.drawio) - файл со ссылками на все лабы
+[ALL_LABS_WEB.drawio](ALL_LABS_WEB.drawio) - файл со ссылками на все лабы
