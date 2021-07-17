@@ -1,0 +1,40 @@
+router bgp 520
+ no bgp default ipv4-unicast
+ neighbor 2000:AAAA::19 remote-as 520
+ neighbor 52.0.56.25 remote-as 520
+ neighbor 2000:AAAA:401::2 remote-as 2042
+ neighbor 52.0.56.98 remote-as 2042
+
+ neighbor 2000:AAAA::9 remote-as 520
+ neighbor 52.0.56.9 remote-as 520
+ neighbor 2000:AAAA::2 remote-as 520
+ neighbor 52.0.56.2 remote-as 520
+
+
+ !
+ address-family ipv4
+ neighbor 52.0.56.9 activate
+ neighbor 52.0.56.2 activate
+
+  neighbor 52.0.56.25 activate
+  neighbor 52.0.56.98 activate
+ exit-address-family
+ !
+ address-family ipv6
+ neighbor 2000:AAAA::9 activate
+ neighbor 2000:AAAA::2 activate
+
+  neighbor 2000:AAAA::19 activate
+  neighbor 2000:AAAA:401::2 activate
+ exit-address-family
+
+
+router bgp 520
+ address-family ipv4
+  network 52.0.56.24 mask 255.255.255.248
+  network 52.0.56.100 mask 255.255.255.252
+  network 52.0.56.96 mask 255.255.255.252
+ address-family ipv6
+  network 2000:AAAA::18/126
+  network 2000:AAAA:402::/64
+  network 2000:AAAA:401::/64

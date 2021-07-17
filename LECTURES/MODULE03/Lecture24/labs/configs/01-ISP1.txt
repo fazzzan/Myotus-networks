@@ -1,0 +1,31 @@
+router bgp 101
+ bgp router-id 10.0.1.1
+ no bgp default ipv4-unicast
+ neighbor 2000:AAAB:400::2 remote-as 1001
+ neighbor 100.1.1.98 remote-as 1001
+ neighbor 2000:AAAB:1:1::2 remote-as 301
+ neighbor 100.1.1.66 remote-as 301
+ neighbor 2000:AAAA:1:1::1 remote-as 520
+ neighbor 52.0.56.65 remote-as 520
+ !
+ address-family ipv4
+  neighbor 100.1.1.98 activate
+  neighbor 100.1.1.66 activate
+  neighbor 52.0.56.65 activate
+ exit-address-family
+ !
+ address-family ipv6
+  neighbor 2000:AAAB:400::2 activate
+  neighbor 2000:AAAB:1:1::2 activate
+  neighbor 2000:AAAA:1:1::1 activate
+ exit-address-family
+
+router bgp 101
+ address-family ipv4
+  network 100.1.1.96 mask 255.255.255.252
+  network 100.1.1.64 mask 255.255.255.252
+  network 52.0.56.64 mask 255.255.255.252
+ address-family ipv6
+  network 2000:AAAB:400::/64
+  network 2000:AAAB:1:1::/64
+  network 2000:AAAA:1:1::/64

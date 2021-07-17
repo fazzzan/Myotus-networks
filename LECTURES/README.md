@@ -52,3 +52,5 @@ Cодержимое
 Модуль 5- Проектный модуль
 
 - [Module 08](ModuleXX/LectureYY/README.MD) - 
+
+[ALL_LABS.drawio](ALL_LABS.drawio) - файл со ссылками на все лабы

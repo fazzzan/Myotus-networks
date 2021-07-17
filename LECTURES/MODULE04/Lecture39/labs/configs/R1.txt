@@ -14,11 +14,13 @@ no ipv6 cef
 interface Ethernet0/0
  ip address 10.0.0.1 255.255.255.0
  ip mtu 1300
+ ip ospf mtu-ignore
  no shutdown
 !
 interface Ethernet0/1
  ip address 20.0.0.1 255.255.255.0
  ip mtu 1300
+ ip ospf mtu-ignore
  no shutdown
 !
 interface Ethernet0/2
@@ -35,6 +37,40 @@ router ospf 1
  network 192.168.1.0 0.0.0.255 area 0
 !
 ip forward-protocol nd
+
+### OSPF
+router ospf 1
+ router-id 1.1.1.1
+ passive-interface default
+ no passive-interface Ethernet0/0
+ no passive-interface Ethernet0/1
+
+### Активируем OSPF на IF
+interface Ethernet0/0
+ ip ospf 1 area 0
+ exit
+interface Ethernet0/1
+ ip ospf 1 area 0
+ exit
+interface Ethernet0/2
+ ip ospf 1 area 0
+ exit
+
+### iBGP
+int lo 0
+ip add 1.1.1.1 255.255.255.255
+ ip ospf 1 area 0
+ exit
+
+router bgp 1175
+no neighbor 3.3.3.3 remote-as 1175
+no neighbor 3.3.3.3 update-source Loopback0
+no neighbor 2.2.2.2 remote-as 1175
+no neighbor 2.2.2.2 update-source Loopback0
+neighbor 6.6.6.6 remote-as 1175
+neighbor 6.6.6.6 update-source Loopback0
+
+
 
 ### 14. VPC11 получает IP адрес через DHCP сервер с R1
 ip dhcp excluded-address 192.168.1.1 192.168.1.10
