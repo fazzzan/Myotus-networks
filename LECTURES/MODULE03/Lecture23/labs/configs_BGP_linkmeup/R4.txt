@@ -1,0 +1,197 @@
+
+host msk-arbat-gw
+no ip domain lookup
+ipv6 unicast-routing
+
+interface Loopback0
+ ip address 44.0.0.4 255.255.255.255
+ ipv6 add 2001::4/128
+ no shut
+
+interface Loopback1
+    ip address 2.4.0.4 255.255.255.0
+ ipv6 add 2001:2:4:0::4/64
+ no shut
+interface Loopback2
+    ip address 2.4.1.4 255.255.255.0
+ ipv6 add 2001:2:4:1::4/64
+ no shut
+interface Loopback3
+    ip address 2.4.2.4 255.255.255.0
+ ipv6 add 2001:2:4:2::4/64
+ no shut
+!
+interface GigabitEthernet0/1
+          ip address 101.24.0.4 255.255.255.0
+ ipv6 address 2001:0:101:24::4/64
+ duplex full
+ no media-type rj45
+ no shutdown
+!
+interface GigabitEthernet0/0
+          ip address 101.34.0.4 255.255.255.0
+ ipv6 address 2001:0:101:34::4/64
+ duplex full
+ no media-type rj45
+ no shutdown
+!
+
+
+router bgp 64504
+ bgp router-id 4.4.4.4
+ no bgp default ipv4-unicast
+
+        neighbor 101.24.0.2 remote-as 64502
+ neighbor 2001:0:101:24::2 remote-as 64502
+        neighbor 101.34.0.3 remote-as 64503
+ neighbor 2001:0:101:34::3 remote-as 64503
+!
+ address-family ipv4
+  neighbor 101.24.0.2 activate
+  neighbor 101.34.0.3 activate
+ exit-address-family
+!
+ address-family ipv6
+  neighbor 2001:0:101:24::2 activate
+  neighbor 2001:0:101:34::3 activate
+ exit-address-family
+
+router bgp 64504
+address-family ipv4
+ network 101.24.0.0 mask 255.255.255.0
+ network 101.34.0.0 mask 255.255.255.0
+ exit-address-family
+address-family ipv6
+ network 2001:0:101:24::/64
+ network 2001:0:101:34::/64
+exit-address-family
+
+router bgp 64504
+address-family ipv4
+ network 44.0.0.4 mask 255.255.255.255
+ network 2.4.0.0 mask 255.255.255.0
+ network 2.4.1.0 mask 255.255.255.0
+ network 2.4.2.0 mask 255.255.255.0
+exit-address-family
+!
+address-family ipv6
+ network 2001::4/128
+ network 2001:2:4:0::0/64
+ network 2001:2:4:1::0/64
+ network 2001:2:4:2::0/64
+exit-address-family
+
+
+### Добавление маршрута в подсеть, если он отсутствует
+ip route 100.0.0.0 255.255.255.0 Null 0
+router bgp 64504
+address-family ipv4
+network 100.0.0.0 mask 255.255.255.0
+exit-address-family
+
+### Запрет на анонс чужих подсетей
+configure terminal
+ip as-path access-list 10 permit ^$
+route-map ME-OUT
+ match as-path 10
+
+router bgp 64504
+ address-family ipv4
+  neighbor 101.24.0.2 route-map ME-OUT out
+  neighbor 101.34.0.3 route-map ME-OUT out
+ exit-address-family
+!
+ address-family ipv6
+  neighbor 2001:0:101:24::2 route-map ME-OUT out
+  neighbor 2001:0:101:34::3 route-map ME-OUT out
+ exit-address-family
+
+do clear ip bgp 101.24.0.2 soft out
+do clear ip bgp 101.34.0.3 soft out
+do clear ip bgp 2001:0:101:24::2 soft out
+do clear ip bgp 2001:0:101:34::3 soft out
+
+### Запрет приема локальных маршрутов зародившихся в connected AS
+ip as-path access-list 123 deny ^64502$
+ip as-path access-list 123 deny ^64503$
+ip as-path access-list 123 permit .*
+
+router bgp 64504
+ address-family ipv4
+  neighbor 101.24.0.2 filter-list 100 in
+  neighbor 101.34.0.3 filter-list 100 in
+ exit-address-family
+ address-family ipv6
+  neighbor 2001:0:101:24::2 filter-list 100 in
+  neighbor 2001:0:101:34::3 filter-list 100 in
+ exit-address-family
+
+### Задание дефолтного пути через Local Preference
+ip prefix-list LEFT_IN seq 5 permit 101.12.0.0/24
+ipv6 prefix-list LEFT_IN_v6 seq 5 permit 2001:0:101:12::/64
+
+
+ip prefix-list RIGHT_IN seq 5 permit 101.13.0.0/24
+ipv6 prefix-list RIGHT_IN_v6 seq 5 permit 2001:0:101:13::/64
+
+route-map ISP1_IN permit 10
+match ip address prefix-list LEFT_IN
+set local-preference 50
+route-map ISP1_IN permit 20
+set local-preference 100
+exit
+
+route-map ISP1_IN_v6 permit 10
+match ipv6 address prefix-list LEFT_IN_v6
+set local-preference 50
+route-map ISP1_IN_v6 permit 20
+set local-preference 100
+exit
+
+
+route-map ISP2_IN permit 10
+match ip address prefix-list RIGHT_IN
+set local-preference 50
+route-map ISP2_IN permit 20
+set local-preference 100
+exit
+
+route-map ISP2_IN_v6 permit 10
+match ipv6 address prefix-list RIGHT_IN_v6
+set local-preference 50
+route-map ISP2_IN_v6 permit 20
+set local-preference 100
+exit
+
+
+router bgp 64504
+ address-family ipv4
+  neighbor 101.24.0.2 route-map ISP2_IN in
+  neighbor 101.34.0.3 route-map ISP1_IN in
+ exit-address-family
+ address-family ipv6
+  neighbor 2001:0:101:24::2 route-map ISP2_IN_v6 in
+  neighbor 2001:0:101:34::3 route-map ISP1_IN_v6 in
+ exit-address-family
+
+
+### Просмотр соседей
+do sho ip bgp nei | in neighbor is| state
+sho ip bgp summ
+sho bgp ipv6 summ
+
+### Информация о маршрутах BGP
+do sho ip bgp
+do sho ipv6 bgp
+
+### Посмотреть таблицу до фильтров, роут мапов и так далее
+    show ip bgp neighbors 1.1.1.1 received-routes
+
+### После route-map, фильтров, префиксов и прочего:
+    show ip bgp neighbors 1.1.1.1 routes
+
+### Посмотреть до исходящих route-map, фильтров и т.п.:
+    sh ip bgp
+
+### Посмотреть после исходящих route-map, фильтров и т.п.:И после:
+    show ip bgp neighbors 1.1.1.1 advertised-routes

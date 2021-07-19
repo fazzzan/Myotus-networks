@@ -1,0 +1,94 @@
+host ISP2
+no ip domain lookup
+ipv6 unicast-routing
+
+interface Loopback0
+ ip address 33.0.0.3 255.255.255.255
+ ipv6 add 2001::3/128
+ no shut
+
+interface Loopback1
+    ip address 2.3.0.3 255.255.255.0
+ ipv6 add 2001:2:3:0::3/64
+ no shut
+interface Loopback2
+    ip address 2.3.1.3 255.255.255.0
+ ipv6 add 2001:2:3:1::3/64
+ no shut
+interface Loopback3
+    ip address 2.3.2.3 255.255.255.0
+ ipv6 add 2001:2:3:2::3/64
+ no shut
+!
+interface GigabitEthernet0/0
+          ip address 101.34.0.3 255.255.255.0
+ ipv6 address 2001:0:101:34::3/64
+ duplex full
+ no media-type rj45
+ no shutdown
+!
+interface GigabitEthernet0/1
+          ip address 101.13.0.3 255.255.255.0
+ ipv6 address 2001:0:101:13::3/64
+ duplex full
+ no media-type rj45
+ no shutdown
+
+interface GigabitEthernet0/2
+          ip address 101.23.0.3 255.255.255.0
+ ipv6 address 2001:0:101:23::3/64
+ duplex full
+ no media-type rj45
+ no shutdown
+
+
+router bgp 64503
+ bgp router-id 3.3.3.3
+ no bgp default ipv4-unicast
+
+        neighbor 101.13.0.1 remote-as 64501
+ neighbor 2001:0:101:13::1 remote-as 64501
+        neighbor 101.23.0.2 remote-as 64502
+ neighbor 2001:0:101:23::2 remote-as 64502
+        neighbor 101.34.0.4 remote-as 64504
+ neighbor 2001:0:101:34::4 remote-as 64504
+!
+ address-family ipv4
+  neighbor 101.13.0.1 activate
+  neighbor 101.23.0.2 activate
+  neighbor 101.34.0.4 activate
+ exit-address-family
+!
+ address-family ipv6
+  neighbor 2001:0:101:13::1 activate
+  neighbor 2001:0:101:23::2 activate
+  neighbor 2001:0:101:34::4 activate
+ exit-address-family
+
+router bgp 64503
+address-family ipv4
+ network 101.13.0.0 mask 255.255.255.0
+ network 101.23.0.0 mask 255.255.255.0
+ network 101.34.0.0 mask 255.255.255.0
+exit-address-family
+!
+address-family ipv6
+ network 2001:0:101:13::0/64
+ network 2001:0:101:23::/64
+ network 2001:0:101:34::0/64
+exit-address-family
+
+router bgp 64503
+address-family ipv4
+ network 33.0.0.3 mask 255.255.255.255
+ network 2.3.0.0 mask 255.255.255.0
+ network 2.3.1.0 mask 255.255.255.0
+ network 2.3.2.0 mask 255.255.255.0
+exit-address-family
+!
+address-family ipv6
+ network 2001::3/128
+ network 2001:2:3:0::0/64
+ network 2001:2:3:1::0/64
+ network 2001:2:3:2::0/64
+exit-address-family

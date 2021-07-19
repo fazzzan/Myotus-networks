@@ -33,6 +33,9 @@ ipv6 router ospf 1
  default-information originate
 
 
+router bgp 1001
+no bgp default local-preference 200
+
 sho ip bgp summ
 sho bgp ipv6 summ
 

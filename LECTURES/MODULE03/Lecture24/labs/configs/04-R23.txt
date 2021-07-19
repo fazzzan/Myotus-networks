@@ -35,7 +35,6 @@ neighbor 2000:AAAA::24 peer-group RRC_520_v6
 neighbor 2000:AAAA::25 peer-group RRC_520_v6
 neighbor 2000:AAAA::26 peer-group RRC_520_v6
 
-
 neighbor 2000:AAAA:1:1::2 remote-as 101
 neighbor 52.0.56.66 remote-as 101
 

@@ -1,0 +1,87 @@
+host COD
+no ip domain lookup
+ipv6 unicast-routing
+
+interface Loopback0
+ ip address 11.0.0.1 255.255.255.255
+ ipv6 add 2001::1/128
+ no shut
+
+interface Loopback1
+    ip address 2.1.0.1 255.255.255.0
+ ipv6 add 2001:2:1:0::1/64
+ no shut
+interface Loopback2
+    ip address 2.1.1.1 255.255.255.0
+ ipv6 add 2001:2:1:1::1/64
+ no shut
+interface Loopback3
+    ip address 2.1.2.1 255.255.255.0
+ ipv6 add 2001:2:1:2::1/64
+ no shut
+!
+interface GigabitEthernet0/0
+          ip address 101.12.0.1 255.255.255.0
+ ipv6 address 2001:0:101:12::1/64
+ duplex full
+ no media-type rj45
+ no shutdown
+!
+interface GigabitEthernet0/1
+          ip address 101.13.0.1 255.255.255.0
+ ipv6 address 2001:0:101:13::1/64
+ duplex full
+ no media-type rj45
+ no shutdown
+
+router bgp 64501
+ bgp router-id 1.1.1.1
+ no bgp default ipv4-unicast
+
+        neighbor 101.12.0.2 remote-as 64502
+ neighbor 2001:0:101:12::2 remote-as 64502
+        neighbor 101.13.0.3 remote-as 64503
+ neighbor 2001:0:101:13::3 remote-as 64503
+!
+ address-family ipv4
+  neighbor 101.12.0.2 activate
+  neighbor 101.13.0.3 activate
+ exit-address-family
+!
+ address-family ipv6
+  neighbor 2001:0:101:12::2 activate
+  neighbor 2001:0:101:13::3 activate
+ exit-address-family
+
+
+router bgp 64501
+address-family ipv4
+ network 101.12.0.0 mask 255.255.255.0
+ network 101.13.0.0 mask 255.255.255.0
+
+exit-address-family
+!
+address-family ipv6
+ network 2001:0:101:12::0/64
+ network 2001:0:101:13::0/64
+exit-address-family
+
+
+router bgp 64501
+address-family ipv4
+ network 11.0.0.1 mask 255.255.255.255
+ network 2.1.1.0 mask 255.255.255.0
+ network 2.1.1.0 mask 255.255.255.0
+ network 2.1.2.0 mask 255.255.255.0
+
+exit-address-family
+!
+address-family ipv6
+ network 2001::1/128
+ network 2001:2:1:0::0/64
+ network 2001:2:1:1::0/64
+ network 2001:2:1:2::0/64
+exit-address-family
+
+
+
