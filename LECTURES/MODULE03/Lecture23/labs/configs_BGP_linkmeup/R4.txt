@@ -141,18 +141,17 @@ route-map ISP1_IN permit 20
 set local-preference 100
 exit
 
-route-map ISP1_IN_v6 permit 10
-match ipv6 address prefix-list LEFT_IN_v6
-set local-preference 50
-route-map ISP1_IN_v6 permit 20
-set local-preference 100
-exit
-
-
 route-map ISP2_IN permit 10
 match ip address prefix-list RIGHT_IN
 set local-preference 50
 route-map ISP2_IN permit 20
+set local-preference 100
+exit
+
+route-map ISP1_IN_v6 permit 10
+match ipv6 address prefix-list LEFT_IN_v6
+set local-preference 50
+route-map ISP1_IN_v6 permit 20
 set local-preference 100
 exit
 

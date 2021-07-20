@@ -1,24 +1,36 @@
+### Инициируем Lo11, вбрасываем его в OSPF
+interface Loopback11
+ ip address 172.17.0.17 255.255.255.248
+ ipv6 address 2000:AAAD:1:102::1/64
+ no shut
+interface Lo11
+ ip ospf 1 area 0
+ ipv6 ospf 1 area 0
+
+###Добавляем/удаляем забытое
+ipv6 router ospf 1
+ default-information originate
+
+no ip route 0.0.0.0 0.0.0.0 100.1.1.97
+
 ### Дополняем BGP настройками iBGP
 router bgp 1001
- neighbor 2000:AAAD:1:101::1 remote-as 1001
- neighbor 172.17.0.9 remote-as 1001
-
+ neighbor 2000:AAAD:1:103::1 remote-as 1001
+ neighbor 172.17.0.25 remote-as 1001
  !
  address-family ipv4
-  neighbor 172.17.0.9 activate
+  neighbor 172.17.0.25 activate
+  neighbor 172.17.0.25 update-source Loopback11
  exit-address-family
  !
  address-family ipv6
-  neighbor 2000:AAAD:1:101::1 activate
+  neighbor 2000:AAAD:1:103::1 activate
+  neighbor 2000:AAAD:1:103::1 update-source Loopback11
  exit-address-family
 
 
-### Инициируем AS1001 на Lo11
-interface Loopback11
- ip address 35.10.10.1 255.255.255.0
- ipv6 address 2000:AAAD:1:102::1/64
- no shut
-
+### Добавляем WAN перефиксы AS1001
+ip route 35.10.10.0 255.255.255.0 null0
 ipv6 route 2000:AAAD:1::/48 null0
 
 router bgp 1001
@@ -27,14 +39,63 @@ router bgp 1001
  address-family ipv4
   network 35.10.10.0 mask 255.255.255.0
 
-ipv6 route ::/0 Gi0/1
+### Боремся со всеми влетающими от ISP маршрутами
+no ip prefix-list DEFAULT-IN-PERMIT seq 5 permit 0.0.0.0/0
+no ipv6 prefix-list DEFAULT-IN-PERMIT-V6 seq 5 permit ::/0
+router bgp 1001
+ address-family ipv4
+  no neighbor 100.1.1.97 prefix-list DEFAULT-IN-PERMIT in 
+ exit-address-family
+ address-family ipv6
+  no neighbor 2000:AAAB:400::1 prefix-list DEFAULT-IN-PERMIT-V6 in
+ exit-address-family
 
-ipv6 router ospf 1
- default-information originate
+### Настраиваем default 
+### префиксы от AS101
+no ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
+no ipv6 prefix-list DEFAULT-ONLY-V6 seq 20 deny ::/0 le 128
 
+ip as-path access-list 1 permit ^301$
+ip prefix-list DEFAULT-ONLY seq 10 permit 0.0.0.0/0
+ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 10 permit ::/0
+
+route-map FILTER-DEFAULT-V4 permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V4 permit 20
+ match ip address prefix-list DEFAULT-ONLY
+
+route-map FILTER-DEFAULT-V6 permit 10
+ match ipv6 address prefix-list DEFAULT-ONLY-V6
+ match as-path 1
+ set local-preference 50
+route-map FILTER-DEFAULT-V6 permit 20
+ match ip address prefix-list DEFAULT-ONLY-V6
 
 router bgp 1001
-no bgp default local-preference 200
+ address-family ipv4
+  neighbor 100.1.1.97 route-map FILTER-DEFAULT-V4 in
+ exit-address-family
+ address-family ipv6
+  no neighbor 2000:AAAB:400::1 route-map FILTER-DEFAULT-V6 in
+ exit-address-family
+
+### Боремся с петлей маршрутизации ipv6 возникшей вследствии вброса маршрута AS1001 на Lo11
+ipv6 prefix-list RIGHT_IN_v6 seq 5 permit 2000:AAAD:1:103::/64 
+
+route-map EDGE2_IN_v6 permit 10
+match ipv6 address prefix-list RIGHT_IN_v6
+set local-preference 50
+route-map EDGE2_IN_v6 permit 20
+set local-preference 100
+exit
+
+router bgp 1001
+ address-family ipv6
+  neighbor 2000:AAAD:1:103::1 route-map EDGE2_IN_v6 in
+ exit-address-family
 
 sho ip bgp summ
 sho bgp ipv6 summ
