@@ -76,6 +76,8 @@ neigh <ip> update-source lo0
 
 ## Route Reflector ##
 
+СМ конфиг R23 [04-R23](/LECTURES/MODULE03/Lecture24/labs/configs/04-R23.txt)
+
 ![](pictures/16.jpg)
 
 ![](pictures/17.jpg)

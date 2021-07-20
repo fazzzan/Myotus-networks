@@ -1,3 +1,5 @@
+посмотреть: https://blog.dtulyakov.ru/2015/06/url-cisco-ios.html
+
 ![](pictures/01.jpg)
 ![](pictures/02.jpg)
 

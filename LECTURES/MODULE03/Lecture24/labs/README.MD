@@ -26,6 +26,41 @@ Cхема сети ipv4, ipv6
 
 ##  Задание 1
 
+Настройка симметричная для обоих EDGE:
+```
+### Инициируем Lo11, вбрасываем его в OSPF
+interface Loopback11
+ ip address 172.17.0.25 255.255.255.248
+ ipv6 address 2000:AAAD:1:103::1/64
+ no shut
+interface Lo11
+ ip ospf 1 area 0
+ ipv6 ospf 1 area 0
+
+###Добавляем забытое
+ipv6 router ospf 1
+ default-information originate
+
+### Дополняем BGP настройками iBGP
+router bgp 1001
+ neighbor 2000:AAAD:1:102::1 remote-as 1001
+ neighbor 172.17.0.17 remote-as 1001
+ !
+ address-family ipv4
+  neighbor 172.17.0.17 activate
+  neighbor 172.17.0.17 update-source Loopback11
+ exit-address-family
+ !
+ address-family ipv6
+  neighbor 2000:AAAD:1:102::1 activate
+  neighbor 2000:AAAD:1:102::1 update-source Loopback11
+ exit-address-family
+
+```
+Соседство поднялоcь на обоих стеках IPv4 и IPv6
+![](/LECTURES/MODULE03/Lecture24/pictures/30.jpg)
+![](/LECTURES/MODULE03/Lecture24/pictures/31.jpg)
+
 ##  Задание 2
 
 В предыдущем задании в провайдере ТРИАДА был настроен eBGP, на физических IF. Пришло время это изменить. eBGP поднимем на Lo11 роутеров и назначим R23 Route-Reflector: 
@@ -204,7 +239,20 @@ router bgp 520
 
 ![](/LECTURES/MODULE03/Lecture24/pictures/28.jpg)
 
+##  Задание 3: Приоритетный провайдер Москвы - ЛИМАС
 
+Одинаково боремся со всеми влетающими от ISP маршрутами
+```
+ip prefix-list DEFAULT-IN-PERMIT seq 5 permit 0.0.0.0/0
+ipv6 prefix-list DEFAULT-IN-PERMIT-V6 seq 5 permit ::/0
+router bgp 1001
+ address-family ipv4
+  neighbor 30.1.35.97 prefix-list DEFAULT-IN-PERMIT in 
+ exit-address-family
+ address-family ipv6
+  neighbor 2000:AAAC:400::1 prefix-list DEFAULT-IN-PERMIT-V6 in
+ exit-address-family
+```
 
 ##  Задание 5: Настроен iBGP внутри ISP Триада 
 
@@ -259,19 +307,19 @@ router bgp 520
 Настройки оборудования представлены по соответствующим ссылкам ниже как для ipv4, так и для ipv6.
 
 - Киторн (01):
-   - [01-ISP1](/LECTURES/MODULE03/Lecture23/labs/configs/01-ISP1.txt)
+   - [01-ISP1](/LECTURES/MODULE03/Lecture24/labs/configs/01-ISP1.txt)
 - Лимас (02):
-   - [02-ISP2](/LECTURES/MODULE03/Lecture23/labs/configs/02-ISP2.txt)
+   - [02-ISP2](/LECTURES/MODULE03/Lecture24/labs/configs/02-ISP2.txt)
 - Триада (04): 
-   - [04-R23](/LECTURES/MODULE03/Lecture23/labs/configs/04-R23.txt)
-   - [04-R24](/LECTURES/MODULE03/Lecture23/labs/configs/04-R24.txt)
-   - [04-R25](/LECTURES/MODULE03/Lecture23/labs/configs/04-R25.txt)
-   - [04-R26](/LECTURES/MODULE03/Lecture23/labs/configs/04-R26.txt)
+   - [04-R23](/LECTURES/MODULE03/Lecture24/labs/configs/04-R23.txt)
+   - [04-R24](/LECTURES/MODULE03/Lecture24/labs/configs/04-R24.txt)
+   - [04-R25](/LECTURES/MODULE03/Lecture24/labs/configs/04-R25.txt)
+   - [04-R26](/LECTURES/MODULE03/Lecture24/labs/configs/04-R26.txt)
 - Москва (03)
    - EDGE: 
-      - [03-01-EDGE1](/LECTURES/MODULE03/Lecture23/labs/configs/03-01-EDGE1.txt)
-      - [03-01-EDGE2](/LECTURES/MODULE03/Lecture23/labs/configs/03-01-EDGE2.txt)
+      - [03-01-EDGE1](/LECTURES/MODULE03/Lecture24/labs/configs/03-01-EDGE1.txt)
+      - [03-01-EDGE2](/LECTURES/MODULE03/Lecture24/labs/configs/03-01-EDGE2.txt)
 - СПб (05)
    - EDGE
-      - [05-01-EDGE-R31](/LECTURES/MODULE03/Lecture23/labs/configs/05-1-EDGE-R31.txt)
+      - [05-01-EDGE-R31](/LECTURES/MODULE03/Lecture24/labs/configs/05-1-EDGE-R31.txt)
 
