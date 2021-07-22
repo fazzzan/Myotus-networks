@@ -1,59 +1,61 @@
-hostname DSWWAN2
+hostname DSWWAN16
 !
 no ip domain lookup
 ipv6 unicast-routing
 !
-no ip domain lookup
 interface Loopback10
- ip address 10.0.3.22 255.255.255.0
+ ip address 10.0.5.21 255.255.255.0
  no shut
 !
+vlan 120
+name ###ISP2###
+exit
+!
 interface GigabitEthernet0/0
- switchport access vlan 120
  switchport mode access
+ switchport access vlan 120
  no negotiation auto
  duplex full
  no shutdown
 !
 interface GigabitEthernet0/1
- switchport access vlan 120
  switchport mode access
+ switchport access vlan 120
  no negotiation auto
  duplex full
  no shutdown
 !
 interface GigabitEthernet0/2
  no switchport
- ip address 172.17.0.10 255.255.255.248
- ipv6 address 2000:AAAD:1:101::2/64
+ ip address 172.18.0.10 255.255.255.248
+ ipv6 address 2000:AAAd:2:101::2/64
  no negotiation auto
  duplex full
  no shutdown
 !
 interface GigabitEthernet0/3
  no switchport
- ip address 172.17.0.202 255.255.255.248
- ipv6 address 2000:AAAD:1:131::2/64
+ ip address 172.18.0.26 255.255.255.248
+ ipv6 address 2000:AAAd:2:103::2/64
  no negotiation auto
  duplex full
  no shutdown
 !
 interface GigabitEthernet2/0
  no switchport
- ip address 172.17.0.73 255.255.255.248
- ipv6 address 2000:AAAD:1:113::1/64
+ ip address 172.18.0.73 255.255.255.248
+ ipv6 address 2000:AAAd:2:109::1/64
  no negotiation auto
  duplex full
  no shutdown
 !
 interface GigabitEthernet2/1
  no switchport
- ip address 172.17.0.81 255.255.255.248
- ipv6 address 2000:AAAD:1:114::1/64
+ ip address 172.18.0.81 255.255.255.248
+ ipv6 address 2000:AAAd:2:10a::1/64
  no negotiation auto
  duplex full
  no shutdown
-exit
 !
 interface ra Gi1/0 - 1
  no switchport
@@ -62,11 +64,9 @@ exit
 !
 interface Port-channel1
  no switchport
- ip address 172.17.0.50 255.255.255.248
- ipv6 address 2000:AAAD:1:110::2/64
- ipv6 address FE80::E73:1FFF:FE56:222 link-local
+ ip address 172.18.0.50 255.255.255.248
+ ipv6 address 2000:AAAd:2:106::2/64
  no shutdown
-!
 !
 do wr mem
 !

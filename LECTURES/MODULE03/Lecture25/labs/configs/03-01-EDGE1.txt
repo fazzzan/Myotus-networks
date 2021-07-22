@@ -53,3 +53,16 @@ router bgp 1001
 
 - отфильтровать маршрут по-умолчанию от OSPF
 - поднять  BGP DSWAN1,2
+
+### Слегка отравим путь до AS1001 слева, чтбы сделать маршрут в AS симметричным
+
+route-map AS-1001 permit 10
+ set as-path prepend 1001 1001
+
+router bgp 1001
+ address-family ipv4
+  neighbor 100.1.1.97 route-map AS-1001 out
+ exit-address-family
+ address-family ipv6
+  neighbor 2000:AAAB:400::1 route-map AS-1001 out
+ exit-address-family

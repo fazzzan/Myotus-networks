@@ -1,0 +1,13 @@
+###интерфейса-источника ntp server 10.0.3.31, 32
+
+clock timezone MSK 3
+ntp server 10.0.3.31
+ntp server 10.0.3.31
+
+show clock
+
+show calendar
+
+show ntp status
+
+show ntp associations

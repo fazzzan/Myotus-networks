@@ -1,0 +1,26 @@
+### Настройка PAT
+!
+interface GigabitEthernet0/0
+ ip nat outside
+!
+interface GigabitEthernet0/2
+ ip nat outside
+!
+interface GigabitEthernet0/1
+ ip nat inside
+!
+interface GigabitEthernet0/3
+ ip nat inside
+!
+no ip nat inside source route-map ISP1 interface GigabitEthernet0/0 overload
+no ip nat inside source route-map ISP2 interface GigabitEthernet0/2 overload
+!
+ip access-list extended INSIDE
+ permit ip 172.18.64.0 0.0.0.255 any
+ permit ip 172.18.65.0 0.0.0.255 any
+
+
+ip nat pool AS2042 50.50.96.10 50.50.96.15 netmask 255.255.255.0
+
+
+ip nat inside source list INSIDE pool AS2042

@@ -6,7 +6,7 @@ router ospf 1
  no passive-interface GigabitEthernet0/3
  no passive-interface GigabitEthernet2/0
  no passive-interface GigabitEthernet2/1
- no passive-interface GigabitEthernet1/0
+ no passive-interface P01
 
 ### Активируем OSPF на IF
 interface GigabitEthernet0/2
@@ -21,7 +21,7 @@ interface GigabitEthernet2/0
 interface GigabitEthernet2/1
  ip ospf 1 area 0
  exit
-interface GigabitEthernet1/0
+interface Po1
  ip ospf 1 area 0
  exit
 
@@ -38,6 +38,11 @@ sho ip ospf int gi 0/2
 ### Включаем OSPFv3, назнчаем RID
 ipv6 router ospf 1
 router-id 1.1.1.2
+ no passive-interface GigabitEthernet0/2
+ no passive-interface GigabitEthernet0/3
+ no passive-interface GigabitEthernet2/0
+ no passive-interface GigabitEthernet2/1
+ no passive-interface Port-channel1
 exit
 
 
@@ -54,7 +59,7 @@ interface GigabitEthernet2/0
 interface GigabitEthernet2/1
  ipv6 ospf 1 area 0
  exit
-interface GigabitEthernet1/0
+interface Po1
  ipv6 ospf 1 area 0
  exit
 
