@@ -136,7 +136,7 @@ router bgp 101
 
 До настройки
 
-![](/LECTURES/MODULE03/Lecture24/pictures/36.jpg)
+![](/LECTURES/MODULE03/Lecture25/pictures/34.jpg)
 
 Настройку выполняем как на ISP, так и вносим изменения в настройку EDGE2
 
