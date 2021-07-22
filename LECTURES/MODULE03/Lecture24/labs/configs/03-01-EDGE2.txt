@@ -39,21 +39,11 @@ router bgp 1001
  address-family ipv4
   network 35.10.10.0 mask 255.255.255.0
 
-### Боремся со всеми влетающими от ISP маршрутами
-ip prefix-list DEFAULT-IN-PERMIT seq 5 permit 0.0.0.0/0
-ipv6 prefix-list DEFAULT-IN-PERMIT-V6 seq 5 permit ::/0
-
-router bgp 1001
- address-family ipv4
-  neighbor 30.1.35.97 prefix-list DEFAULT-IN-PERMIT in 
- exit-address-family
- address-family ipv6
-  neighbor 2000:AAAC:400::1 prefix-list DEFAULT-IN-PERMIT-V6 in
- exit-address-family
-
 ### Настраиваем default 
-### префиксы от AS301
+#### Ловим префиксы от AS301
+
 ip as-path access-list 1 permit ^301$
+
 ip prefix-list DEFAULT-ONLY seq 10 permit 0.0.0.0/0
 ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
 
@@ -76,14 +66,40 @@ route-map FILTER-DEFAULT-V6 permit 20
 
 router bgp 1001
  address-family ipv4
+  neighbor 30.1.35.97 prefix-list DEFAULT-ONLY in
   neighbor 30.1.35.97 route-map FILTER-DEFAULT-V4 in
  exit-address-family
  address-family ipv6
+  neighbor 2000:AAAC:400::1 prefix-list DEFAULT-ONLY-V6 in
   neighbor 2000:AAAC:400::1 route-map FILTER-DEFAULT-V6 in
  exit-address-family
 
+### заставить EDGE больше доверять iBGP, чем OSPF
+router bgp 1001
+  address-family ipv4
+   distance bgp 20 50 110
+ exit-address-family
+ !
+ address-family ipv6  
+   distance bgp 20 50 110
+ exit-address-family
 
-### Боремся с петлей маршрутизации ipv6 возникшей вследствии вброса маршрута AS1001 на Lo11
+
+### Боремся со всеми влетающими от ISP маршрутами
+ip prefix-list DEFAULT-IN-PERMIT seq 5 permit 0.0.0.0/0
+ipv6 prefix-list DEFAULT-IN-PERMIT-V6 seq 5 permit ::/0
+
+router bgp 1001
+ address-family ipv4
+  neighbor 30.1.35.97 prefix-list DEFAULT-IN-PERMIT in 
+ exit-address-family
+ address-family ipv6
+  neighbor 2000:AAAC:400::1 prefix-list DEFAULT-IN-PERMIT-V6 in
+ exit-address-family
+
+
+
+### это информация на подумать: Боремся с петлей маршрутизации ipv6 возникшей вследствии вброса маршрута AS1001 на Lo11
 ipv6 prefix-list LEFT_IN_v6 seq 5 permit 2000:AAAD:1:102::/64 
 
 route-map EDGE1_IN_v6 permit 10

@@ -1,25 +1,232 @@
-router bgp 2042
- no bgp default ipv4-unicast
- neighbor 2000:AAAA:400::1 remote-as 520
- neighbor 52.0.56.93 remote-as 520
- neighbor 2000:AAAA:401::1 remote-as 520
- neighbor 52.0.56.97 remote-as 520
+### редистрибуция нулевки из BGP в NAMED EIGRP
 
+
+router eigrp NG
  !
- address-family ipv4
-  neighbor 52.0.56.93 activate
-  neighbor 52.0.56.97 activate
- exit-address-family
- !
+ address-family ipv4 unicast autonomous-system 100
+  topology base
+  redistribute bgp 2042 metric 100 1 255 1 1500
+  exit-af-topology
+ address-family ipv6 unicast autonomous-system 100 
+  topology base
+  redistribute bgp 2042 metric 100 1 255 1 1500
+  exit-af-topology
+
+
+### Машрутизатор R31 должен отправлять только маршруты по-умолчанию - пока отправляет все
+#### Создадим prefix-list для отбора нулевок IPv4 и IPv6
+
+ip prefix-list DEFAULT-ONLY seq 10 permit 0.0.0.0/0
+ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
+
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 10 permit ::/0
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 20 deny ::/0 le 128
+
+#### Укажем prefix-list в конфигурации EIGRP на маршрутизаторе для фильтрации префиксов 0.0.0.0.0 и ::/0
+router eigrp NG
+address-family ipv4 unicast autonomous-system 100
+ topology base
+  distribute-list prefix DEFAULT-ONLY out eigrp 100
+
+address-family ipv6 unicast autonomous-system 100
+ topology base
+  distribute-list prefix-list DEFAULT-ONLY-V6 out
+
+### модификация BGP
+### Добавляем WAN перефиксы AS2042
+ip route 50.50.96.0 255.255.255.0 null0
+ipv6 route 2000:AAAD:2::/48 null0
+
+router bgp 2042
  address-family ipv6
-  neighbor 2000:AAAA:400::1 activate
-  neighbor 2000:AAAA:401::1 activate
- exit-address-family
+  network 2000:AAAD:2::/48
+ address-family ipv4
+  network 50.50.96.0 mask 255.255.255.0
+
+### Боремся со всеми влетающими, кроме дефолтного, маршрутами от ISP 
+
+ip prefix-list DEFAULT-ONLY seq 10 permit 0.0.0.0/0
+ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
+
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 10 permit ::/0
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 20 deny ::/0 le 128
+
+route-map FILTER-DEFAULT-V4 permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V4 permit 20
+ match ip address prefix-list DEFAULT-ONLY
+
+route-map FILTER-DEFAULT-V6 permit 10
+ match ipv6 address prefix-list DEFAULT-ONLY-V6
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V6 permit 20
+ match ip address prefix-list DEFAULT-ONLY-V6
 
 router bgp 2042
  address-family ipv4
-  network 52.0.56.92 mask 255.255.255.252
-  network 52.0.56.96 mask 255.255.255.252
+  neighbor 52.0.56.93 prefix-list DEFAULT-ONLY in
+  neighbor 52.0.56.93 route-map FILTER-DEFAULT-V4 in
+  neighbor 52.0.56.97 prefix-list DEFAULT-ONLY in
+  neighbor 52.0.56.97 route-map FILTER-DEFAULT-V4 in
+ exit-address-family
  address-family ipv6
-  network 2000:AAAA:400::/64
-  network 2000:AAAA:401::/64
+  neighbor 2000:AAAA:400::1 prefix-list DEFAULT-ONLY-V6 in
+  neighbor 2000:AAAA:400::1 route-map FILTER-DEFAULT-V6 in
+  neighbor 2000:AAAA:401::1 prefix-list DEFAULT-ONLY-V6 in
+  neighbor 2000:AAAA:401::1 route-map FILTER-DEFAULT-V6 in
+ exit-address-family
+
+### Удаляем старые нулевки с трекингом
+no ip route 0.0.0.0 0.0.0.0 52.0.56.93 track 3
+no ip route 0.0.0.0 0.0.0.0 52.0.56.97 10
+
+### Балансировка через обоих ISP
+router bgp 2042
+ address-family ipv4
+  maximum-path 2
+ exit-address-family
+ address-family ipv6
+  maximum-path 2
+ exit-address-family
+
+
+
+
+## Трэкинг - был настроен, но теперь маршруты будут отслеживаться по BGP, поэтому надо будет после тестирования не забыть удалить SLA 
+####################################################################################
+Настройка IP SLA на переключение маршрутов, в зависимости от состояния ISP1 - R26, доступность к которому проверяем с VLAN 110
+
+ip sla 441
+ icmp-echo 8.8.4.4 source-interface GigabitEthernet0/0
+ frequency 5
+ip sla schedule 441 life forever start-time now
+ip sla 5693
+ icmp-echo 52.0.56.93 source-interface GigabitEthernet0/0
+ frequency 5
+ip sla schedule 5693 life forever start-time now
+
+###Трэкинг делаем составной, чтобы отловить как падение линкА до самого R24, так и падение его вышестоящих линкОв
+
+track 1 ip sla 441 reachability
+!
+track 2 ip sla 5693 reachability
+!
+track 3 list boolean and
+ object 1
+ object 2
+ delay down 2 up 3
+
+ip route 0.0.0.0 0.0.0.0 52.0.56.93 track 3
+ip route 0.0.0.0 0.0.0.0 52.0.56.97 10
+ip route 8.8.4.4 255.255.255.255 GigabitEthernet0/0 52.0.56.93
+
+### Настройка PBR для переключения трафика через оставшегося в живых провайдера: Добавляем отслеживание второго ISP (track6)
+
+ip sla 551
+ icmp-echo 8.8.5.5 source-interface GigabitEthernet0/2
+ frequency 5
+ip sla schedule 551 life forever start-time now
+ip sla 5697
+ icmp-echo 52.0.56.97 source-interface GigabitEthernet0/2
+ frequency 5
+ip sla schedule 5697 life forever start-time now
+!
+### добавление проверки 8.8.5.5 через ISP2 - R26
+ip route 8.8.5.5 255.255.255.255 GigabitEthernet0/2 52.0.56.97
+!
+track 4 ip sla 551 reachability
+!
+track 5 ip sla 5697 reachability
+!
+track 6 list boolean and
+ object 4
+ object 5
+ delay down 2 up 3
+!
+ 
+####################################################################################
+
+
+
+
+
+####################################################################################
+NAT - надо оставить
+### Выделяем интересующий трафик из подсетей:
+ip access-list extended VLAN61
+ permit ip 172.18.64.0 0.0.0.255 any
+ permit ip 172.18.70.0 0.0.0.63 any
+ip access-list extended VLAN62
+ permit ip 172.18.65.0 0.0.0.255 any
+ permit ip 172.18.70.64 0.0.0.63 any
+
+### Настраиваем route-map для каждого VLAN, чтобы:
+   - VLAN61-ISP1(def)-ISP2(second)
+   - VLAN71-ISP2(def)-ISP1(second)
+
+!         
+route-map PBR-ISP1 permit 10
+ match ip address VLAN61
+ set ip next-hop verify-availability 52.0.56.93 10 track 3
+ set ip next-hop verify-availability 52.0.56.97 20 track 6
+!
+route-map PBR-ISP1 permit 20
+ match ip address VLAN62
+ set ip next-hop verify-availability 52.0.56.97 10 track 6
+ set ip next-hop verify-availability 52.0.56.93 20 track 3
+!
+route-map PBR-ISP2 permit 10
+ match ip address VLAN62
+ set ip next-hop verify-availability 52.0.56.97 10 track 6
+ set ip next-hop verify-availability 52.0.56.93 20 track 3
+!
+route-map PBR-ISP2 permit 20
+ match ip address VLAN61
+ set ip next-hop verify-availability 52.0.56.93 10 track 3
+ set ip next-hop verify-availability 52.0.56.97 20 track 6
+
+### PBR - Вешаем соответствующие роут-мапы на внутренние IF
+
+interface GigabitEthernet0/1
+ip policy route-map PBR-ISP1
+!
+interface GigabitEthernet0/3
+ip policy route-map PBR-ISP2
+!
+
+
+
+### NAT
+
+interface GigabitEthernet0/0
+ ip nat outside
+!
+interface GigabitEthernet0/1
+ ip nat inside
+!
+interface GigabitEthernet0/2
+ ip nat outside
+!
+interface GigabitEthernet0/3
+ ip nat inside
+!
+route-map ISP1 permit 10
+ match interface GigabitEthernet0/0
+!
+route-map ISP2 permit 10
+ match interface GigabitEthernet0/2
+!
+
+ip nat inside source route-map ISP1 interface GigabitEthernet0/0 overload
+ip nat inside source route-map ISP2 interface GigabitEthernet0/2 overload
+
+
+
+
+
+
+
+

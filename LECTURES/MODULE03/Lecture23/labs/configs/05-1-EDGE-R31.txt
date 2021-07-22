@@ -23,3 +23,15 @@ router bgp 2042
  address-family ipv6
   network 2000:AAAA:400::/64
   network 2000:AAAA:401::/64
+
+### редистрибуция нулевки из BGP в NAMED EIGRP
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 100
+  topology base
+  redistribute bgp 2042
+  exit-af-topology
+ address-family ipv6 unicast autonomous-system 100
+  topology base
+  redistribute bgp 2042
+  exit-af-topology

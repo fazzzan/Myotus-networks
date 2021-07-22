@@ -1,33 +1,52 @@
-### Включаем EIGRP, назначаем RID, выключаем на всех IF, кроме Gi0/3, Gi0/1, задаем сети, включаем редистрибуцию статических маршрутов
+### Включаем NAMED EIGRP, назначаем RID, выключаем на всех IF, кроме Gi0/3, Gi0/1, задаем сети
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 100
+  network 172.18.0.0 0.0.0.7
+  network 172.18.0.8 0.0.0.7
+  eigrp router-id 10.0.5.11
+  !
+  af-interface default
+   passive-interface
+  exit-af-interface
+  !
+  af-interface GigabitEthernet0/3
+   no passive-interface
+  exit-af-interface
+  !
+  af-interface GigabitEthernet0/1
+   no passive-interface
+  exit-af-interface
+  !
+  topology base
+  exit-af-topology
+
+ exit-address-family
+
+ address-family ipv6 unicast autonomous-system 100
+  eigrp router-id 10.0.5.11
+  !
+  af-interface default
+   shutdown
+  exit-af-interface
+  !
+  af-interface GigabitEthernet0/1
+   no shutdown
+   no passive-interface
+  exit-af-interface
+  !
+  af-interface GigabitEthernet0/3
+   no shutdown
+   no passive-interface
+  exit-af-interface
+  !
+  topology base
+  exit-af-topology
+
+ exit-address-family
 !
-router eigrp 100
- eigrp router-id 0.0.0.1
- passive-interface default
- no passive-interface GigabitEthernet0/3
- no passive-interface GigabitEthernet0/1
- network 172.18.0.0 0.0.0.7
- network 172.18.0.8 0.0.0.7
- redistribute static
-!      
 
-### Включаем EIGRP IPv6
 
-ipv6 router eigrp 100
-eigrp router-id 0.0.0.1
-
-interface GigabitEthernet0/1
-ipv6 eigrp 100
-exit
-interface GigabitEthernet0/3
-ipv6 eigrp 100
-exit
-
-### Преобразуем в NAMED EIGRP
-router eigrp 100
-eigrp upgrade-cli NG
-
-ipv6 router eigrp 100
-eigrp upgrade-cli NG6
 
 ### Дополнительно настроим локальный DHCP
 
@@ -82,11 +101,6 @@ track 3 list boolean and
  object 1
  object 2
  delay down 2 up 3
-
-no ip route 0.0.0.0 0.0.0.0 52.0.56.73 track 3
-no ip route 0.0.0.0 0.0.0.0 52.0.56.77 10
-no ip route 8.8.4.4 255.255.255.255 GigabitEthernet0/0 52.0.56.73
-no ip route 8.8.5.5 255.255.255.255 GigabitEthernet0/2 52.0.56.77
 
 ### Настройка дефолтных маршрутов, в зависимости от состояния трека и добавление проверки 8.8.4.4 через ISP1 - R24
 ip route 0.0.0.0 0.0.0.0 52.0.56.93 track 3
@@ -185,10 +199,3 @@ route-map ISP2 permit 10
 
 ip nat inside source route-map ISP1 interface GigabitEthernet0/0 overload
 ip nat inside source route-map ISP2 interface GigabitEthernet0/2 overload
-
-
-
-
-
-
-

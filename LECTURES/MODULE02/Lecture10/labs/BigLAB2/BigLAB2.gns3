@@ -1868,7 +1868,7 @@
                         "port_number": 0
                     }
                 ],
-                "suspend": false
+                "suspend": true
             },
             {
                 "filters": {},

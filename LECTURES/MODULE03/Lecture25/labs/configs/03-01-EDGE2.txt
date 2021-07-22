@@ -1,0 +1,84 @@
+### Настраиваем default 
+#### Ловим префиксы от AS301
+
+ip as-path access-list 1 permit ^301$
+
+ip prefix-list DEFAULT-ONLY seq 10 permit 0.0.0.0/0
+ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
+
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 10 permit ::/0
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 20 deny ::/0 le 128
+
+route-map FILTER-DEFAULT-V4 permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V4 permit 20
+ match ip address prefix-list DEFAULT-ONLY
+
+route-map FILTER-DEFAULT-V6 permit 10
+ match ipv6 address prefix-list DEFAULT-ONLY-V6
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V6 permit 20
+ match ip address prefix-list DEFAULT-ONLY-V6
+
+router bgp 1001
+ address-family ipv4
+  neighbor 30.1.35.97 prefix-list DEFAULT-ONLY in
+  neighbor 30.1.35.97 route-map FILTER-DEFAULT-V4 in
+ exit-address-family
+ address-family ipv6
+  neighbor 2000:AAAC:400::1 prefix-list DEFAULT-ONLY-V6 in
+  neighbor 2000:AAAC:400::1 route-map FILTER-DEFAULT-V6 in
+ exit-address-family
+
+### заставить EDGE больше доверять iBGP, чем OSPF
+router bgp 1001
+  address-family ipv4
+   distance bgp 20 50 110
+ exit-address-family
+ !
+ address-family ipv6  
+   distance bgp 20 50 110
+ exit-address-family
+
+
+
+### ЗАДАНИЕ 4 ### Настраиваем default 
+#### Ловим префиксы от AS301
+
+ip as-path access-list 1 permit ^301$
+ip as-path access-list 1 permit _2042$
+
+ip prefix-list DEFAULT-ONLY seq 10 permit 0.0.0.0/0
+ip prefix-list DEFAULT-ONLY seq 15 permit 50.50.96.0/24
+ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
+
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 10 permit ::/0
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 15 permit 2000:AAAD:2::/48
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 20 deny ::/0 le 128
+
+route-map FILTER-DEFAULT-V4 permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V4 permit 20
+ match ip address prefix-list DEFAULT-ONLY
+
+route-map FILTER-DEFAULT-V6 permit 10
+ match ipv6 address prefix-list DEFAULT-ONLY-V6
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V6 permit 20
+ match ip address prefix-list DEFAULT-ONLY-V6
+
+router bgp 1001
+ address-family ipv4
+  neighbor 30.1.35.97 prefix-list DEFAULT-ONLY in
+  neighbor 30.1.35.97 route-map FILTER-DEFAULT-V4 in
+ exit-address-family
+ address-family ipv6
+  neighbor 2000:AAAC:400::1 prefix-list DEFAULT-ONLY-V6 in
+  neighbor 2000:AAAC:400::1 route-map FILTER-DEFAULT-V6 in
+ exit-address-family

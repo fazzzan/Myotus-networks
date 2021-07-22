@@ -8,3 +8,6 @@ ip access-list extended NAT
 
 do wr mem
 !
+
+### Дополним настройку статическим маршрутом
+ipv6 route ::0/0 2000:AAAA:404::1

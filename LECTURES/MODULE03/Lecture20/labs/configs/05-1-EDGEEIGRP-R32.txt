@@ -1,60 +1,111 @@
-hostname EDGEEIGRP-R32
-!
-router eigrp 100
- eigrp router-id 0.0.0.32
- passive-interface default
- no passive-interface GigabitEthernet0/0
- no passive-interface GigabitEthernet0/1
+### Настраиваем NAMED EIGRP
+
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 100
  network 172.18.0.16 0.0.0.7
  network 172.18.0.24 0.0.0.7
+  eigrp router-id 10.0.5.12
+  !
+  af-interface default
+   passive-interface
+  exit-af-interface
+  !
+  af-interface GigabitEthernet0/0
+   no passive-interface
+  exit-af-interface
+  !
+  af-interface GigabitEthernet0/1
+   no passive-interface
+  exit-af-interface
+  !
+  topology base
+  exit-af-topology
+ exit-address-family
 
-### Включаем EIGRP IPv6
-
-ipv6 router eigrp 100
-eigrp router-id 0.0.0.32
-
-interface GigabitEthernet0/0
-ipv6 eigrp 100
-exit
-interface GigabitEthernet0/1
-ipv6 eigrp 100
-exit
+ address-family ipv6 unicast autonomous-system 100
+  eigrp router-id 10.0.5.12
+  !
+  af-interface default
+   shutdown
+  exit-af-interface
+  !
+  af-interface GigabitEthernet0/0
+   no shutdown
+   no passive-interface
+  exit-af-interface
+  !
+  af-interface GigabitEthernet0/1
+   no shutdown
+   no passive-interface
+  exit-af-interface
+  !
+  topology base
+  exit-af-topology
+ exit-address-family
 !
+
+router eigrp NG101
+ !
+ address-family ipv4 unicast autonomous-system 101
+  network 172.18.1.0 0.0.0.255
+  eigrp router-id 10.0.5.12
+  !
+  af-interface default
+   passive-interface
+  exit-af-interface
+  !
+  af-interface loo0
+   no shutdown
+  exit-af-interface
+  !
+  topology base  
+  exit-af-topology
+ exit-address-family
+
+ address-family ipv6 unicast autonomous-system 101
+  eigrp router-id 10.0.5.12
+  !
+  af-interface default
+   shutdown
+  exit-af-interface
+  !
+  af-interface loo0
+   no shutdown
+  exit-af-interface
+   !
+  topology base
+  exit-af-topology
+
+ exit-address-family
 !
-router eigrp 101
- eigrp router-id 0.0.0.32
- passive-interface default
- network 172.18.1.0 0.0.0.7
 
-### Включаем EIGRP IPv6
 
-ipv6 router eigrp 101
-eigrp router-id 0.0.0.32
+#### Настроим редистрибуцию между EIGRP: из 101 префиксов из 100
 
-interface loo0
-ipv6 eigrp 100
-exit
+router eigrp NG
+ address-family ipv4 unicast autonomous-system 100
+  topology base
+   redistribute eigrp 101
+  exit-af-topology
+ address-family ipv6 unicast autonomous-system 100
+  topology base
+   redistribute eigrp 101 include-connected
+  exit-af-topology
 
-### Преобразуем в NAMED EIGRP
-router eigrp 100
-eigrp upgrade-cli NG
-
-ipv6 router eigrp 100
-eigrp upgrade-cli NG6
-
-### Машрутизатор R32 получает маршруты по-умолчанию:
+### Машрутизатор R32 должен получать только маршруты по-умолчанию:
 #### Создадим prefix-list для IPv4 и IPv6
 
-(config)#ip prefix-list ONLYZERO seq 5 permit 0.0.0.0/0
-(config)#ipv6 prefix-list ONLYZEROV6 seq 5 permit ::/0
+ip prefix-list ONLYZERO seq 5 permit 0.0.0.0/0
+ipv6 prefix-list ONLYZEROV6 seq 5 permit ::/0
 
 #### Укажем prefix-list в конфигурации EIGRP на маршрутизаторе для фильтрации префиксов 0.0.0.0.0 и ::/0
 router eigrp NG
 address-family ipv4 unicast autonomous-system 100
 topology base
 distribute-list prefix ONLYZERO in
-
-router eigrp NG6
 address-family ipv6 unicast autonomous-system 100
 topology base
 distribute-list prefix-list ONLYZEROV6 in
+
+

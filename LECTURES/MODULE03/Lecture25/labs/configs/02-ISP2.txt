@@ -1,0 +1,43 @@
+### Вбрасываем default маршруты в EDGE2
+router bgp 301
+ address-family ipv4
+  neighbor 30.1.35.98 default-originate
+ exit-address-family
+ !
+ address-family ipv6
+  neighbor 2000:AAAC:400::2 default-originate
+ exit-address-family
+
+### От EDGE1 принимаем только AS
+ip prefix-list ALLOW_1001_V4 seq 5 permit 35.10.10.0/24
+ipv6 prefix-list ALLOW_1001_V6 seq 5 permit 2000:AAAD:1::/48
+
+router bgp 301
+ address-family ipv4
+  neighbor 30.1.35.98  prefix-list ALLOW_1001_V4 in
+ exit-address-family
+ !
+ address-family ipv6
+  neighbor 2000:AAAC:400::2  prefix-list ALLOW_1001_V6 in
+ exit-address-family
+
+### ЗАДАНИЕ 4
+### Вбрасываем маршруты СПб в EDGE2
+
+ip prefix-list DEFAULT-VS-SPB-V4 seq 5 permit 0.0.0.0/0
+ip prefix-list DEFAULT-VS-SPB-V4 seq 10 permit 50.50.96.0/24
+
+ipv6 prefix-list DEFAULT-VS-SPB-V6 seq 5 permit ::/0
+ipv6 prefix-list DEFAULT-VS-SPB-V6 seq 10 permit 2000:AAAD:2::/48
+
+
+router bgp 301
+ address-family ipv4
+  neighbor 30.1.35.98 prefix-list DEFAULT-VS-SPB-V4 out
+  neighbor 30.1.35.98 default-originate
+ exit-address-family
+ !
+ address-family ipv6
+  neighbor 2000:AAAC:400::2 prefix-list DEFAULT-VS-SPB-V6 out
+  neighbor 2000:AAAC:400::2 default-originate
+ exit-address-family

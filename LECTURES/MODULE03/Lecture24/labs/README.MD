@@ -58,6 +58,8 @@ router bgp 1001
 
 ```
 Соседство поднялоcь на обоих стеках IPv4 и IPv6
+
+![](/LECTURES/MODULE03/Lecture24/pictures/32.jpg)
 ![](/LECTURES/MODULE03/Lecture24/pictures/30.jpg)
 ![](/LECTURES/MODULE03/Lecture24/pictures/31.jpg)
 
@@ -253,73 +255,156 @@ router bgp 1001
   neighbor 2000:AAAC:400::1 prefix-list DEFAULT-IN-PERMIT-V6 in
  exit-address-family
 ```
-
-##  Задание 5: Настроен iBGP внутри ISP Триада 
-
-Пример представлен для R24.
-
+Настроен отлов AS-PATH 301 провайдера ЛИМАС
 ```
-router bgp 520
- no bgp default ipv4-unicast
- neighbor 2000:AAAA:1:2::2 remote-as 301
- neighbor 52.0.56.70 remote-as 301
- neighbor 2000:AAAA:400::2 remote-as 2042
- neighbor 52.0.56.94 remote-as 2042
- neighbor 2000:AAAA::1 remote-as 520
- neighbor 52.0.56.1 remote-as 520
- neighbor 2000:AAAA::a remote-as 520
- neighbor 52.0.56.10 remote-as 520
- neighbor 2000:AAAA::1a remote-as 520
- neighbor 52.0.56.26 remote-as 520
+ip as-path access-list 1 permit ^301$
 
+route-map FILTER-DEFAULT-V4 permit 10
+ match as-path 1
+ set local-preference 150
 
- !
+route-map FILTER-DEFAULT-V6 permit 10
+ match as-path 1
+ set local-preference 50
+
+router bgp 1001
  address-family ipv4
- neighbor 52.0.56.10 activate
- neighbor 52.0.56.26 activate
-  neighbor 52.0.56.70 activate
-  neighbor 52.0.56.1 activate
-  neighbor 52.0.56.94 activate
+  neighbor 100.1.1.97 route-map FILTER-DEFAULT-V4 in
+ exit-address-family
+ address-family ipv6
+  neighbor 2000:AAAB:400::1 route-map FILTER-DEFAULT-V6 in
+ exit-address-family
+```
+На EDGE1 была получена ошибка в RIB, которая происходила из-за того что нулевка прилетала по OSPF от EDGE2. Пришлось на обоих EDGE настроить большую AD у iBGP, чем OSPF.
+```
+router bgp 1001
+  address-family ipv4
+   distance bgp 20 50 110
+ exit-address-family
+ !
+ address-family ipv6  
+   distance bgp 20 50 110
+ exit-address-family
+```
+
+Полученная таблица маршрутизации обоих EDGE
+![](/LECTURES/MODULE03/Lecture24/pictures/33.jpg)
+![](/LECTURES/MODULE03/Lecture24/pictures/34.jpg)
+
+При этом в самой таблице префиксов BGP - префикса 2, но дефолтный - ЛИМАС
+![](/LECTURES/MODULE03/Lecture24/pictures/35.jpg)
+
+##  Задание 4: Донастроить СПб и заставить трафик бегать по обоим линкАм
+
+Сначала заставили R26 вбрасывать дефолтные маршруты в BGP
+```
+### Вбрасываем default маршруты в R31 справа
+router bgp 520
+ address-family ipv4
+  neighbor 52.0.56.98 default-originate
  exit-address-family
  !
  address-family ipv6
-neighbor 2000:AAAA::a activate
- neighbor 2000:AAAA::1a activate
-  neighbor 2000:AAAA:1:2::2 activate
-  neighbor 2000:AAAA::1 activate
-  neighbor 2000:AAAA:400::2 activate
+  neighbor 2000:AAAA:401::2 default-originate
  exit-address-family
-
-router bgp 520
- address-family ipv4
-  network 52.0.56.68 mask 255.255.255.252
-  network 52.0.56.0 mask 255.255.255.248
-  network 52.0.56.92 mask 255.255.255.252 
- address-family ipv6
-  network 2000:AAAA:1:2::/64
-  network 2000:AAAA::/126
-  network 2000:AAAA:400::/126
 ```
-Все офисы видят друг друга, даже при отключенных ISP линкАх, но ввиду того что Триада внутри не имеет полной IGP - связности, перерыв связи между R23 и R25 приводит к недоступности бранчей Лабытнанги и Чокурдах  
+Затем в EIGRP настроили редистрибуцию BGP в EIGRP и отфильтровали нулевку
 
+```
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 100
+  topology base
+  redistribute bgp 2042 metric 100 1 255 1 1500
+  exit-af-topology
+ address-family ipv6 unicast autonomous-system 100 
+  topology base
+  redistribute bgp 2042 metric 100 1 255 1 1500
+  exit-af-topology
+```
 
+Заставляем машрутизатор R31 фильтравать префиксы по-умолчанию через префикс-лист:
+```
+
+ip prefix-list ONLYZERO seq 5 permit 0.0.0.0/0
+ipv6 prefix-list ONLYZEROV6 seq 5 permit ::/0
+
+router eigrp NG
+address-family ipv4 unicast autonomous-system 100
+topology base
+distribute-list prefix DEFAULT-ONLY out
+
+address-family ipv6 unicast autonomous-system 100
+topology base
+distribute-list prefix-list DEFAULT-ONLY-V6 out
+```
+после этого удаляем старые нулевки с трекингом
+```
+no ip route 0.0.0.0 0.0.0.0 52.0.56.93 track 3
+no ip route 0.0.0.0 0.0.0.0 52.0.56.97 10
+```
+
+Включаем поддержку одновременно 2 префиксов - через обоих ISP
+```
+router bgp 2042
+ address-family ipv4
+  maximum-path 2
+ exit-address-family
+ address-family ipv6
+  maximum-path 2
+ exit-address-family
+```
+Замечен недостаток: в случае если отваливается активный канал - BGP достаточно долго реагирует - таймер 180 секунд, трогать пока не стал. Также проблмы с NAT - после отвала ISP надо принудительно разорвать трансляцию, чтобы трафик пошел уже через нового ISP.
+
+##  Задание 5: Связность IP-сетей 
+
+Все офисы видят друг друга, даже при частично отключенных ISP линкАх, но ввиду того что Триада внутри не имеет полной IGP - связности, перерыв связи между R23 и R25 приводит к недоступности бранчей Лабытнанги и Чокурдах. На примере видно что R31 отвечает из диапазона своей AS запросу из AS 1001
+
+![](/LECTURES/MODULE03/Lecture24/pictures/36.jpg)
+
+Ниже представлено IPv6 взаимодейтсвие между EDGE1 и AS101 EIGRP офиса СПб
+
+![](/LECTURES/MODULE03/Lecture24/pictures/37.jpg)
+
+Проверка доступности из МСК IPv6 адресов из споуков:
+
+![](/LECTURES/MODULE03/Lecture24/pictures/39.jpg)
+
+Маршруты в ЛИМАС в наличии
+
+![](/LECTURES/MODULE03/Lecture24/pictures/40.jpg)
 
 Настройки оборудования представлены по соответствующим ссылкам ниже как для ipv4, так и для ipv6.
 
+
 - Киторн (01):
-   - [01-ISP1](/LECTURES/MODULE03/Lecture24/labs/configs/01-ISP1.txt)
+   - [01-ISP1](/LECTURES/MODULE02/Lecture10/labs/configs/01-ISP1.txt)
 - Лимас (02):
-   - [02-ISP2](/LECTURES/MODULE03/Lecture24/labs/configs/02-ISP2.txt)
+   - [02-ISP2](/LECTURES/MODULE02/Lecture10/labs/configs/02-ISP2.txt)
 - Триада (04): 
-   - [04-R23](/LECTURES/MODULE03/Lecture24/labs/configs/04-R23.txt)
-   - [04-R24](/LECTURES/MODULE03/Lecture24/labs/configs/04-R24.txt)
-   - [04-R25](/LECTURES/MODULE03/Lecture24/labs/configs/04-R25.txt)
-   - [04-R26](/LECTURES/MODULE03/Lecture24/labs/configs/04-R26.txt)
+   - [04-R23](/LECTURES/MODULE02/Lecture10/labs/configs/04-R23.txt)
+   - [04-R24](/LECTURES/MODULE02/Lecture10/labs/configs/04-R24.txt)
+   - [04-R25](/LECTURES/MODULE02/Lecture10/labs/configs/04-R25.txt)
+   - [04-R26](/LECTURES/MODULE02/Lecture10/labs/configs/04-R26.txt)
 - Москва (03)
    - EDGE: 
-      - [03-01-EDGE1](/LECTURES/MODULE03/Lecture24/labs/configs/03-01-EDGE1.txt)
-      - [03-01-EDGE2](/LECTURES/MODULE03/Lecture24/labs/configs/03-01-EDGE2.txt)
+      - [03-01-EDGE1](/LECTURES/MODULE02/Lecture10/labs/configs/03-01-EDGE1.txt)
+      - [03-01-EDGE2](/LECTURES/MODULE02/Lecture10/labs/configs/03-01-EDGE2.txt)
+      - [03-01-EDGEOSPF1](/LECTURES/MODULE02/Lecture10/labs/configs/03-01-EDGEOSPF1.txt)
+   - Distribution UP: 
+      - [03-02-DSWWAN1](/LECTURES/MODULE02/Lecture10/labs/configs/03-02-DSWWAN1.txt)
+      - [03-02-DSWWAN2](/LECTURES/MODULE02/Lecture10/labs/configs/03-02-DSWWAN2.txt)
 - СПб (05)
    - EDGE
-      - [05-01-EDGE-R31](/LECTURES/MODULE03/Lecture24/labs/configs/05-1-EDGE-R31.txt)
+      - [05-01-EDGE-R31](/LECTURES/MODULE02/Lecture10/labs/configs/05-1-EDGE-R31.txt)
+      - [05-01-EDGEEIGRP-R32](/LECTURES/MODULE02/Lecture10/labs/configs/05-1-EDGEEIGRP-R32.txt)
+   - CollapsedCORE
+      - [05-02-DSWCOLCORE16](/LECTURES/MODULE02/Lecture10/labs/configs/05-2-DSWCOLCORE16.txt)
+      - [05-02-DSWCOLCORE17](/LECTURES/MODULE02/Lecture10/labs/configs/05-2-DSWCOLCORE17.txt)
+- Чокурдах (06)
+   - EDGE
+      - [06-1-EDGE-R28](/LECTURES/MODULE02/Lecture10/labs/configs/06-1-EDGE-R28.txt)
+- Лабытнанги (07)
+   - EDGE
+      - [07-1-EDGE-R27](/LECTURES/MODULE02/Lecture10/labs/configs/07-1-EDGE-R27.txt)
 

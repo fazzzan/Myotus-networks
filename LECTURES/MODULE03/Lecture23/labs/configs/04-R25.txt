@@ -32,6 +32,6 @@ router bgp 520
  address-family ipv6
   network 2000:AAAA::18/126
   network 2000:AAAA::8/126
-  network 2000:AAAA:403::/126
-  network 2000:AAAA:404::/126
+  network 2000:AAAA:403::/64
+  network 2000:AAAA:404::/64
 

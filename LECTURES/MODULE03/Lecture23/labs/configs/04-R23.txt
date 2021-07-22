@@ -6,7 +6,6 @@ router bgp 520
  neighbor 52.0.56.2 remote-as 520
  neighbor 2000:AAAA::a remote-as 520
  neighbor 52.0.56.10 remote-as 520
-
  neighbor 2000:AAAA::1a remote-as 520
  neighbor 52.0.56.26 remote-as 520
  !

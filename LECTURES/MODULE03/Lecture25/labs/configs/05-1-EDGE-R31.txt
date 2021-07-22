@@ -1,0 +1,91 @@
+### редистрибуция нулевки из BGP в NAMED EIGRP
+
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 100
+  topology base
+  redistribute bgp 2042 metric 100 1 255 1 1500
+  exit-af-topology
+ address-family ipv6 unicast autonomous-system 100 
+  topology base
+  redistribute bgp 2042 metric 100 1 255 1 1500
+  exit-af-topology
+
+
+#### Создадим prefix-list для отбора нулевок IPv4 и IPv6
+
+ip prefix-list DEFAULT-ONLY seq 10 permit 0.0.0.0/0
+ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
+
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 10 permit ::/0
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 20 deny ::/0 le 128
+
+#### Укажем prefix-list в конфигурации EIGRP на маршрутизаторе для фильтрации префиксов 0.0.0.0.0 и ::/0
+router eigrp NG
+address-family ipv4 unicast autonomous-system 100
+ topology base
+  distribute-list prefix DEFAULT-ONLY out eigrp 100
+
+address-family ipv6 unicast autonomous-system 100
+ topology base
+  distribute-list prefix-list DEFAULT-ONLY-V6 out
+
+### модификация BGP
+### Добавляем WAN перефиксы AS2042
+ip route 50.50.96.0 255.255.255.0 null0
+ipv6 route 2000:AAAD:2::/48 null0
+
+router bgp 2042
+ address-family ipv6
+  network 2000:AAAD:2::/48
+ address-family ipv4
+  network 50.50.96.0 mask 255.255.255.0
+
+### Боремся со всеми влетающими, кроме дефолтного, маршрутами от ISP 
+
+ip prefix-list DEFAULT-ONLY seq 10 permit 0.0.0.0/0
+ip prefix-list DEFAULT-ONLY seq 20 deny 0.0.0.0/0 le 32
+
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 10 permit ::/0
+ipv6 prefix-list DEFAULT-ONLY-V6 seq 20 deny ::/0 le 128
+
+route-map FILTER-DEFAULT-V4 permit 10
+ match ip address prefix-list DEFAULT-ONLY
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V4 permit 20
+ match ip address prefix-list DEFAULT-ONLY
+
+route-map FILTER-DEFAULT-V6 permit 10
+ match ipv6 address prefix-list DEFAULT-ONLY-V6
+ match as-path 1
+ set local-preference 150
+route-map FILTER-DEFAULT-V6 permit 20
+ match ip address prefix-list DEFAULT-ONLY-V6
+
+router bgp 2042
+ address-family ipv4
+  neighbor 52.0.56.93 prefix-list DEFAULT-ONLY in
+  neighbor 52.0.56.93 route-map FILTER-DEFAULT-V4 in
+  neighbor 52.0.56.97 prefix-list DEFAULT-ONLY in
+  neighbor 52.0.56.97 route-map FILTER-DEFAULT-V4 in
+ exit-address-family
+ address-family ipv6
+  neighbor 2000:AAAA:400::1 prefix-list DEFAULT-ONLY-V6 in
+  neighbor 2000:AAAA:400::1 route-map FILTER-DEFAULT-V6 in
+  neighbor 2000:AAAA:401::1 prefix-list DEFAULT-ONLY-V6 in
+  neighbor 2000:AAAA:401::1 route-map FILTER-DEFAULT-V6 in
+ exit-address-family
+
+### Удаляем старые нулевки с трекингом
+no ip route 0.0.0.0 0.0.0.0 52.0.56.93 track 3
+no ip route 0.0.0.0 0.0.0.0 52.0.56.97 10
+
+### Балансировка через обоих ISP
+router bgp 2042
+ address-family ipv4
+  maximum-path 2
+ exit-address-family
+ address-family ipv6
+  maximum-path 2
+ exit-address-family

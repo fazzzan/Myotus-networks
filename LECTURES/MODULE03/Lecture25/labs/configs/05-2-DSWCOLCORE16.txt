@@ -1,0 +1,45 @@
+hostname DSWCOLCORE16
+!
+### Включаем EIGRP, назначаем RID, выключаем на всех IF, кроме Gi0/2, Gi0/3, Gi2/0, Gi2/1,  Po1 задаем сети
+!
+router eigrp 100
+eigrp router-id 0.0.0.16
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ no passive-interface GigabitEthernet0/3
+ no passive-interface GigabitEthernet2/0
+ no passive-interface GigabitEthernet2/1
+ no passive-interface Port-channel1
+ network 172.18.0.8 0.0.0.7
+ network 172.18.0.24 0.0.0.7
+ network 172.18.0.48 0.0.0.7
+ network 172.18.0.72 0.0.0.7
+ network 172.18.0.80 0.0.0.7
+
+
+### Включаем EIGRP IPv6
+
+ipv6 router eigrp 100
+eigrp router-id 0.0.0.16
+
+interface GigabitEthernet0/2
+ipv6 eigrp 100
+exit
+interface GigabitEthernet0/3
+ipv6 eigrp 100
+exit
+interface GigabitEthernet2/0
+ipv6 eigrp 100
+exit
+interface GigabitEthernet2/1
+ipv6 eigrp 100
+exit
+interface Port-channel1
+ipv6 eigrp 100
+exit
+
+### R16-17 анонсируют только суммарные префиксы для ACCESS подсетей 
+
+int gi 0/2
+ip summary-address eigrp 100 172.18.64.0 255.255.192.0
+ipv6 summary-address eigrp 100 2000:AAAD:2:600::0/56
