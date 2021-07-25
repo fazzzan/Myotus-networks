@@ -6,18 +6,26 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
  ip nat inside
 !
-no ip nat inside source list OSPF0 interface GigabitEthernet0/1 overload - удалил старое
+ip access-list extended OSPF3
+10 permit ip 172.17.64.0 0.0.0.255 any
+20 permit ip 172.17.65.0 0.0.0.255 any
+30 permit ip 172.17.66.0 0.0.0.255 any
+40 permit ip 172.17.67.0 0.0.0.255 any
+50 permit ip 172.17.68.0 0.0.0.255 any
 !
-ip access-list extended OSPF0
- permit ip 172.17.0.0 0.0.0.255 any
- permit ip 172.18.0.0 0.0.0.255 any
- permit ip 172.17.64.0 0.0.0.255 any
+ip access-list extended SERVER
+ permit ip 172.17.16.0 0.0.0.255 any
+ permit ip 172.17.17.0 0.0.0.255 any
 
-ip nat pool AS1001 35.10.10.10 35.10.10.10 netmask 255.255.255.0
+ip nat pool AS1001_10 35.10.10.10 35.10.10.10 netmask 255.255.255.0
+ip nat pool AS1001_11 35.10.10.11 35.10.10.11 netmask 255.255.255.0
 
 
-ip nat inside source list OSPF0 pool AS1001 overload
+ip nat inside source list OSPF3 pool AS1001_10 overload
+ip nat inside source list SERVER pool AS1001_11 overload
 
+### Настроим проброс порта на маршрутизаторе для подключения к OSPF1
+ip nat inside source static tcp 172.17.1.1 22 35.10.10.12 30022
 
 ###интерфейса-источника ntp server 10.0.3.31, 32
 

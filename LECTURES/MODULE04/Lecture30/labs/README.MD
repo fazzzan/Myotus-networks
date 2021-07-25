@@ -41,15 +41,16 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
  ip nat inside
 !
-ip access-list extended OSPF0
- permit ip 172.17.0.0 0.0.0.255 any
- permit ip 172.18.0.0 0.0.0.255 any
- permit ip 172.17.64.0 0.0.0.255 any
+ip access-list extended OSPF3
+10 permit ip 172.17.64.0 0.0.0.255 any
+20 permit ip 172.17.65.0 0.0.0.255 any
+30 permit ip 172.17.66.0 0.0.0.255 any
+40 permit ip 172.17.67.0 0.0.0.255 any
+50 permit ip 172.17.68.0 0.0.0.255 any
 
-ip nat pool AS1001 35.10.10.10 35.10.10.10 netmask 255.255.255.0
+ip nat pool AS1001_10 35.10.10.10 35.10.10.10 netmask 255.255.255.0
 
-
-ip nat inside source list OSPF0 pool AS1001 overload
+ip nat inside source list OSPF3 pool AS1001_10 overload
 ```
 Трафик успешно транслируется
 
@@ -88,8 +89,43 @@ ip nat pool AS2042 50.50.96.10 50.50.96.15 netmask 255.255.255.0
 ip nat inside source list INSIDE pool AS2042
 ```
 
-## - Задание 3: Настроите статический NAT для R20
-## - Задание 4: Настроите NAT так, чтобы R19 был доступен с любого узла для удаленного управления
+## Задание 3: Настроите NAT для серверного сегмента в адрес отличный от адреса из Задания 1
+
+```
+ip access-list extended SERVER
+ permit ip 172.17.16.0 0.0.0.255 any
+ permit ip 172.17.17.0 0.0.0.255 any
+
+ip nat pool AS1001_11 35.10.10.11 35.10.10.11 netmask 255.255.255.0
+
+
+ip nat inside source list SERVER pool AS1001_11 overload
+
+```
+
+![](/LECTURES/MODULE04/Lecture30/pictures/04.jpg)
+
+## Задание 4: Настроите NAT так, чтобы хост в OSPF1 был доступен через адреса AS1001 для удаленного управления
+
+Включим ssh на MOWOSPF
+```
+ip domain name fz.otus.ru
+crypto key generate rsa modulus 2048
+username cisco privilege 15 password class
+ip ssh version 2
+line vty 0 4
+login local
+transport input ssh
+```
+
+Настроим на обоих EDGE проброс порта
+
+```
+### Настроим проброс порта на маршрутизаторе для подключения к OSPF1
+ip nat inside source static tcp 172.17.1.1 22 35.10.10.12 30022
+```
+Работает, проверено из СПб
+![](/LECTURES/MODULE04/Lecture30/pictures/05.jpg)
 
 ## Задание 5: Настроите статический NAT(PAT) для офиса Чокурдах
 
@@ -136,7 +172,7 @@ route-map ISP1 permit 10
 
 ## Задание 6: Настроите DHCP сервер в офисе Москва на маршрутизаторах R12 и R13. VPC1 и VPC7 должны получать сетевые настройки по DHCP
 
-Выполнено:
+В планах заменить на WINDOWS сервер. Выполнено:
 ```
 ip dhcp excluded-address 172.17.64.1 172.17.64.10
 ip dhcp excluded-address 172.17.64.254
