@@ -1,21 +1,21 @@
 # Тестова л.р, которую я сделал чтобы понимать разницу между зонами и возникающими маршрутами #
 
 Картинка задания:
-![](/LECTURES/MODULE02/Lecture13/pictures/67.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/67.jpg)
 
 ## Задание: ##
 ### 1.   настроить OSPF в трех зонах: 0, 1, 12 ###
 
 конфиги настроек оборудования: [P1R1](1/P1R1.cfg), [P1R2](1/P1R2.cfg), [P1R3](1/P1R3.cfg), [P2R1](1/P2R1.cfg), [P2R2](1/P2R2.cfg), [P2R3](1/P2R3.cfg), [BB](1/BB.cfg).
 
-![](/LECTURES/MODULE02/Lecture13/pictures/68.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/68.jpg)
 
 Результат схождения - 
 - маршруты IA - межзонные, появились в результате работы ABR P1R1, который транслировал в AREA 1 LSA 3
 
-![](/LECTURES/MODULE02/Lecture13/pictures/70.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/70.jpg)
 
-![](/LECTURES/MODULE02/Lecture13/pictures/69.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/69.jpg)
 
 ```
 *Apr 19 19:49:06.283: OSPF-200 LRIB : Creating route 10.12.12.0/24 
@@ -58,7 +58,7 @@ P1R1(config-router)#area 1 range 192.168.1.0 255.255.255.0
 
 В результате этого, уже на BB1 информация о мршрутах AREA1 обознчена только 1 записью типа ___O IA___
 
-![](/LECTURES/MODULE02/Lecture13/pictures/71.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/71.jpg)
 
 при выполнении аналогичных действий справа, на ABR P2R1, получим
 
@@ -66,7 +66,7 @@ P1R1(config-router)#area 1 range 192.168.1.0 255.255.255.0
 P2R1(config)#router ospf 200
 P2R1(config-router)#area 12 range 192.168.12.0 255.255.255.0
 ```
-![](/LECTURES/MODULE02/Lecture13/pictures/72.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/72.jpg)
 
 И на P1R2 видим удаление всех частных маршрутов в сети 192.168.12.XX и замена их одним маршрутом
 ```
@@ -88,7 +88,7 @@ P1R2#
 ```
 И сделано все это было 1-й LSU
 
-![](/LECTURES/MODULE02/Lecture13/pictures/73.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/73.jpg)
 
 ### 3. Настроить AREA 1 - STUB ### 
 Чтобы проверить как работает STUB-зона с маршрутами от ASBR, инжектируем статический маршрут на крайнем правом P2R3:
@@ -116,7 +116,7 @@ P2R3(config-router)#redistribute static metric 100
 O E2     8.8.8.0 [110/100] via 192.168.1.17, 00:02:28, Ethernet0/0
 ```
 
-![](/LECTURES/MODULE02/Lecture13/pictures/74.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/74.jpg)
 
 
 На всех R AREA1 в контексте OSPF команда ```area 1 stub```, что привело к тому, что AREA1 стала описываться как ___STUB___
@@ -169,7 +169,7 @@ C        192.168.1.64/28 is directly connected, Ethernet1/0
 L        192.168.1.65/32 is directly connected, Ethernet1/0
 ```
 Действие по корректировки БД топологии прошло в 2 этапа: LSU c 8 LSA3 удалила все частные маршруты, а затем прилетела LSU LSA3 с DEFAULT маршрутом.
-![](/LECTURES/MODULE02/Lecture13/pictures/75.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/75.jpg)
 
 ### 5. Настроить AREA 12- NSSA ### 
 На всех R ввели 
@@ -183,7 +183,7 @@ O N2     8.8.8.0 [110/100] via 192.168.12.50, 00:01:36, Ethernet0/2
 
 А  AREA 1 данный маршрут прилетел LSA 5
 
-![](/LECTURES/MODULE02/Lecture13/pictures/76.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/76.jpg)
 
 ### 6. Настроить AREA 1 - T-NSSA ### 
 
@@ -204,7 +204,7 @@ O*IA  0.0.0.0/0 [110/11] via 192.168.12.33, 00:03:09, Ethernet0/1
                 [110/11] via 192.168.12.17, 00:02:59, Ethernet0/0
 ```
 
-![](/LECTURES/MODULE02/Lecture13/pictures/76.jpg)
+![](/LECTURES/MODULE02/Lecture14/pictures/76.jpg)
 
 В AREA1 - маршруты без изменений, с указанием корректных маршрутов до AREA 12:
 
