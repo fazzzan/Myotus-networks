@@ -7,9 +7,9 @@ router ospf 1
 
 ### Активируем OSPF на IF
 interface GigabitEthernet0/0
- ip ospf 1 area 0
+ ip ospf 1 area 1
 interface GigabitEthernet0/1
- ip ospf 1 area 0
+ ip ospf 1 area 1
 
 interface loo0
  ip ospf 1 area 1
@@ -30,11 +30,14 @@ exit
 
 ### Активируем OSPFv3 на IF
 interface GigabitEthernet0/0
- ipv6 ospf 1 area 0
+ ipv6 ospf 1 area 1
 exit
 interface GigabitEthernet0/1
- ipv6 ospf 1 area 0
+ ipv6 ospf 1 area 1
 exit
+
+interface loo0
+ ipv6 ospf 1 area 1
 
 
 do sho ipv6 int br
@@ -42,3 +45,24 @@ do sho ipv6 proto
 do sho ipv6 route ospf
 do sho ipv6 ospf databas
 sho ip ospf int gi 0/0
+
+### OSPF AREA2 - Totally STUB
+router ospf 1
+area 1 stub
+exit
+
+ipv6 router ospf 1
+area 1 stub
+exit
+
+
+
+
+
+
+
+
+
+
+
+

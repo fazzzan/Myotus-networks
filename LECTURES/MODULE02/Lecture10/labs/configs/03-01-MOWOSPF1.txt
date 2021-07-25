@@ -5,6 +5,7 @@ ipv6 unicast-routing
 !
 interface Loopback0
  ip address 172.17.1.1 255.255.255.248
+ ipv6 address 2000:AAAD:1:201::1/64
  no shutdown
 !
 interface Loopback10

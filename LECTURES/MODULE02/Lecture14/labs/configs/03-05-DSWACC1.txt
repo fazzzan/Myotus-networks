@@ -1,11 +1,9 @@
-### Включаем OSPF, назнчаем RID, выключаем на всех IF, кроме Gi0/2
+### Включаем OSPF IPv4, назнчаем RID, выключаем на всех IF, кроме Gi0/2
 router ospf 1
  router-id 1.1.1.4
  passive-interface default
  no passive-interface GigabitEthernet0/0
  no passive-interface GigabitEthernet0/1
- no passive-interface GigabitEthernet2/0
- no passive-interface GigabitEthernet2/1
  no passive-interface Port-channel1
 exit
 
@@ -19,247 +17,110 @@ interface GigabitEthernet0/1
 interface Port-channel1
  ip ospf 1 area 0
  exit
-interface GigabitEthernet2/0
- ip ospf 1 area 3
- exit
-interface GigabitEthernet2/1
- ip ospf 1 area 3
- exit
+
+### Редистрибуция
+router ospf 1
+redistribute ospfv3 2
+redistribute ospfv3 3
+
+### Фильтрация и редистрибуция
+ip prefix-list NO_AREA1_V4 seq 5 permit 172.17.1.0/24 ge 32
+
+route-map AREA0-to-AREA3-IPV4 deny 10
+ match ip address prefix-list NO_AREA1_V4
+route-map AREA0-to-AREA3-IPV4 permit 20
 
 
+### Редистрибуция
+router ospfv3 3
+ !
+ address-family ipv4 unicast
+  redistribute ospf 1 route-map AREA0-to-AREA3-IPV4
+ exit-address-family
 
-### проверка
-do sho ip int br
-do sho ip proto
-do sho ip route ospf
-do sho ip ospf databas
-sho ip ospf int gi 0/2
-
-
-### Включаем OSPFv3, назнчаем RID
-ipv6 router ospf 1
+### Включаем OSPFv3 IPv6, назнчаем RID, выключаем на всех IF, кроме Gi0/2
+router ospfv3 2
+ 
  router-id 1.1.1.4
-exit
+### router-id 1.1.2.4
 
+ !
+ address-family ipv4 unicast
+ exit-address-family
+ address-family ipv6 unicast
+ exit-address-family
+
+
+
+router ospfv3 3
+ 
+ router-id 1.1.1.4
+###  router-id 1.1.2.4
+
+ !
+ address-family ipv4 unicast
+ exit-address-family
+ address-family ipv6 unicast
+ exit-address-family
 
 ### Активируем OSPFv3 на IF
 interface GigabitEthernet0/0
- ipv6 ospf 1 area 0
+ ospfv3 2 ipv4 area 0
+ ospfv3 2 ipv6 area 0
  exit
 interface GigabitEthernet0/1
- ipv6 ospf 1 area 0
+ ospfv3 2 ipv4 area 0
+ ospfv3 2 ipv6 area 0
  exit
 interface Port-channel1
- ipv6 ospf 1 area 0
+ ospfv3 2 ipv4 area 0
+ ospfv3 2 ipv6 area 0
  exit
 interface GigabitEthernet2/0
- ipv6 ospf 1 area 3
+ ospfv3 3 ipv4 area 3
+ ospfv3 3 ipv6 area 3
  exit
 interface GigabitEthernet2/1
- ipv6 ospf 1 area 3
+ ospfv3 3 ipv4 area 3
+ ospfv3 3 ipv6 area 3
  exit
 
-do sho ipv6 int br
-do sho ipv6 proto
-do sho ipv6 route ospf
-do sho ipv6 ospf databas
-do sho ipv6 ospf int gi 0/2
+
+### Редистрибуция
+router ospfv3 2
+ !
+ address-family ipv4 unicast
+  redistribute ospf 3
+ exit-address-family
+
+ address-family ipv6 unicast
+  redistribute ospf 3
+ exit-address-family
+
+router ospfv3 3
+ !
+ address-family ipv4 unicast
+  redistribute ospf 2 
+ exit-address-family
+
+ address-family ipv6 unicast
+  redistribute ospf 2 
+ exit-address-family
 
 
+### Фильтрация и редистрибуция
 
+ipv6 prefix-list NO_AREA1_V6 seq 5 permit 2000:AAAD:1:201::/56 ge 128
+route-map AREA0-to-AREA3-IPV6 deny 10
+ match ipv6 address prefix-list NO_AREA1_V6
+route-map AREA0-to-AREA3-IPV6 permit 20
+!
+router ospfv3 3 
+ !
+ address-family ipv6 unicast
+  redistribute ospf 2 route-map AREA0-to-AREA3-IPV6
+ exit-address-family
 
-
-DSWACC1#show run
-Building configuration...
-
-Current configuration : 4418 bytes
-!
-! Last configuration change at 15:31:07 UTC Sun Jul 11 2021
-!
-version 15.2
-service timestamps debug datetime msec
-service timestamps log datetime msec
-no service password-encryption
-service compress-config
-!
-hostname DSWACC1
-!
-boot-start-marker
-boot-end-marker
-!
-!
-!
-no aaa new-model
-!
-!
-!
-!
-!         
-!
-!
-!
-no ip domain-lookup
-ip cef
-ipv6 unicast-routing
-ipv6 cef
-!
-!
-!
-spanning-tree mode pvst
-spanning-tree extend system-id
-!
-!
-! 
-!
-!
-!
-!
-!
-!
-!
-!         
-!
-!
-!
-!
-interface Loopback10
- ip address 10.0.3.51 255.255.255.0
-!
-interface Port-channel1
- no switchport
- ip address 172.17.0.137 255.255.255.248
- ip ospf 1 area 0
- ipv6 address 2000:AAAD:1:120::1/64
-!
-interface GigabitEthernet0/0
- no switchport
- ip address 172.17.0.98 255.255.255.248
- ip ospf 1 area 0
- duplex full
- no negotiation auto
- ipv6 address 2000:AAAD:1:116::2/64
-!
-interface GigabitEthernet0/1
- no switchport
- ip address 172.17.0.114 255.255.255.248
- ip ospf 1 area 0
- duplex full
- no negotiation auto
- ipv6 address 2000:AAAD:1:118::2/64
-!
-interface GigabitEthernet0/2
- negotiation auto
-!
-interface GigabitEthernet0/3
- negotiation auto
-!
-interface GigabitEthernet1/0
- no switchport
- no ip address
- negotiation auto
- channel-group 1 mode active
-!
-interface GigabitEthernet1/1
- no switchport
- no ip address
- negotiation auto
- channel-group 1 mode active
-!
-interface GigabitEthernet1/2
- negotiation auto
-!
-interface GigabitEthernet1/3
- negotiation auto
-!
-interface GigabitEthernet2/0
- no switchport
- ip address 172.17.3.1 255.255.255.248
- ip ospf 1 area 3
- duplex full
- no negotiation auto
- ipv6 address 2000:AAAD:1:400::1/64
-!
-interface GigabitEthernet2/1
- no switchport
- ip address 172.17.3.9 255.255.255.248
- ip ospf 1 area 3
- duplex full
- no negotiation auto
- ipv6 address 2000:AAAD:1:401::1/64
-!         
-interface GigabitEthernet2/2
- negotiation auto
-!
-interface GigabitEthernet2/3
- negotiation auto
-!
-interface GigabitEthernet3/0
- negotiation auto
-!
-interface GigabitEthernet3/1
- negotiation auto
-!
-interface GigabitEthernet3/2
- negotiation auto
-!
-interface GigabitEthernet3/3
- negotiation auto
-!
-router ospf 1
- router-id 1.1.1.4
- passive-interface default
- no passive-interface GigabitEthernet0/0
- no passive-interface GigabitEthernet0/1
- no passive-interface GigabitEthernet2/0
- no passive-interface GigabitEthernet2/1
- no passive-interface Port-channel1
-!
-ip forward-protocol nd
-!
-ip http server
-!
-ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
-ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
-!
-!
-!
-!
-!
-!
-control-plane
-!
-banner exec ^C
-**************************************************************************
-* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
-* education. IOSv is provided as-is and is not supported by Cisco's      *
-* Technical Advisory Center. Any use or disclosure, in whole or in part, *
-* of the IOSv Software or Documentation to any third party for any       *
-* purposes is expressly prohibited except as otherwise authorized by     *
-* Cisco in writing.                                                      *
-**************************************************************************^C
-banner incoming ^C
-**************************************************************************
-* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
-* education. IOSv is provided as-is and is not supported by Cisco's      *
-* Technical Advisory Center. Any use or disclosure, in whole or in part, *
-* of the IOSv Software or Documentation to any third party for any       *
-* purposes is expressly prohibited except as otherwise authorized by     *
-* Cisco in writing.                                                      *
-**************************************************************************^C
-banner login ^C
-**************************************************************************
-* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
-* education. IOSv is provided as-is and is not supported by Cisco's      *
-* Technical Advisory Center. Any use or disclosure, in whole or in part, *
-* of the IOSv Software or Documentation to any third party for any       *
-* purposes is expressly prohibited except as otherwise authorized by     *
-* Cisco in writing.                                                      *
-**************************************************************************^C
-!         
-line con 0
-line aux 0
-line vty 0 4
- login
-!
-!
-end
+### Тестовые настройки фильтрации, не использовать
+ipv6 prefix-list NO_AREA1_V6 seq 5 deny 2000:AAAD:1:201::/56 ge 128
+ipv6 prefix-list NO_AREA1_V6 seq 10 permit ::/0 ge 1 le 128

@@ -68,3 +68,24 @@ do sho ipv6 proto
 do sho ipv6 route ospf
 do sho ipv6 ospf databas
 do sho ipv6 ospf int gi 0/2
+
+
+20210725~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+interface GigabitEthernet0/3
+ ip ospf 1 area 1
+ exit
+interface GigabitEthernet0/3
+ ipv6 ospf 1 area 1
+ exit
+
+
+### OSPF AREA1 - Totally STUB
+router ospf 1
+area 1 stub
+area 1 stub no-summary
+exit
+
+ipv6 router ospf 1
+area 1 stub
+area 1 stub no-summary
+exit
