@@ -56,14 +56,25 @@ do sho ipv6 ospf databas
 do sho ipv6 ospf int gi 0/2
 
 ### Назначение ip-helper
+
 interface Vlan61
  ip helper-address 172.17.16.1
  ip helper-address 172.17.17.1 
+ ipv6 nd prefix 2000:AAAD:1:601::/64 no-advertise
+ ipv6 nd managed-config-flag
+ ipv6 nd other-config-flag
+ ipv6 dhcp relay destination 2000:aaad:1:500::1
+ ipv6 dhcp relay destination 2000:aaad:1:501::1
  no shutdown
 !
 interface Vlan71
  ip helper-address 172.17.16.1
  ip helper-address 172.17.17.1 
+ ipv6 nd prefix 2000:AAAD:1:611::/64 no-advertise
+ ipv6 nd managed-config-flag
+ ipv6 nd other-config-flag
+ ipv6 dhcp relay destination 2000:aaad:1:500::1
+ ipv6 dhcp relay destination 2000:aaad:1:501::1
  no shutdown
 !
 
