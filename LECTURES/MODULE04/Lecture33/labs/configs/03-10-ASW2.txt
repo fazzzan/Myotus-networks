@@ -1,0 +1,26 @@
+### Назначение ip-helper
+interface Vlan62
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
+ no shutdown
+!
+interface Vlan72
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
+ no shutdown
+!
+
+
+###интерфейса-источника ntp server 10.0.3.31, 32
+
+clock timezone MSK 3
+ntp server 10.0.3.31
+ntp server 10.0.3.31
+
+show clock
+
+show calendar
+
+show ntp status
+
+show ntp associations

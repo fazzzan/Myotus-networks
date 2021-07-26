@@ -1,0 +1,44 @@
+### Настройка GRE
+interface Tunnel21050
+ description 2-EDGE-R31-1
+ bandwidth 3000
+ ip address 172.17.15.17 255.255.255.248
+ ip mtu 1400
+ shutdown
+ tunnel source GigabitEthernet0/1
+ tunnel destination 52.0.56.94
+no shut
+
+ 
+interface Tunnel22050
+ description 2-EDGE-R31-2
+ bandwidth 11000
+ ip address 172.17.15.25 255.255.255.248
+ ip mtu 1400
+ tunnel source GigabitEthernet0/1
+ tunnel destination 52.0.56.98
+no shut
+
+router ospf 1
+no passive-interface Tunnel21050
+no passive-interface Tunnel22050
+
+interface Tunnel21050
+ ip ospf network point-to-point
+ ip ospf 1 area 16
+no shut
+interface Tunnel22050
+ ip ospf network point-to-point
+ ip ospf 1 area 16
+no shut
+
+### OSPF AREA15 - Totally STUB
+router ospf 1
+area 15 stub
+area 15 stub no-summary
+exit
+
+ipv6 router ospf 1
+area 15 stub
+area 15 stub no-summary
+exit

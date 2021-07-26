@@ -1,0 +1,37 @@
+interface GigabitEthernet0/0.110
+ ip nat outside
+
+interface GigabitEthernet0/0.120
+ ip nat outside
+
+interface GigabitEthernet0/1.61
+ip policy route-map PBR-ISP1
+ ip nat inside
+
+interface GigabitEthernet0/1.71
+ ip policy route-map PBR-ISP2
+ ip nat inside
+
+ip nat inside source route-map ISP1 interface GigabitEthernet0/0.110 overload
+ip nat inside source route-map ISP2 interface GigabitEthernet0/0.120 overload
+
+ip access-list extended VLAN61
+ permit ip 172.19.64.0 0.0.0.255 any
+ip access-list extended VLAN71
+ permit ip 172.19.70.0 0.0.0.63 any
+
+route-map PBR-ISP2 permit 10
+ match ip address VLAN71
+ set ip next-hop verify-availability 52.0.56.105 10 track 6
+ set ip next-hop verify-availability 52.0.56.101 20 track 3
+!
+route-map PBR-ISP1 permit 10
+ match ip address VLAN61
+ set ip next-hop verify-availability 52.0.56.101 10 track 3
+ set ip next-hop verify-availability 52.0.56.105 20 track 6
+
+route-map ISP2 permit 10
+ match interface GigabitEthernet0/0.120
+!         
+route-map ISP1 permit 10
+ match interface GigabitEthernet0/0.110

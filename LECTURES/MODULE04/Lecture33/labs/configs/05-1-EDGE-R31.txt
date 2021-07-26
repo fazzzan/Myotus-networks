@@ -1,0 +1,93 @@
+### Настройка GRE EDGE1
+interface Tunnel11035
+ description 1-EDGE1-1
+ bandwidth 2000
+ ip address 172.17.15.2 255.255.255.248
+ ip mtu 1400
+ tunnel source GigabitEthernet0/0
+ tunnel destination 100.1.1.98
+no shut
+
+interface Tunnel21035
+ description 2-EDGE1-1
+ bandwidth 10000
+ ip address 172.17.15.10 255.255.255.248
+ ip mtu 1400
+ tunnel source GigabitEthernet0/2
+ tunnel destination 100.1.1.98
+no shut
+
+
+### Настройка GRE EDGE2
+interface Tunnel12035
+ description 1-EDGE2-1
+ bandwidth 3000
+ ip address 172.17.15.18 255.255.255.248
+ ip mtu 1400
+ tunnel source GigabitEthernet0/0
+ tunnel destination 30.1.35.98
+no shut
+
+ 
+interface Tunnel22035
+ description 2-EDGE2-1
+ bandwidth 11000
+ ip address 172.17.15.26 255.255.255.248
+ ip mtu 1400
+ tunnel source GigabitEthernet0/2
+ tunnel destination 30.1.35.98
+no shut
+
+
+### OSPF AREA15
+router ospf 1
+router-id 10.0.5.11
+passive-interface default
+no passive-interface Tunnel11035
+redistribute eigrp 100 metric-type 1
+
+router ospf 2
+router-id 10.0.5.12
+passive-interface default
+no passive-interface Tunnel21035
+redistribute eigrp 100 metric-type 1
+
+router ospf 3
+router-id 10.0.5.13
+passive-interface default
+no passive-interface Tunnel12035
+redistribute eigrp 100 metric-type 1
+
+router ospf 4
+router-id 10.0.5.14
+passive-interface default
+no passive-interface Tunnel22035
+redistribute eigrp 100 metric-type 1
+
+interface Tunnel11035
+ ip ospf network point-to-point
+ ip ospf 1 area 15
+
+interface Tunnel21035
+ ip ospf network point-to-point
+ ip ospf 2 area 16
+
+interface Tunnel12035
+ ip ospf network point-to-point
+ ip ospf 3 area 17
+
+interface Tunnel22035
+ ip ospf network point-to-point
+ ip ospf 4 area 18
+
+
+router ospf 1
+area 15 stub
+exit
+
+ipv6 router ospf 1
+area 15 stub
+exit
+
+
+

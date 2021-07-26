@@ -4,11 +4,12 @@ hostname DSWCOLCORE16
 
 router eigrp NG
  address-family ipv4 unicast autonomous-system 100
- network 172.18.0.8 0.0.0.7
- network 172.18.0.24 0.0.0.7
- network 172.18.0.48 0.0.0.7
- network 172.18.0.72 0.0.0.7
- network 172.18.0.80 0.0.0.7
+  network 172.18.0.0 0.0.255.255
+no network 172.18.0.8 0.0.0.7
+no network 172.18.0.24 0.0.0.7
+no network 172.18.0.48 0.0.0.7
+no network 172.18.0.72 0.0.0.7
+no network 172.18.0.80 0.0.0.7
   eigrp router-id 10.0.5.21
  no shutdown 
   af-interface default
@@ -16,7 +17,7 @@ router eigrp NG
   exit-af-interface
   af-interface GigabitEthernet0/2
    no passive-interface
-   summary-address 172.18.64.0 255.255.192.0
+no summary-address 172.18.64.0 255.255.192.0
   exit-af-interface
   af-interface GigabitEthernet0/3
    no passive-interface

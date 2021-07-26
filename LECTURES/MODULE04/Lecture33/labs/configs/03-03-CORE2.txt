@@ -1,0 +1,8 @@
+clock set 02:39:00 23 July 2021
+#Заходим в режим конфигурации
+conf t
+clock timezone MSK 3
+ntp master 2
+ntp update-calendar
+ntp server 0.pool.ntp.org
+ntp server 1.pool.ntp.org

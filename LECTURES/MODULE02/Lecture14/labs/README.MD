@@ -229,3 +229,20 @@ OE2 2000:AAAD:1:300::/64 [110/3]
             - [03-10-ASW1](/LECTURES/MODULE02/Lecture14/labs/configs/03-10-ASW1.txt)
             - [03-10-ASW2](/LECTURES/MODULE02/Lecture14/labs/configs/03-10-ASW2.txt)
             - [DHCP](/LECTURES/MODULE02/Lecture14/labs/configs/DHCP.txt)
+
+
+
+
+Доп. материалы: 
+- http://www.labminutes.com/rs0044_ipv6_ospfv3_3
+- https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_ospf/configuration/xe-16/iro-xe-16-book/OSPFv3-Route-Filter-Using-Dist-List.html
+- https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_ospf/configuration/xe-16-10/iro-xe-16-10-book/OSPFv3-Route-Filter-Using-Dist-List.pdf
+- https://www.learncisco.net/courses/icnd-1/introducing-ipv6/configuring-ospfv3.html
+- http://4isp.blogspot.com/2013/10/ospf-inter-area-intra-area.html
+- https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/iproute_ospf/configuration/xe-16-10/iro-xe-16-10-book/OSPFv3-Route-Filter-Using-Dist-List.html
+- https://www.oreilly.com/library/view/cisco-ios-cookbook/0596527225/ch25s09.html
+- https://www.cisco.com/c/en/us/td/docs/routers/crs/software/crs_r4-0/routing/command/reference/rr40crs1book_chapter5.html#wp1685952852
+- https://packetlife.net/blog/2010/feb/10/ospf-filtering-inter-area-vs-intra-area/
+- https://netcraftsmen.com/filtering-ospf-areas-in-ospf/
+- http://www.audentia-gestion.fr/cisco/iro-xe-3s-book.pdf
+- https://www.arista.com/en/um-eos/eos-open-shortest-path-first--version-3

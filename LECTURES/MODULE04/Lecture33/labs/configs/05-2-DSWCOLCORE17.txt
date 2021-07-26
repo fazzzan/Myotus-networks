@@ -1,0 +1,71 @@
+hostname DSWWAN17
+!
+no ip domain lookup
+ipv6 unicast-routing
+!
+interface Loopback10
+ ip address 10.0.5.22 255.255.255.0
+ no shut
+!
+vlan 110
+name ###ISP1###
+!
+interface GigabitEthernet0/0
+ switchport mode access
+ switchport access vlan 110
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/1
+ switchport mode access
+ switchport access vlan 110
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/2
+ no switchport
+ ip address 172.18.0.2 255.255.255.248
+ ipv6 address 2000:AAAd:2:100::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet0/3
+ no switchport
+ ip address 172.18.0.18 255.255.255.248
+ ipv6 address 2000:AAAd:2:102::2/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/0
+ no switchport
+ ip address 172.18.0.57 255.255.255.248
+ ipv6 address 2000:AAAd:2:107::1/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface GigabitEthernet2/1
+ no switchport
+ ip address 172.18.0.65 255.255.255.248
+ ipv6 address 2000:AAAd:2:108::1/64
+ no negotiation auto
+ duplex full
+ no shutdown
+!
+interface ra Gi1/0 - 1
+ no switchport
+ channel-group 1 mode active
+exit
+!
+interface Port-channel1
+ no switchport
+ ip address 172.18.0.49 255.255.255.248
+ ipv6 address 2000:AAAd:2:106::1/64
+ no shutdown
+!
+do wr mem
+!

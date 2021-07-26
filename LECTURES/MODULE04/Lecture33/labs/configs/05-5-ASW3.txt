@@ -1,0 +1,16 @@
+hostname ASW3
+!
+interface Vlan61
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
+ no shutdown
+!
+interface Vlan71
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
+ no shutdown
+!
+
+
+Было
+ip helper-address 172.18.0.1
