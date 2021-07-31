@@ -1,4 +1,133 @@
-### Настройка GRE EDGE1
+### Loo с которого пойдут оба туннеля
+interface Loopback2042
+ ip address 50.50.96.1 255.255.255.255
+ ipv6 address 2000:AAAD:2::1/128
+
+### Настройка GRE с EDGE1
+interface Tunnel110351
+ description 1-EDGE1-1
+ bandwidth 3500
+ ip address 172.17.15.34 255.255.255.248
+ ipv6 enable
+ ipv6 address 3FFE:11::2/64
+ ip mtu 1400
+ tunnel source Loopback2042
+ tunnel destination 35.10.10.1
+no shut
+
+### Настройка GRE с EDGE2
+interface Tunnel220351
+ description 2-EDGE2-1
+ bandwidth 12000
+ ip address 172.17.15.42 255.255.255.248
+ ipv6 enable
+ ipv6 address 3FFE:22::2/64
+ ip mtu 1400
+ tunnel source Loopback2042
+ tunnel destination 35.10.10.2
+no shut
+
+### Включение OSPF AREA 19, 20 на IF соответствующих Tunnel 
+router ospf 5
+router-id 10.0.5.15
+passive-interface default
+no passive-interface Tunnel110351
+redistribute eigrp 100 metric-type 1
+
+router ospf 6
+router-id 10.0.5.16
+passive-interface default
+no passive-interface Tunnel220351
+redistribute eigrp 100 metric-type 1
+
+ipv6 router ospf 5
+router-id 10.0.5.15
+no passive-interface Tunnel110351
+exit
+
+ipv6 router ospf 6
+router-id 10.0.5.16
+no passive-interface Tunnel110351
+exit
+
+interface Tunnel110351
+ipv6 enable
+ ip ospf network point-to-point
+ ip ospf 5 area 19
+ ipv6 ospf 5 area 19
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+no shut
+
+interface Tunnel220351
+ipv6 enable
+ ip ospf network point-to-point
+ ip ospf 6 area 20
+ ipv6 ospf 6 area 20
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+no shut
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+__________________________________
+Ранее использовался
+### Настройка GRE с EDGE1
 interface Tunnel11035
  description 1-EDGE1-1
  bandwidth 2000
@@ -17,7 +146,6 @@ interface Tunnel21035
  tunnel destination 100.1.1.98
 no shut
 
-
 ### Настройка GRE EDGE2
 interface Tunnel12035
  description 1-EDGE2-1
@@ -27,7 +155,6 @@ interface Tunnel12035
  tunnel source GigabitEthernet0/0
  tunnel destination 30.1.35.98
 no shut
-
  
 interface Tunnel22035
  description 2-EDGE2-1
@@ -37,7 +164,6 @@ interface Tunnel22035
  tunnel source GigabitEthernet0/2
  tunnel destination 30.1.35.98
 no shut
-
 
 ### OSPF AREA15
 router ospf 1
@@ -79,15 +205,44 @@ interface Tunnel12035
 interface Tunnel22035
  ip ospf network point-to-point
  ip ospf 4 area 18
+________________________________
+interface Tunnel110351
+ description 1-EDGE1-1
+ bandwidth 3500
+ ip address 172.17.15.34 255.255.255.248
+ ip mtu 1400
+ tunnel source Loopback2042
+ tunnel destination 35.10.10.1
+no shut
 
+interface Tunnel220351
+ description 2-EDGE2-1
+ bandwidth 12000
+ ip address 172.17.15.42 255.255.255.248
+ ip mtu 1400
+ tunnel source Loopback20422
+ tunnel destination 35.10.10.2
+no shut
 
-router ospf 1
-area 15 stub
-exit
+router ospf 5
+router-id 10.0.5.15
+passive-interface default
+no passive-interface Tunnel110351
+redistribute eigrp 100 metric-type 1
 
-ipv6 router ospf 1
-area 15 stub
-exit
+router ospf 6
+router-id 10.0.5.16
+passive-interface default
+no passive-interface Tunnel220351
+redistribute eigrp 100 metric-type 1
 
+interface Tunnel110351
+ ip ospf network point-to-point
+ ip ospf 5 area 19
+no shut
 
-
+interface Tunnel220351
+ ip ospf network point-to-point
+ ip ospf 6 area 20
+no shut
+___________________________________

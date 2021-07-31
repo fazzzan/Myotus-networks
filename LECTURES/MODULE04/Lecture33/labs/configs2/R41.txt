@@ -1,0 +1,35 @@
+R41
+
+int tunnel1
+ip address 10.10.100.41 255.255.255.0
+ip nhrp authentication DMVPN1
+ip nhrp map 10.10.100.11 1.1.1.11
+ip nhrp map 10.10.100.12 1.1.1.12
+ip nhrp map multicast 1.1.1.11
+ip nhrp map multicast 1.1.1.12
+ip nhrp network-id 1
+ip nhrp holdtime 300
+ip nhrp shortcut
+ip nhrp nhs 10.10.100.11
+ip nhrp nhs 10.10.100.12
+ip tcp adjust-mss 1360
+tunnel source Ethernet0/0
+ tunnel mode gre multipoint
+tunnel key 1
+
+int tunnel2
+ip address 10.10.200.41 255.255.255.0
+ip nhrp authentication DMVPN2
+ip nhrp map 10.10.200.21 1.1.1.21
+ip nhrp map 10.10.200.22 1.1.1.22
+ip nhrp map multicast 1.1.1.21
+ip nhrp map multicast 1.1.1.22
+ip nhrp network-id 2
+ip nhrp holdtime 300
+ip nhrp shortcut
+ip nhrp nhs 10.10.200.21
+ip nhrp nhs 10.10.200.22
+ip tcp adjust-mss 1360
+tunnel source Ethernet0/0
+ tunnel mode gre multipoint
+tunnel key 2

@@ -1,0 +1,12 @@
+R12
+interface Tunnel1
+ip add 10.10.100.12 255.255.255.0
+ip nhrp authentication DMVPN1
+ip nhrp map multicast dynamic
+ip nhrp network-id 1
+ip nhrp holdtime 300
+ip nhrp redirect
+ip tcp adjust-mss 1360
+tunnel source Ethernet0/0
+tunnel mode gre multipoint
+tunnel key 1

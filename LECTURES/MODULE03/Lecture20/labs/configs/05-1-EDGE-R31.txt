@@ -199,3 +199,30 @@ route-map ISP2 permit 10
 
 ip nat inside source route-map ISP1 interface GigabitEthernet0/0 overload
 ip nat inside source route-map ISP2 interface GigabitEthernet0/2 overload
+
+
+### PBR timers
+ip sla 441
+ icmp-echo 8.8.4.4 source-interface GigabitEthernet0/0
+ threshold 500
+ timeout 500
+ frequency 1
+ip sla schedule 441 life forever start-time now
+ip sla 551
+ icmp-echo 8.8.5.5 source-interface GigabitEthernet0/2
+ threshold 500
+ timeout 500
+ frequency 1
+ip sla schedule 551 life forever start-time now
+ip sla 5693
+ icmp-echo 52.0.56.93 source-interface GigabitEthernet0/0
+ threshold 500
+ timeout 500
+ frequency 1
+ip sla schedule 5693 life forever start-time now
+ip sla 5697
+ icmp-echo 52.0.56.97 source-interface GigabitEthernet0/2
+ threshold 500
+ timeout 500
+ frequency 1
+ip sla schedule 5697 life forever start-time now

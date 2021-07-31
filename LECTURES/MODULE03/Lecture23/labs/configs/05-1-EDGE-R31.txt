@@ -35,3 +35,7 @@ router eigrp NG
   topology base
   redistribute bgp 2042
   exit-af-topology
+
+### BGP Timers
+router bgp 1001
+timers bgp 1 3

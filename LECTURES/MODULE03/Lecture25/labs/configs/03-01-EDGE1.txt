@@ -46,6 +46,10 @@ router bgp 1001
   address-family ipv4
    distance bgp 20 50 110
  exit-address-family
+#### 20 - Distance for routes external to the AS
+#### 50 - Distance for routes internal to the AS
+#### 110 - Distance for local routes
+
  !
  address-family ipv6  
    distance bgp 20 50 110
@@ -66,3 +70,19 @@ router bgp 1001
  address-family ipv6
   neighbor 2000:AAAB:400::1 route-map AS-1001 out
  exit-address-family
+
+
+
+
+20210729______________
+ip as-path access-list 10 permit _2042$
+ip prefix-list PREFIX-SPB seq 5 permit 50.50.96.0/24
+
+route-map BLOCK-PREFIX-SPB deny 10
+match ip address prefix-list PREFIX-SPB
+match  as-path 10
+route-map BLOCK-PREFIX-SPB permit 20
+
+router bgp 1001
+ address-family ipv4
+ neighbor 172.17.0.25 route-map BLOCK-PREFIX-SPB in

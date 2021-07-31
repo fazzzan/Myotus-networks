@@ -1,3 +1,103 @@
+### Настройка Lo1001 на AS
+interface Loopback1001
+ ip address 35.10.10.5 255.255.255.252
+ ipv6 address 2000:AAAD:1::2/128
+
+### Поднимаем GRE на туннеле
+interface Tunnel220501
+ description 2-EDGE-R31-2
+ bandwidth 12000
+ ip address 172.17.15.41 255.255.255.248
+ ipv6 enable
+ ipv6 address 3FFE:22::1/64
+ ip mtu 1400
+ tunnel source Loo1001
+ tunnel destination 50.50.96.1
+no shut
+
+router ospf 1
+ no passive-interface Tunnel220501
+
+ipv6 router ospf 1
+ no passive-interface Tunnel220501
+
+interface Tunnel220501
+ ip ospf network point-to-point
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+ ip ospf 1 area 20
+ ipv6 ospf 1 area 20
+no shut
+
+### Добавляем DMVPN
+int Tunnel102
+description ### DMVPN2 ###
+tunnel mode gre multipoint
+ip address 172.17.15.57 255.255.255.248
+tunnel source Loo1001
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp network-id 102
+ip nhrp authentication OTUS
+ip nhrp map multicast dynamic
+
+
+sho ip nhrp
+
+### Вбрасываем в туннель OSPF0
+router ospf 1
+ no passive-interface Tunnel102
+
+
+interface Tunnel102
+ ip ospf 1 area 0
+ ip ospf network broadcast
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+no shut
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________________________________
+Кусок конфига, который использовался рнее
+
 ### Настройка GRE
 interface Tunnel21050
  description 2-EDGE-R31-1
@@ -25,20 +125,10 @@ no passive-interface Tunnel22050
 
 interface Tunnel21050
  ip ospf network point-to-point
- ip ospf 1 area 16
+ ip ospf 1 area 17
 no shut
+
 interface Tunnel22050
  ip ospf network point-to-point
- ip ospf 1 area 16
+ ip ospf 1 area 18
 no shut
-
-### OSPF AREA15 - Totally STUB
-router ospf 1
-area 15 stub
-area 15 stub no-summary
-exit
-
-ipv6 router ospf 1
-area 15 stub
-area 15 stub no-summary
-exit

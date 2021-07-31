@@ -17,3 +17,7 @@ router bgp 1001
   network 100.1.1.96 mask 255.255.255.252
  address-family ipv6
   network 2000:AAAB:400:: 64
+
+### BGP Timers
+router bgp 1001
+timers bgp 1 3

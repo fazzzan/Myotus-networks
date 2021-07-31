@@ -1,37 +1,76 @@
-interface GigabitEthernet0/0.110
- ip nat outside
+### Добавляем DMVPN1 - EDGE1
+int Tunnel101
+description ### DMVPN1 ###
+ip address 172.17.15.51 255.255.255.248
+tunnel source gi0/0.120
+tunnel destination 35.10.10.1
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp network-id 101
+ip nhrp authentication OTUS
+ip nhrp map multicast 35.10.10.1
+ip nhrp nhs 172.17.15.49
+ip nhrp map 172.17.15.49 35.10.10.1
 
-interface GigabitEthernet0/0.120
- ip nat outside
 
+sho ip nhrp
+
+### Вбрасываем в туннели OSPF0
+router ospf 1
+ passive-interface default
+ router-id 10.0.6.11
+ no passive-interface Tunnel101
+
+### https://networklessons.com/cisco/ccie-routing-switching/dmvpn-phase-2-ospf-routing#Broadcast
+
+interface Tunnel101
+ ip ospf 1 area 0
+ ip ospf network broadcast
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+ ip ospf priority 0
+no shut
+
+### Активируем OSPF на IF
 interface GigabitEthernet0/1.61
-ip policy route-map PBR-ISP1
- ip nat inside
-
+ ip ospf 1 area 0
 interface GigabitEthernet0/1.71
- ip policy route-map PBR-ISP2
- ip nat inside
+ ip ospf 1 area 0
+interface GigabitEthernet0/1.81
+ ip ospf 1 area 0
+interface GigabitEthernet0/1.91
+ ip ospf 1 area 0
 
-ip nat inside source route-map ISP1 interface GigabitEthernet0/0.110 overload
-ip nat inside source route-map ISP2 interface GigabitEthernet0/0.120 overload
 
-ip access-list extended VLAN61
- permit ip 172.19.64.0 0.0.0.255 any
-ip access-list extended VLAN71
- permit ip 172.19.70.0 0.0.0.63 any
 
-route-map PBR-ISP2 permit 10
- match ip address VLAN71
- set ip next-hop verify-availability 52.0.56.105 10 track 6
- set ip next-hop verify-availability 52.0.56.101 20 track 3
-!
-route-map PBR-ISP1 permit 10
- match ip address VLAN61
- set ip next-hop verify-availability 52.0.56.101 10 track 3
- set ip next-hop verify-availability 52.0.56.105 20 track 6
+### Добавляем DMVPN1 - EDGE2
+int Tunnel102
+description ### DMVPN2 ###
+ip address 172.17.15.59 255.255.255.248
+tunnel source gi0/0.120
+tunnel destination 35.10.10.5
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp network-id 102
+ip nhrp authentication OTUS
+ip nhrp map multicast 35.10.10.5
+ip nhrp nhs 172.17.15.57
+ip nhrp map 172.17.15.57 35.10.10.5
 
-route-map ISP2 permit 10
- match interface GigabitEthernet0/0.120
-!         
-route-map ISP1 permit 10
- match interface GigabitEthernet0/0.110
+sho ip nhrp
+
+### Вбрасываем в туннели OSPF0
+router ospf 1
+ no passive-interface Tunnel102
+
+### https://networklessons.com/cisco/ccie-routing-switching/dmvpn-phase-2-ospf-routing#Broadcast
+
+interface Tunnel102
+ ip ospf 1 area 0
+ ip ospf network broadcast
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+ ip ospf priority 0
+no shut

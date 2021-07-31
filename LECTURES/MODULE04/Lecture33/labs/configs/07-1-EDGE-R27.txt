@@ -1,1 +1,74 @@
-L14
+### Добавляем DMVPN1 - EDGE1
+int Tunnel101
+description ### DMVPN1 ###
+ip address 172.17.15.50 255.255.255.248
+tunnel source gi0/0
+tunnel destination 35.10.10.1
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp network-id 101
+ip nhrp authentication OTUS
+ip nhrp map multicast 35.10.10.1
+ip nhrp nhs 172.17.15.49
+ip nhrp map 172.17.15.49 35.10.10.1
+
+
+sho ip nhrp
+
+### Вбрасываем в туннель OSPF0
+router ospf 1
+ passive-interface default
+ router-id 10.0.7.11
+ no passive-interface Tunnel101
+
+
+### https://networklessons.com/cisco/ccie-routing-switching/dmvpn-phase-2-ospf-routing#Broadcast
+
+interface Tunnel101
+ ip ospf 1 area 0
+ ip ospf network broadcast
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+ ip ospf priority 0
+no shut
+
+
+### Активируем OSPF на IF
+interface GigabitEthernet0/1
+ ip ospf 1 area 0
+interface GigabitEthernet0/2
+ ip ospf 1 area 0
+
+
+
+### Добавляем DMVPN2 - EDGE2
+int Tunnel102
+description ### DMVPN2 ###
+ip address 172.17.15.58 255.255.255.248
+tunnel source gi0/0
+tunnel destination 35.10.10.5
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp network-id 102
+ip nhrp authentication OTUS
+ip nhrp map multicast 35.10.10.5
+ip nhrp nhs 172.17.15.57
+ip nhrp map 172.17.15.57 35.10.10.5
+
+sho ip nhrp
+
+### Вбрасываем в туннель OSPF0
+router ospf 1
+ no passive-interface Tunnel102
+
+### https://networklessons.com/cisco/ccie-routing-switching/dmvpn-phase-2-ospf-routing#Broadcast
+
+interface Tunnel102
+ ip ospf 1 area 0
+ ip ospf network broadcast
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+ ip ospf priority 0
+no shut

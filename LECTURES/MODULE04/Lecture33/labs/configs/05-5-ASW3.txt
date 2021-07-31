@@ -11,6 +11,27 @@ interface Vlan71
  no shutdown
 !
 
+### Назначение ip-helper с учетом IPv6
 
-Было
-ip helper-address 172.18.0.1
+interface Vlan61
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
+ ipv6 address 2000:AAAD:2:601:ffff:ffff:ffff:fffe/64
+ ipv6 nd prefix 2000:AAAD:2:601::/64 no-advertise
+ ipv6 nd managed-config-flag
+ ipv6 nd other-config-flag
+ ipv6 dhcp relay destination 2000:aaad:1:500::1
+ ipv6 dhcp relay destination 2000:aaad:1:501::1
+ no shutdown
+!
+interface Vlan71
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
+ ipv6 address 2000:AAAD:2:611:ffff:ffff:ffff:fffe/64
+ ipv6 nd prefix 2000:AAAD:2:611::/64 no-advertise
+ ipv6 nd managed-config-flag
+ ipv6 nd other-config-flag
+ ipv6 dhcp relay destination 2000:aaad:1:500::1
+ ipv6 dhcp relay destination 2000:aaad:1:501::1
+ no shutdown
+!

@@ -1,10 +1,143 @@
-### Настройка GRE
+### Настраиваем фильтрацию маршрутов OSPF IPv4 от EDGE2 
+ip prefix-list FILTER-0.0.0.0_FROM_EDGE1 seq 5 deny 0.0.0.0/0
+ip prefix-list FILTER-0.0.0.0_FROM_EDGE1 seq 10 permit 0.0.0.0/0 le 32
+
+router ospf 1
+ distribute-list prefix FILTER-0.0.0.0_FROM_EDGE1 in
+
+### Настраиваем фильтрацию маршрутов iBGP от EDGE2 и тюним таймеры bgp, ospf
+
+ip prefix-list PREFIX-SPB seq 5 permit 50.50.96.0/24
+ip as-path access-list 10 permit _2042$
+
+route-map BLOCK-PREFIX-SPB deny 10
+ match ip address prefix-list PREFIX-SPB
+ match as-path 10
+ route-map BLOCK-PREFIX-SPB permit 20
+
+router bgp 1001
+ bgp router-id 1.1.1.1
+ no bgp default ipv4-unicast
+ timers bgp 1 3
+ neighbor 172.17.0.25 remote-as 1001
+ neighbor 172.17.0.25 update-source Loopback11
+ !
+ address-family ipv4
+  network 35.10.10.0 mask 255.255.255.252
+  neighbor 172.17.0.25 activate
+  neighbor 172.17.0.25 route-map BLOCK-PREFIX-SPB in
+ exit-address-family
+
+
+### Настройка Lo1001 на AS
+interface Loopback1001
+ ip address 35.10.10.1 255.255.255.252
+ ipv6 address 2000:AAAD:1::1/128
+
+### Поднимаем GRE на туннеле
+interface Tunnel110501
+ description 1-EDGE-R31-1
+ bandwidth 11000
+ ip address 172.17.15.33 255.255.255.248
+ ipv6 enable
+ ipv6 address 3FFE:11::1/64
+ ip mtu 1400
+ tunnel source Loo1001
+ tunnel destination 50.50.96.1
+no shut
+
+router ospf 1
+ no passive-interface Tunnel110501
+
+ipv6 router ospf 1
+ passive-interface Tunnel110501
+
+interface Tunnel110501
+ ip ospf network point-to-point
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+ ip ospf 1 area 19
+ ipv6 ospf 1 area 19
+no shut
+
+### Добавляем DMVPN
+int Tunnel101
+description ### DMVPN1 ###
+tunnel mode gre multipoint
+ip address 172.17.15.49 255.255.255.248
+tunnel source Loo1001
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp network-id 101
+ip nhrp authentication OTUS
+ip nhrp map multicast dynamic
+
+
+sho ip nhrp
+
+### Вбрасываем в туннель OSPF0
+router ospf 1
+ no passive-interface Tunnel101
+
+
+interface Tunnel101
+ ip ospf 1 area 0
+ ip ospf network broadcast
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+no shut
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+________________________________________
+Кусок конфига, который использовался рнее
+
+ ### Настройка GRE
 interface Tunnel11050
  description 1-EDGE-R31-1
  bandwidth 2000
  ip address 172.17.15.1 255.255.255.248
  ip mtu 1400
- shutdown
+ no shutdown
  tunnel source GigabitEthernet0/1
  tunnel destination 52.0.56.94
 no shut
@@ -19,7 +152,6 @@ interface Tunnel12050
  tunnel destination 52.0.56.98
 no shut
 
-
 router ospf 1
 no passive-interface Tunnel11050
 no passive-interface Tunnel12050
@@ -27,21 +159,9 @@ no passive-interface Tunnel12050
 interface Tunnel11050
  ip ospf network point-to-point
  ip ospf 1 area 15
+no shut
 
 interface Tunnel12050
  ip ospf network point-to-point
- ip ospf 1 area 15
-
-
-
-
-### OSPF AREA15 - Totally STUB
-router ospf 1
-area 15 stub
-area 15 stub no-summary
-exit
-
-ipv6 router ospf 1
-area 15 stub
-area 15 stub no-summary
-exit
+ ip ospf 1 area 16
+no shut
