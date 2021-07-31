@@ -154,7 +154,7 @@ no shut
 ![](/LECTURES/MODULE04/Lecture33/pictures/45.jpg)
 
 
-У хостов есть свзность между собой
+У хостов есть свзность между собой через туннели
 ![](/LECTURES/MODULE04/Lecture33/pictures/46.jpg)
 
 Задание выполнено
