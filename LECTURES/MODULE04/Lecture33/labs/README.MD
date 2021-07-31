@@ -10,288 +10,204 @@
 Решение: 
 Cхема сети ipv4, ipv6
 
-![](/LECTURES/MODULE02/Lecture10/pictures/31.jpg)
+![](/LECTURES/MODULE04/Lecture33/pictures/42.jpg)
 
 ## Задание 1: Настроите GRE между офисами Москва и С.-Петербург10727
 
-Сначала отравим путь до AS1001 слева, чтбы сделать маршрут в AS 1001 симметричным
+Немного поменял концепцию маршрутизации: теперь каждый EDGE имеет свой дефолтный маршрут, но EDGE 1 фильтрует входящие от EDGE2 маршруты:
 ```
-route-map AS-1001 permit 10
- set as-path prepend 1001 1001
+router ospf 1
+ router-id 1.1.1.1
+...
+ distribute-list prefix FILTER-0.0.0.0_FROM_EDGE1 in
+
+ip prefix-list FILTER-0.0.0.0_FROM_EDGE1: 2 entries
+   seq 5 deny 0.0.0.0/0
+   seq 10 permit 0.0.0.0/0 le 32
 
 router bgp 1001
+ neighbor 172.17.0.25 remote-as 1001
+ neighbor 172.17.0.25 update-source Loopback11
+ !
  address-family ipv4
-  neighbor 100.1.1.97 route-map AS-1001 out
- exit-address-family
- address-family ipv6
-  neighbor 2000:AAAB:400::1 route-map AS-1001 out
- exit-address-family
-```
-Настройка PAT немного отличается от стандартной, так как нам надо подменить исходящие ip на ipv4 AS1001
-```
-interface GigabitEthernet0/1
- ip nat outside
-!
-interface GigabitEthernet0/2
- ip nat inside
-!
-ip access-list extended OSPF3
-10 permit ip 172.17.64.0 0.0.0.255 any
-20 permit ip 172.17.65.0 0.0.0.255 any
-30 permit ip 172.17.66.0 0.0.0.255 any
-40 permit ip 172.17.67.0 0.0.0.255 any
-50 permit ip 172.17.68.0 0.0.0.255 any
-
-ip nat pool AS1001_10 35.10.10.10 35.10.10.10 netmask 255.255.255.0
-
-ip nat inside source list OSPF3 pool AS1001_10 overload
-```
-Трафик успешно транслируется
-
-![](/LECTURES/MODULE04/Lecture30/pictures/01.jpg)
-![](/LECTURES/MODULE04/Lecture30/pictures/02.jpg)
-
-## Задание 2: Настроите NAT(PAT) на EDGE-R31. Трансляция должна осуществляться в пул из 5 адресов автономной системы AS2042
-
-Выполнена, трансляция работает
-```
-### Настройка PAT
-!
-interface GigabitEthernet0/0
- ip nat outside
-!
-interface GigabitEthernet0/2
- ip nat outside
-!
-interface GigabitEthernet0/1
- ip nat inside
-!
-interface GigabitEthernet0/3
- ip nat inside
-!
-no ip nat inside source route-map ISP1 interface GigabitEthernet0/0 overload
-no ip nat inside source route-map ISP2 interface GigabitEthernet0/2 overload
-!
-ip access-list extended INSIDE
- permit ip 172.18.64.0 0.0.0.255 any
- permit ip 172.18.65.0 0.0.0.255 any
+  neighbor 172.17.0.25 activate
+  neighbor 172.17.0.25 route-map BLOCK-PREFIX-SPB in
 
 
-ip nat pool AS2042 50.50.96.10 50.50.96.15 netmask 255.255.255.0
-
-
-ip nat inside source list INSIDE pool AS2042
+ip prefix-list PREFIX-SPB: 1 entries
+   seq 5 permit 50.50.96.0/24
 ```
 
-## Задание 3: Настроите NAT для серверного сегмента в адрес отличный от адреса из Задания 1
-
+Настройка GRE на туннеле c ip-адресом Loopback из диапазона нашей AS 1001 и активация на нем OSPF AREA19. Пример - для EDGE1, аналогично для EDGE2, только без дополнительной фильтрации.
 ```
-ip access-list extended SERVER
- permit ip 172.17.16.0 0.0.0.255 any
- permit ip 172.17.17.0 0.0.0.255 any
+interface Tunnel110501
+ description 1-EDGE-R31-1
+ bandwidth 11000
+ ip address 172.17.15.33 255.255.255.248
+ ipv6 enable
+ ipv6 address FE80::1 link-local
+ ip mtu 1400
+ tunnel source Loo1001
+ tunnel destination 50.50.96.1
+no shut
 
-ip nat pool AS1001_11 35.10.10.11 35.10.10.11 netmask 255.255.255.0
+router ospf 1
+ no passive-interface Tunnel110501
 
+ipv6 router ospf 1
+ passive-interface Tunnel110501
 
-ip nat inside source list SERVER pool AS1001_11 overload
-
-```
-
-![](/LECTURES/MODULE04/Lecture30/pictures/04.jpg)
-
-## Задание 4: Настроите NAT так, чтобы хост в OSPF1 был доступен через адреса AS1001 для удаленного управления
-
-Включим ssh на MOWOSPF
-```
-ip domain name fz.otus.ru
-crypto key generate rsa modulus 2048
-username cisco privilege 15 password class
-ip ssh version 2
-line vty 0 4
-login local
-transport input ssh
-```
-
-Настроим на обоих EDGE проброс порта
-
-```
-### Настроим проброс порта на маршрутизаторе для подключения к OSPF1
-ip nat inside source static tcp 172.17.1.1 22 35.10.10.12 30022
-```
-Работает, проверено из СПб
-![](/LECTURES/MODULE04/Lecture30/pictures/05.jpg)
-
-## Задание 5: Настроите статический NAT(PAT) для офиса Чокурдах
-
-Настройка NAT выполнена с учетом PBR и отслеживанием оставшегося в живых линкА
-```
-interface GigabitEthernet0/0.110
- ip nat outside
-
-interface GigabitEthernet0/0.120
- ip nat outside
-
-interface GigabitEthernet0/1.61
-ip policy route-map PBR-ISP1
- ip nat inside
-
-interface GigabitEthernet0/1.71
- ip policy route-map PBR-ISP2
- ip nat inside
-
-ip nat inside source route-map ISP1 interface GigabitEthernet0/0.110 overload
-ip nat inside source route-map ISP2 interface GigabitEthernet0/0.120 overload
-
-ip access-list extended VLAN61
- permit ip 172.19.64.0 0.0.0.255 any
-ip access-list extended VLAN71
- permit ip 172.19.70.0 0.0.0.63 any
-
-route-map PBR-ISP2 permit 10
- match ip address VLAN71
- set ip next-hop verify-availability 52.0.56.105 10 track 6
- set ip next-hop verify-availability 52.0.56.101 20 track 3
-!
-route-map PBR-ISP1 permit 10
- match ip address VLAN61
- set ip next-hop verify-availability 52.0.56.101 10 track 3
- set ip next-hop verify-availability 52.0.56.105 20 track 6
-
-route-map ISP2 permit 10
- match interface GigabitEthernet0/0.120
-!         
-route-map ISP1 permit 10
- match interface GigabitEthernet0/0.110
+interface Tunnel110501
+ ip ospf network point-to-point
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+ ip ospf 1 area 19
+ ipv6 ospf 1 area 19
+no shut
 ```
 
-## Задание 6: Настроите DHCP сервер в офисе Москва на маршрутизаторах R12 и R13. VPC1 и VPC7 должны получать сетевые настройки по DHCP
+Настройка ответных туннелей на EDGE-R31 СПб. Настройка представлена только для одного туннеля
+```
+### Loo с которого пойдут оба туннеля
+interface Loopback2042
+ ip address 50.50.96.1 255.255.255.255
+ ipv6 address 2000:AAAD:2::1/128
 
-В планах заменить на WINDOWS сервер. Выполнено:
-```
-ip dhcp excluded-address 172.17.64.1 172.17.64.10
-ip dhcp excluded-address 172.17.64.254
-ip dhcp excluded-address 172.17.70.1 172.17.70.10
-ip dhcp excluded-address 172.17.70.254
-ip dhcp excluded-address 172.17.70.62
-ip dhcp excluded-address 172.17.65.1 172.17.65.10
-ip dhcp excluded-address 172.17.65.254
-ip dhcp excluded-address 172.17.70.65 172.17.70.75
-ip dhcp excluded-address 172.17.70.126
-!
-ip dhcp pool PC-FLOOR1
- network 172.17.64.0 255.255.255.0
- default-router 172.17.64.254 
- dns-server 172.17.64.254 
-!
-ip dhcp pool PRN-FLOOR1
- network 172.17.70.0 255.255.255.192
- default-router 172.17.70.62 
- dns-server 172.17.70.62 
-!
-ip dhcp pool PC-FLOOR2
- network 172.17.65.0 255.255.255.0
- default-router 172.17.65.254 
- dns-server 172.17.65.254 
-!
-ip dhcp pool PRN-FLOOR2
- network 172.17.70.64 255.255.255.192
- default-router 172.17.70.126 
- dns-server 172.17.70.126 
-```
-На промежуточных L3 - Access SW настроен соответствующий ip-helper, для нужного VLAN
-```
-### Назначение ip-helper
-interface Vlan61
- ip helper-address 172.17.16.1
- ip helper-address 172.17.17.1 
- no shutdown
-!
-interface Vlan71
- ip helper-address 172.17.16.1
- ip helper-address 172.17.17.1 
- no shutdown
-!
+### Настройка GRE с EDGE1
+interface Tunnel110351
+ description 1-EDGE1-1
+ bandwidth 3500
+ ip address 172.17.15.34 255.255.255.248
+ ipv6 enable
+ ipv6 address 3FFE:11::2/64
+ ip mtu 1400
+ tunnel source Loopback2042
+ tunnel destination 35.10.10.1
+no shut
+
+router ospf 5
+router-id 10.0.5.15
+passive-interface default
+no passive-interface Tunnel110351
+redistribute eigrp 100 metric-type 1
+
+ipv6 router ospf 5
+router-id 10.0.5.15
+no passive-interface Tunnel110351
+exit
+
+interface Tunnel110351
+ipv6 enable
+ ip ospf network point-to-point
+ ip ospf 5 area 19
+ ipv6 ospf 5 area 19
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+no shut
 ```
 
-![](/LECTURES/MODULE04/Lecture30/pictures/03.jpg)
+Маршруты успешно транслируются
 
-## Задание 7: Настроите NTP сервер на R12 и R13. Все устройства в офисе Москва должны синхронизировать время с R12 и R13
-Сервер
+![](/LECTURES/MODULE04/Lecture33/pictures/43.jpg)
+
+И на нижнем DSWWAN1
+![](/LECTURES/MODULE04/Lecture33/pictures/44.jpg)
+
+
+## Задание 2: Настроите DMVMN между Москва и Чокурдах, Лабытнанги
+
+Схема DMVPN представлена выше. DMVPN работает по схеме DUAL-HUB, поэтому на каждом из роутеров офисов - по два туннеля до соответствующего HUB. Растягиваем OSPF 0 на данные офисы. Настройка представлена для EDGE1, все остальные настройки - в конфигах устройств ниже
 ```
-clock set 02:39:00 23 July 2021
-#Заходим в режим конфигурации
-conf t
-clock timezone MSK 3
-ntp master 2
-ntp update-calendar
-ntp server 0.pool.ntp.org
-ntp server 1.pool.ntp.org
+### Добавляем DMVPN
+int Tunnel101
+description ### DMVPN1 ###
+tunnel mode gre multipoint
+ip address 172.17.15.49 255.255.255.248
+tunnel source Loo1001
+ip mtu 1400
+ip tcp adjust-mss 1360
+ip nhrp network-id 101
+ip nhrp authentication OTUS
+ip nhrp map multicast dynamic
+
+### Вбрасываем в туннель OSPF0
+router ospf 1
+ no passive-interface Tunnel101
+
+
+interface Tunnel101
+ ip ospf 1 area 0
+ ip ospf network broadcast
+ ip ospf dead-interval 3
+ ip ospf hello-interval 2
+ ip ospf retransmit-interval 4
+no shut
+
 ```
 
-Клиент
-```
-###интерфейса-источника ntp server 10.0.3.31, 32
+## Задание 3: Все узлы в офисах в лабораторной работе должны иметь IP связность
 
-clock timezone MSK 3
-ntp server 10.0.3.31
-ntp server 10.0.3.31
-```
+Хосты получают IP от DHCP-сервера ЦО
 
-## Задание 8: Все офисы в лабораторной работе должны иметь IP связность
+![](/LECTURES/MODULE04/Lecture33/pictures/45.jpg)
 
-Все внешние узлы видят друг друга
+
+У хостов есть свзность между собой
+![](/LECTURES/MODULE04/Lecture33/pictures/46.jpg)
 
 Задание выполнено
 
 
 - Киторн (01):
-   - [01-ISP1](/LECTURES/MODULE04/Lecture20/labs/configs/01-ISP1.txt)
+   - [01-ISP1](/LECTURES/MODULE04/Lecture33/labs/configs/01-ISP1.txt)
 - Лимас (02):
-   - [02-ISP2](/LECTURES/MODULE04/Lecture20/labs/configs/02-ISP2.txt)
+   - [02-ISP2](/LECTURES/MODULE04/Lecture33/labs/configs/02-ISP2.txt)
 - Триада (04): 
-   - [04-R23](/LECTURES/MODULE04/Lecture20/labs/configs/04-R23.txt)
-   - [04-R24](/LECTURES/MODULE04/Lecture20/labs/configs/04-R24.txt)
-   - [04-R25](/LECTURES/MODULE04/Lecture20/labs/configs/04-R25.txt)
-   - [04-R26](/LECTURES/MODULE04/Lecture20/labs/configs/04-R26.txt)
+   - [04-R23](/LECTURES/MODULE04/Lecture33/labs/configs/04-R23.txt)
+   - [04-R24](/LECTURES/MODULE04/Lecture33/labs/configs/04-R24.txt)
+   - [04-R25](/LECTURES/MODULE04/Lecture33/labs/configs/04-R25.txt)
+   - [04-R26](/LECTURES/MODULE04/Lecture33/labs/configs/04-R26.txt)
 - Москва (03)
    - EDGE: 
-      - [03-01-EDGE1](/LECTURES/MODULE04/Lecture20/labs/configs/03-01-EDGE1.txt)
-      - [03-01-EDGE2](/LECTURES/MODULE04/Lecture20/labs/configs/03-01-EDGE2.txt)
-      - [03-01-EDGEOSPF1](/LECTURES/MODULE04/Lecture20/labs/configs/03-01-EDGEOSPF1.txt)
+      - [03-01-EDGE1](/LECTURES/MODULE04/Lecture33/labs/configs/03-01-EDGE1.txt)
+      - [03-01-EDGE2](/LECTURES/MODULE04/Lecture33/labs/configs/03-01-EDGE2.txt)
+      - [03-01-EDGEOSPF1](/LECTURES/MODULE04/Lecture33/labs/configs/03-01-EDGEOSPF1.txt)
    - Distribution UP: 
-      - [03-02-DSWWAN1](/LECTURES/MODULE04/Lecture20/labs/configs/03-02-DSWWAN1.txt)
-      - [03-02-DSWWAN2](/LECTURES/MODULE04/Lecture20/labs/configs/03-02-DSWWAN2.txt)
+      - [03-02-DSWWAN1](/LECTURES/MODULE04/Lecture33/labs/configs/03-02-DSWWAN1.txt)
+      - [03-02-DSWWAN2](/LECTURES/MODULE04/Lecture33/labs/configs/03-02-DSWWAN2.txt)
    - CORE:
-      - [03-03-CORE1](/LECTURES/MODULE04/Lecture20/labs/configs/03-03-CORE1.txt)
-      - [03-03-CORE2](/LECTURES/MODULE04/Lecture20/labs/configs/03-03-CORE2.txt)
+      - [03-03-CORE1](/LECTURES/MODULE04/Lecture33/labs/configs/03-03-CORE1.txt)
+      - [03-03-CORE2](/LECTURES/MODULE04/Lecture33/labs/configs/03-03-CORE2.txt)
    - Aggregation
-      - [03-04-AGGRSWDC1](/LECTURES/MODULE04/Lecture20/labs/configs/03-04-AGGRSWDC1.txt)
-      - [03-04-AGGRSWDC2](/LECTURES/MODULE04/Lecture20/labs/configs/03-04-AGGRSWDC2.txt)
+      - [03-04-AGGRSWDC1](/LECTURES/MODULE04/Lecture33/labs/configs/03-04-AGGRSWDC1.txt)
+      - [03-04-AGGRSWDC2](/LECTURES/MODULE04/Lecture33/labs/configs/03-04-AGGRSWDC2.txt)
          - ACCESS
-            - [03-11-DCSW1](/LECTURES/MODULE04/Lecture20/labs/configs/03-11-DCSW1.txt)
-            - [03-11-DCSW2](/LECTURES/MODULE04/Lecture20/labs/configs/03-11-DCSW2.txt)
+            - [03-11-DCSW1](/LECTURES/MODULE04/Lecture33/labs/configs/03-11-DCSW1.txt)
+            - [03-11-DCSW2](/LECTURES/MODULE04/Lecture33/labs/configs/03-11-DCSW2.txt)
    - Distribution DOWN
-      - [03-05-DSWACC1](/LECTURES/MODULE04/Lecture20/labs/configs/03-05-DSWACC1.txt)
-      - [03-05-DSWACC2](/LECTURES/MODULE04/Lecture20/labs/configs/03-05-DSWACC2.txt)
+      - [03-05-DSWACC1](/LECTURES/MODULE04/Lecture33/labs/configs/03-05-DSWACC1.txt)
+      - [03-05-DSWACC2](/LECTURES/MODULE04/Lecture33/labs/configs/03-05-DSWACC2.txt)
          - ACCESS
-            - [03-10-ASW1](/LECTURES/MODULE04/Lecture20/labs/configs/03-10-ASW1.txt)
-            - [03-10-ASW2](/LECTURES/MODULE04/Lecture20/labs/configs/03-10-ASW2.txt)
+            - [03-10-ASW1](/LECTURES/MODULE04/Lecture33/labs/configs/03-10-ASW1.txt)
+            - [03-10-ASW2](/LECTURES/MODULE04/Lecture33/labs/configs/03-10-ASW2.txt)
 - СПб (05)
    - EDGE
-      - [05-01-EDGE-R31](/LECTURES/MODULE04/Lecture20/labs/configs/05-1-EDGE-R31.txt)
-      - [05-01-EDGEEIGRP-R32](/LECTURES/MODULE04/Lecture20/labs/configs/05-1-EDGEEIGRP-R32.txt)
+      - [05-01-EDGE-R31](/LECTURES/MODULE04/Lecture33/labs/configs/05-1-EDGE-R31.txt)
+      - [05-01-EDGEEIGRP-R32](/LECTURES/MODULE04/Lecture33/labs/configs/05-1-EDGEEIGRP-R32.txt)
    - CollapsedCORE
-      - [05-02-DSWCOLCORE16](/LECTURES/MODULE04/Lecture20/labs/configs/05-2-DSWCOLCORE16.txt)
-      - [05-02-DSWCOLCORE17](/LECTURES/MODULE04/Lecture20/labs/configs/05-2-DSWCOLCORE17.txt)
+      - [05-02-DSWCOLCORE16](/LECTURES/MODULE04/Lecture33/labs/configs/05-2-DSWCOLCORE16.txt)
+      - [05-02-DSWCOLCORE17](/LECTURES/MODULE04/Lecture33/labs/configs/05-2-DSWCOLCORE17.txt)
    - ACCESS
-      - [05-10-ASW3](/LECTURES/MODULE04/Lecture20/labs/configs/05-5-ASW3.txt)
-      - [05-10-ASW4](/LECTURES/MODULE04/Lecture20/labs/configs/05-5-ASW4.txt)
+      - [05-10-ASW3](/LECTURES/MODULE04/Lecture33/labs/configs/05-5-ASW3.txt)
+      - [05-10-ASW4](/LECTURES/MODULE04/Lecture33/labs/configs/05-5-ASW4.txt)
 - Чокурдах (06)
    - EDGE
-      - [06-1-EDGE-R28](/LECTURES/MODULE04/Lecture20/labs/configs/06-1-EDGE-R28.txt)
+      - [06-1-EDGE-R28](/LECTURES/MODULE04/Lecture33/labs/configs/06-1-EDGE-R28.txt)
    - ACCESS
-      - [06-5-ASW29](/LECTURES/MODULE04/Lecture20/labs/configs/06-5-ASW29.txt)
+      - [06-5-ASW29](/LECTURES/MODULE04/Lecture33/labs/configs/06-5-ASW29.txt)
 - Лабытнанги (07)
    - EDGE
-      - [07-1-EDGE-R27](/LECTURES/MODULE04/Lecture20/labs/configs/07-1-EDGE-R27.txt)
+      - [07-1-EDGE-R27](/LECTURES/MODULE04/Lecture33/labs/configs/07-1-EDGE-R27.txt)
 
