@@ -235,6 +235,8 @@ no shut
 
 Также проверена связность между PC11 и PC9 через ядро DMVPN - EDGE2
 
+![](/LECTURES/MODULE04/Lecture33/pictures/59.jpg)
+
 ![](/LECTURES/MODULE04/Lecture33/pictures/58.jpg)
 
 
