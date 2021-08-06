@@ -4019,7 +4019,7 @@
             {
                 "compute_id": "local",
                 "console": 5018,
-                "console_auto_start": false,
+                "console_auto_start": true,
                 "console_type": "telnet",
                 "custom_adapters": [],
                 "first_port_name": null,
@@ -5147,5 +5147,5 @@
     "type": "topology",
     "variables": [],
     "version": "2.2.19",
-    "zoom": 82
+    "zoom": 58
 }
