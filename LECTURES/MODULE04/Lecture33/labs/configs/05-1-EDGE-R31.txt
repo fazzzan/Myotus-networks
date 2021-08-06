@@ -70,7 +70,17 @@ ipv6 enable
  ip ospf retransmit-interval 4
 no shut
 
+### Вбрасываем в OSPF connected Gi0/1, Gi0/3
 
+interface Gi0/1
+ ip ospf 5 area 19
+ ipv6 ospf 5 area 19
+no shut
+
+interface Gi0/3
+ ip ospf 6 area 20
+ ipv6 ospf 6 area 20
+no shut
 
 
 

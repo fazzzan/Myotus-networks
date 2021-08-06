@@ -38,7 +38,7 @@ ip prefix-list PREFIX-SPB: 1 entries
    seq 5 permit 50.50.96.0/24
 ```
 
-Настройка GRE на туннеле c ip-адресом Loopback из диапазона нашей AS 1001 и активация на нем OSPF AREA19. Пример - для EDGE1, аналогично для EDGE2, только без дополнительной фильтрации.
+Настройка GRE на туннеле c ip-адресом Loopback из диапазона нашей AS 1001 и активация на нем OSPF AREA19. Пример - для EDGE1, аналогично для EDGE2, только без дополнительной фильтрации. При этом на Tunnel настроен BW, что приводит к использованию маршрутов только одного туннеля, с большей метрикой. Если ISP какого-либо офиса откажет, то маршруты будут пересчитаны и трафик пойдет по "выжившему" туннелю
 ```
 interface Tunnel110501
  description 1-EDGE-R31-1
@@ -55,7 +55,7 @@ router ospf 1
  no passive-interface Tunnel110501
 
 ipv6 router ospf 1
- passive-interface Tunnel110501
+ no passive-interface Tunnel110501
 
 interface Tunnel110501
  ip ospf network point-to-point
@@ -65,6 +65,21 @@ interface Tunnel110501
  ip ospf 1 area 19
  ipv6 ospf 1 area 19
 no shut
+
+EDGE1:
+router ospf 1
+ router-id 1.1.1.1
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ no passive-interface Tunnel110501
+ default-information originate
+ distribute-list prefix FILTER-0.0.0.0_FROM_EDGE1 in
+ipv6 router ospf 1
+ router-id 1.1.1.1
+ default-information originate
+ passive-interface default
+ no passive-interface GigabitEthernet0/2
+ no passive-interface Tunnel110501
 ```
 
 Настройка ответных туннелей на EDGE-R31 СПб. Настройка представлена только для одного туннеля
@@ -106,14 +121,66 @@ ipv6 enable
  ip ospf hello-interval 2
  ip ospf retransmit-interval 4
 no shut
+
+### Вбрасываем в OSPF connected Gi0/1, Gi0/3
+interface Gi0/1
+ ip ospf 5 area 19
+ ipv6 ospf 5 area 19
+no shut
 ```
 
-Маршруты успешно транслируются
+Оба туннеля поднялись:
+```
+EDGE1#
+IPv4
+Tunnel110501   172.17.15.33 YES NVRAM  up          up
+IPv6
+Tunnel110501           [up/up]
+    FE80::E73:1FFF:FE0C:4500
+    3FFE:11::1
+
+EDGE2#
+IPv4
+Tunnel220501   172.17.15.41 YES NVRAM  up          up
+IPv6
+Tunnel220501           [up/up]
+    FE80::E73:1FFF:FE27:B200
+    3FFE:22::1
+
+EDGE-R31#
+IPv4
+Tunnel110351  172.17.15.34  YES NVRAM  up          up      
+Tunnel220351  172.17.15.42  YES NVRAM  up          up      
+IPv6
+Tunnel110351           [up/up]
+    FE80::E73:1FFF:FE04:A400
+    3FFE:11::2
+Tunnel220351           [up/up]
+    FE80::E73:1FFF:FE04:A400
+    3FFE:22::2
+```
+
+
+Маршруты успешно инжектировны в OSPF EDGE1, 2
 
 ![](/LECTURES/MODULE04/Lecture33/pictures/43.jpg)
 
-И на нижнем DSWWAN1
+![](/LECTURES/MODULE04/Lecture33/pictures/48.jpg)
+
+![](/LECTURES/MODULE04/Lecture33/pictures/47.jpg)
+
+![](/LECTURES/MODULE04/Lecture33/pictures/49.jpg)
+
+И на нижних DSWWAN1, 2
 ![](/LECTURES/MODULE04/Lecture33/pictures/44.jpg)
+
+![](/LECTURES/MODULE04/Lecture33/pictures/50.jpg)
+
+![](/LECTURES/MODULE04/Lecture33/pictures/51.jpg)
+
+![](/LECTURES/MODULE04/Lecture33/pictures/52.jpg)
+
+
 
 
 ## Задание 2: Настроите DMVMN между Москва и Чокурдах, Лабытнанги
@@ -147,15 +214,24 @@ no shut
 
 ```
 
+В случае отказа целиком облака DMVPN1, DMVPN2 облако берет на себя его функции:
+
+![](/LECTURES/MODULE04/Lecture33/pictures/53.jpg)
+
+![](/LECTURES/MODULE04/Lecture33/pictures/54.jpg)
+
 ## Задание 3: Все узлы в офисах в лабораторной работе должны иметь IP связность
 
 Хосты получают IP от DHCP-сервера ЦО
 
+![](/LECTURES/MODULE04/Lecture33/pictures/56.jpg)
+
 ![](/LECTURES/MODULE04/Lecture33/pictures/45.jpg)
 
 
-У хостов есть свзность между собой через туннели
+У хостов есть связность между собой через туннели
 ![](/LECTURES/MODULE04/Lecture33/pictures/46.jpg)
+
 
 Задание выполнено
 
