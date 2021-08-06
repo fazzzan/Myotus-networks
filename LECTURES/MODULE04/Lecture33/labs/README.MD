@@ -229,7 +229,8 @@ no shut
 ![](/LECTURES/MODULE04/Lecture33/pictures/45.jpg)
 
 
-У хостов есть связность между собой через туннели
+У хостов есть связность между собой через туннели: проверили связность между DHCP и PC6:
+
 ![](/LECTURES/MODULE04/Lecture33/pictures/46.jpg)
 
 
