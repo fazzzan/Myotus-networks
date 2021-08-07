@@ -32,15 +32,23 @@ interface Tunnel101
  ip ospf priority 0
 no shut
 
-### Активируем OSPF на IF
+### Активируем OSPF на IF, добавляем ip-helper
 interface GigabitEthernet0/1.61
  ip ospf 1 area 0
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
 interface GigabitEthernet0/1.71
  ip ospf 1 area 0
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
 interface GigabitEthernet0/1.81
  ip ospf 1 area 0
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
 interface GigabitEthernet0/1.91
  ip ospf 1 area 0
+ ip helper-address 172.17.16.1
+ ip helper-address 172.17.17.1 
 
 
 
