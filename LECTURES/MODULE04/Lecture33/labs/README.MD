@@ -233,7 +233,38 @@ no shut
 
 ![](/LECTURES/MODULE04/Lecture33/pictures/46.jpg)
 
-Также проверена связность между PC11 и PC9 через ядро DMVPN - EDGE2
+DMVPN работает по фазе 1. 
+```
+EDGE-R28(config-subif)#do sho ip nhrp
+172.17.15.49/32 via 172.17.15.49
+   Tunnel101 created 03:42:51, never expire 
+   Type: static, Flags: 
+   NBMA address: 35.10.10.1 
+172.17.15.57/32 via 172.17.15.57
+   Tunnel102 created 03:42:51, never expire 
+   Type: static, Flags: 
+   NBMA address: 35.10.10.5 
+
+
+EDGE-R28(config-subif)#do sho dmvpn
+
+Interface: Tunnel101, IPv4 NHRP Details 
+Type:Spoke, NHRP Peers:1, 
+
+ # Ent  Peer NBMA Addr Peer Tunnel Add State  UpDn Tm Attrb
+ ----- --------------- --------------- ----- -------- -----
+     1 35.10.10.1         172.17.15.49  NHRP 02:22:49     S
+
+Interface: Tunnel102, IPv4 NHRP Details 
+Type:Spoke, NHRP Peers:1, 
+
+ # Ent  Peer NBMA Addr Peer Tunnel Add State  UpDn Tm Attrb
+ ----- --------------- --------------- ----- -------- -----
+     1 35.10.10.5         172.17.15.57    UP 03:41:05     S
+
+```
+
+Проверена связность между PC11 и PC9 через ядро DMVPN - EDGE2.
 
 ![](/LECTURES/MODULE04/Lecture33/pictures/59.jpg)
 
