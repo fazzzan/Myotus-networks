@@ -2,9 +2,9 @@
 
 # VPN #
 
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture33/pictures/01.jpg)
 
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture33/pictures/02.jpg)
 
 провайдерский VPN - скрыт от пользователя. Чаще всего работает поверх MPLS, VXLAN
 
@@ -12,9 +12,9 @@
 - Site-to-Site
 - Remote Access (PPtP, IpSEC)
 
-![](pictures/03.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture33/pictures/03.jpg)
 
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture33/pictures/04.jpg)
 
 GRE - простой протокол (добавляется только 1 заголовок), используется чаще всего совместно с IPSec
 

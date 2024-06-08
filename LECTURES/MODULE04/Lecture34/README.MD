@@ -2,9 +2,9 @@
 
 # DMVPN #
 
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture34/pictures/01.jpg)
 
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture34/pictures/02.jpg)
 
 Фаза 3 - улучшена суммаризация маршрутов.
 
@@ -19,7 +19,7 @@
 
 Особенности работы EIGRP 
 
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture34/pictures/04.jpg)
 ![](pictures/05.jpg)
 
 Обязательно отключаем split-horizon 

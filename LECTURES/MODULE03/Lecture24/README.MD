@@ -2,18 +2,18 @@ OTUS 20210525
 
 # BGP #
 
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture24/pictures/01.jpg)
 
 iBGP нужен:
 - фильтрация транзитных маршрутов
 - резервирование линков к нескольким ISP
 - подключение клиента с несколькими R
 
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture24/pictures/02.jpg)
 
-![](pictures/03.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture24/pictures/03.jpg)
 
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture24/pictures/04.jpg)
 
 ## iBGP advanced ##
 различия iBGP и eBGP

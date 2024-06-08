@@ -2,17 +2,17 @@ OTUS 20210511
 
 # EIGRP #
 
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture20/pictures/01.jpg)
 
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture20/pictures/02.jpg)
 
 Зледующее занятие Будет TS EIGRP + IS-IS
 
-![](pictures/03.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture20/pictures/03.jpg)
 
 NAMED EIGRP - Д/з c IPv4+IPv6
 
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture20/pictures/04.jpg)
 
 
 ![](pictures/05.jpg)

@@ -1,10 +1,10 @@
 OTUS 20210413
 
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture14/pictures/01.jpg)
 
 # Многозонная OSPF #
 
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture14/pictures/02.jpg)
 
 Несколько зон нужны для облегчения работы протокола маршрутизации (100-150 устройств в зоне):
 
@@ -15,7 +15,7 @@ OTUS 20210413
 Вводим зоны:
 
 протокол стал Link-state и участники знают о другой зоне только направление
-![](pictures/03.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture14/pictures/03.jpg)
 
 - LSDB - только соседи, в своей зоне
 - Обязательно есть  AREA 0 (BackBone/магистральная), все включаются через нее, и все маршруты - через AREA 0
@@ -23,7 +23,7 @@ OTUS 20210413
 
 # Двухуровневая иерархия #
 
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture14/pictures/04.jpg)
 
 AREA0
 - Основная Функция - бытрая передача ip-пакета (никакой фильтрации и т.п.)

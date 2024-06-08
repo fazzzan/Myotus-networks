@@ -1,18 +1,18 @@
 OTUS 20210528
 
 # BGP. Attributes #
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture26/pictures/01.jpg)
 
 Виды атрибутов
 
 - Хорошо известные (их знают все реализации BGP, и могут передаваться соседям как обязательно, так и передаваться только если реализация об этом атрибует знает)
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture26/pictures/02.jpg)
 
 - Опциональные (не обязательно все реализации BGP их нзанют, и могут передаваться, а могут и не передаваться)
-![](pictures/03.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture26/pictures/03.jpg)
 
 Итак, еще раз табличка:
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture26/pictures/04.jpg)
 
 ## BGP Origin ##
 

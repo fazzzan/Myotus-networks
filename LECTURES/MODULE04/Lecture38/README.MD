@@ -1,16 +1,16 @@
 20210709 Ansible
 
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture38/pictures/01.jpg)
 
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture38/pictures/02.jpg)
 
 С точкми зрения Ansible вывод может быть нечитаемым, но для ПК - то, что надо
 
-![](pictures/03.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture38/pictures/03.jpg)
 
 Установка: centos 8.3
 
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture38/pictures/04.jpg)
 
 установка модуля для подключения по SSH
 ![](pictures/05.jpg)

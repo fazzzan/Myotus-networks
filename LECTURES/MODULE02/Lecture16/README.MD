@@ -2,7 +2,7 @@ OTUS 20210423
 
 # IS-IS #
 
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture16/pictures/01.jpg)
 
 протокол пришел из OSI
 
@@ -22,9 +22,9 @@ OTUS 20210423
 - Connection-oriented Netw proto - ___CONP___ - надежный транспорт для приложений и сервисов
 
 
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture16/pictures/02.jpg)
 
-![](pictures/03.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture16/pictures/03.jpg)
 
 ## Intermediate system to intermediate system IS-IS ##
 ISO 10589 - настроен на поиск кратчайшего пути между точками
@@ -33,7 +33,7 @@ ISO 10589 - настроен на поиск кратчайшего пути м�
 - Может быть использован в ЦОД
 - не работает в VPN
 
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture16/pictures/04.jpg)
 
 ## IS-IS ##
 

@@ -5,7 +5,7 @@ OTUS 20210528
 - Фильтрафия
 - Управление маршрутами
 
-![](pictures/01.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture25/pictures/01.jpg)
 
 ## Фильтрафия ##
 Сегодня будем говорить про фильтрацию: 
@@ -24,7 +24,7 @@ OTUS 20210528
 
 
 
-![](pictures/02.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture25/pictures/02.jpg)
 
 Итак, фильтрация в обе стороны:
 - Distribution list
@@ -34,14 +34,14 @@ OTUS 20210528
    - match
    - set
 
-![](pictures/03.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture25/pictures/03.jpg)
 
 Фильтрация:
 - может быть для peer-group, и это удобно.
 - накладывается на UPATE-сообщения
 - при изменении фильтров, на старых IOS (старее 15) необходимо очищать изменения (как и на виртуализации)
 
-![](pictures/04.jpg)
+![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture25/pictures/04.jpg)
 
 Таблица фильтров
 ![](pictures/05.jpg)
