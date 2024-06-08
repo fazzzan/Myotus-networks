@@ -1,10 +1,10 @@
 посмотреть: https://blog.dtulyakov.ru/2015/06/url-cisco-ios.html
 
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture32/pictures/01.jpg)
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture32/pictures/02.jpg)
+![](pictures/01.jpg)
+![](pictures/02.jpg)
 
 Второй вариант настройки, с разнесением ACL по IF - экономнее для ресурсов RR
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture32/pictures/04.jpg)
+![](pictures/04.jpg)
 
 ## CBAC ##
 Промежуточная техника между ACL и ZBPF

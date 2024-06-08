@@ -1,7 +1,7 @@
 # OTUS 20210615
 # Безопасность, ААА
 
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture31/pictures/01.jpg)
+![](pictures/01.jpg)
 
 ## Authentication ##
 
@@ -17,10 +17,10 @@
 
 В переводе на образы:
 
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture31/pictures/02.jpg)
+![](pictures/02.jpg)
 
 Используемые системы АУ
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture31/pictures/03.jpg)
+![](pictures/03.jpg)
 
 - Электронные
 - Биометрические
@@ -29,7 +29,7 @@
 - Комбинированые (смесь предыдущих видов)
 - Разовые пароли
 
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture31/pictures/04.jpg)
+![](pictures/04.jpg)
 
 - PAP (логин+пасс)
 

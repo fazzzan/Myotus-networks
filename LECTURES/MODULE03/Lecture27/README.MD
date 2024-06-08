@@ -2,15 +2,15 @@ OTUS 20210528
 
 # BGP. Path #
 
-![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture27/pictures/01.jpg)
+![](pictures/01.jpg)
 
 Анонсируем сеть 100.0.0.0/23 из AS 64500. так как маршрутов много, падение пути - не вызовет польного отказа доступности анонсируемой подсети
 
-![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture27/pictures/02.jpg)
+![](pictures/02.jpg)
 
 ## критерии выбора маршрута для таблицы маршрутизации ##
 
-![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture27/pictures/03.jpg)
+![](pictures/03.jpg)
 
 1. Weight - работает по-умолчанию
 2. next-hop: connected - самый лучший маршрут, поэтому выигрывает
@@ -28,7 +28,7 @@ OTUS 20210528
 
 Если все совпало:
 
-![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture27/pictures/04.jpg)
+![](pictures/04.jpg)
 
 - Взять самый старый маршрут eBGP (для iBGP не работает)
 - Использовать маршрут чреез пира с минимальным BID

@@ -1,19 +1,19 @@
 # OTUS 20210402
 # Основы дизайна
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture10/pictures/01.jpg)
+![](pictures/01.jpg)
 
 ## Основы дизайна
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture10/pictures/02.jpg)
+![](pictures/02.jpg)
 
 CORE - самый тупой уровень, его может и не быть, и тогда это называется Collapsed Core
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture10/pictures/03.jpg)
+![](pictures/03.jpg)
 
 Но CORE - необходим, когда у нас кончаются порты на DISTRIUTION SW, и DISTRIBUTION надо связать между собой
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture10/pictures/04.jpg)
+![](pictures/04.jpg)
 
 ## ACCESS Layer
 

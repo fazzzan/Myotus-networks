@@ -1,11 +1,11 @@
 # OTUS 20210312
 # Избыточность L2 Агрегация и протоколы первого перехода
 
-![](pictures\01.jpg)
+![](pictures/01.jpg)
 
 # Гл. 4 Etherchannel/PortChannel
 
-![](pictures\02.jpg)
+![](pictures/02.jpg)
 
 Etherch - 1 логический канал из нескольких физических линков. Ограничения:
 - нельзя использовать IF разных типов
@@ -24,19 +24,19 @@ Etherch - 1 логический канал из нескольких физич
    - Passive
 - static (ON с двух сторон)
 
-![](pictures\03.jpg)
+![](pictures/03.jpg)
 
-![](pictures\04.jpg)
+![](pictures/04.jpg)
 
 Вся настройка выполняется заданием параметров (Active/Passive - LACP или On/Desirable - PaGP). Если есть несогласованность параметров, то EtherChannel не полднимется (разные скорость, дуплекс, VLAN)
 
 ## Настройка LACP
 
-![](pictures\05.jpg)
+![](pictures/05.jpg)
 
 Проверка
 
-![](pictures\06.jpg)
+![](pictures/06.jpg)
 
 ``` show etherchannel summary ```, ``` show etherchannel port-channel ```, ``` show int f0/1 etherchannel ```
 
@@ -49,14 +49,14 @@ Etherch - 1 логический канал из нескольких физич
 - VRRP
 - GLBP
 
-![](pictures\07.jpg)
+![](pictures/07.jpg)
 
 Придуманы эти схемы для того, чтобы при отказе роутера не падал выход в интернет, или обмен внутри туннелей. Отличаются тем, что GLBP способен параллелить нагрузку, тогда как первые 2 - только 1 роутер Active, остальные - Passive.
 
 Если захотим распараллелить нагрузку по VLAN - зададим GW для этого VLAN.
 
 HSRP в двух словах
-![](pictures\08.jpg)
+![](pictures/08.jpg)
 
 Для ip v6 - использовать VRRP3
 
@@ -64,12 +64,12 @@ HSRP в двух словах
 
 При старте HSRP - производятся выборы (чем выше приоритет 0 - 255 - max; 0 - в выборах не участвуем).
 
-![](pictures\09.jpg)
+![](pictures/09.jpg)
 
 
 Состояния и таймеры HSRP
 
-![](pictures\10.jpg)
+![](pictures/10.jpg)
 
 Тюнинг - надо внимательно почитать про это
 
@@ -77,32 +77,32 @@ HSRP в двух словах
 
 У всех R одной группы - ID группы - совпадает, если его не задать - по-умолчанию ___0___
 
-![](pictures\11.jpg)
+![](pictures/11.jpg)
 
 - ver2 - на весть роутер
 - ver3 - по VLAN
 
 пример конфига:
 
-![](pictures\12.jpg)
+![](pictures/12.jpg)
 
 
-![](pictures\13.jpg)
+![](pictures/13.jpg)
 
 
 Сбои, например не рекомендуется держать только 2 канал связи для роутеров
 
-![](pictures\14.jpg)
+![](pictures/14.jpg)
 
 
 
 ## подключение termilab
 1. firefox
-2. ![](pictures\15.jpg)
-2. ![](pictures\16.jpg)
-2. ![](pictures\17.jpg)
-2. ![](pictures\18.jpg)
-2. ![](pictures\19.jpg)
-2. ![](pictures\20.jpg)
-2. ![](pictures\21.jpg)
-2. ![](pictures\22.jpg)
+2. ![](pictures/15.jpg)
+2. ![](pictures/16.jpg)
+2. ![](pictures/17.jpg)
+2. ![](pictures/18.jpg)
+2. ![](pictures/19.jpg)
+2. ![](pictures/20.jpg)
+2. ![](pictures/21.jpg)
+2. ![](pictures/22.jpg)

@@ -1,21 +1,21 @@
 20210702 IPSEC GRE
 
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture35/pictures/01.jpg)
+![](pictures/01.jpg)
 
 Когда ACL разрастается до 20-50 строк, то управлять IPSEc на IF уже не удобно.
 
 Старый способ настройки:
 - 1-я фаза
 ACL - это список адресов SRC, который будет шифроваться, а также возможно задание дополнительных параметров
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture35/pictures/02.jpg)
+![](pictures/02.jpg)
 
 - 2-я фаза
    - TS - задание алгоритмов шифрования, хэширования и т.п. (будет настроена 2-м шагом)
    - привязываем Crypto-map к карте
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture35/pictures/03.jpg)
+![](pictures/03.jpg)
 
 ## 2 варика работы IPSEC ##
-![](GIT/Myotus-networks/LECTURES/MODULE04/Lecture35/pictures/04.jpg)
+![](pictures/04.jpg)
 
 предпочтительность использования определяется:
 - 1-й варик - IPSec будет работать с любым трафиком

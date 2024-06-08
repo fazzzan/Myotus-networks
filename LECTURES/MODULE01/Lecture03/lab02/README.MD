@@ -11,7 +11,7 @@
 
 ###  Решение:
 1. Графическая схема до начал работы, с нанесенной информацией о текущем приоритете и MAC-адресе коммутатора
-![](/LECTURES/MODULE01/Lecture03/pictures/22.jpg)
+![[Lecture03/pictures/22.jpg]]
 ### Просмотр приоритета и MAC адреса свича
 ```
 show lacp sys-id 
@@ -20,11 +20,11 @@ show lacp sys-id
 2. Выбор ROOT 
 До настройки VLAN3, 8, 7 - S1 являлся root для STP VLAN001 (все порты DESG/FWD)
 
-![](/LECTURES/MODULE01/Lecture03/pictures/19.jpg)
+![](Lecture03/pictures/19.jpg)
 
-![](/LECTURES/MODULE01/Lecture03/pictures/20.jpg)
+![](Lecture03/pictures/20.jpg)
 
-![](/LECTURES/MODULE01/Lecture03/pictures/21.jpg)
+![](Lecture03/pictures/21.jpg)
 
 Настройка SW выполнена в соответствии с описанием в файлах
 - [S1](cfg/S1), 
@@ -33,14 +33,14 @@ show lacp sys-id
 
 Во время настроек мелькают проблемы с native vlan, которые обязательно пройдут после того как trunk будет настроен правильно с 2 сторон:
 
-![](/LECTURES/MODULE01/Lecture03/pictures/23.jpg)
+![](Lecture03/pictures/23.jpg)
 
-![](/LECTURES/MODULE01/Lecture03/pictures/24.jpg)
+![](Lecture03/pictures/24.jpg)
 
 
 Состояние STP после отключения избыточных интерфейсов Gi0/1, Gi1/1, Gi0/2
 
-![](/LECTURES/MODULE01/Lecture03/pictures/26.jpg)
+![](Lecture03/pictures/26.jpg)
 
 ### Просмотр состояния STP S1
 ```
@@ -141,7 +141,7 @@ Gi3/3               Desg FWD 4         128.16   P2p
 ```
 
 Вторая часть задания состоит из отключения избыточных связей между коммутаторами и изменение стоимости одного из линков. Иллюстрация к второй части задания представлена ниже. 
-![](/LECTURES/MODULE01/Lecture03/pictures/27.jpg)
+![](Lecture03/pictures/27.jpg)
 
 ### Ответы на вопросы Л/р:
 - Root - S1

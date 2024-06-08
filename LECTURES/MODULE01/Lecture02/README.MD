@@ -3,16 +3,16 @@
 
 [pdf материалов лекции](OTUS_2_VLAN_20210305.pdf)
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture02/pictures/01.jpg)
+![](pictures/01.jpg)
 
 ## VLAN
 VLAN - "костыль" L2 (L2 не позволяет объединить большое число узлов в сеть CSMA). Максимально количество узло в LAN сети - 300 хостов
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture02/pictures/02.jpg)
+![](pictures/02.jpg)
 
 VLAN - по сути разбиение на L2-уровне. Тут может быть хитрость: если надо гулять только в 1 VLAN (без inter-vlan маршрутизации), можно подсеть размазать по несколким VLAN, при этом BC трафик будет изолирован
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture02/pictures/03.jpg)
+![](pictures/03.jpg)
 
 Преимущества представлены выше:
 - меньший размер BC
@@ -33,7 +33,7 @@ Voice vlan
 ## Транк Cisco - 802.1Q
 Uplink'и, в которых разрешено прохождение потоков с разными тэгами. 802.1Q добавляет метку к кадру. Был еще Cisco (ISL), но он не прижился. Тэг добавляется на SW: хост про тэг в большинстве случаев ничего не знает. При отправке хосту - тэг удаляется, FCS пересчитывается и выплевывается в физику.
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture02/pictures/04.jpg)
+![](pictures/04.jpg)
 
 native vlan - хорошо рассмотрен тут: http://xgu.ru/wiki/Native_VLAN
 

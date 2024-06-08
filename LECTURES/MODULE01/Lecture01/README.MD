@@ -8,18 +8,18 @@ CCNA - разбит на 3 части, но на курсе рассматрив
 - ШАГ3: Инициализация ЦПУ
 - ШАГ4: Инициализация ФС на флэше
 - ШАГ5: Ищется и загружается ОС - IOS и передает ей управление
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture01/pictures/01.jpg)
+![](pictures/01.jpg)
 
 Загрузчик ищет IOS во флэше (IOS.bin), запускается первый найденный , если не определено в переменных.
 
 После загрузки IOS - пытаемся найти в NVRAM конфиг (config.text)
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture01/pictures/02.jpg)
+![](pictures/02.jpg)
 
 Просмотр ```show boot```
 
 ## Первоначальная настройка коммутаторов
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture01/pictures/03.jpg)
+![](pictures/03.jpg)
 Индикаторы переключение между индикаторами - кнопкой ___MODE___
 - syst - есть ли питание и нет ли ошибок
 - rps - индикация состояния резервного БП
@@ -28,7 +28,7 @@ CCNA - разбит на 3 части, но на курсе рассматрив
 - SPEED - текущая скорость порта
 - PoE - состояние PoE порта, есть ли потребитель
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture01/pictures/04.jpg)
+![](pictures/04.jpg)
 
 ### Восстановление системы после сбоя
 1. Подключаемся консольником

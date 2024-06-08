@@ -2,15 +2,15 @@ OTUS 20210427
 
 # Продолжение IS-IS #
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture17/pictures/01.jpg)
+![](pictures/01.jpg)
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture17/pictures/02.jpg)
+![](pictures/02.jpg)
 На рис. выше, трафик пойдет: бэкбон L2 - сквозной
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture17/pictures/03.jpg)
+![](pictures/03.jpg)
 Трафик пойдет: бэкбон L2 - через центральную AREA. Внутрь будет отдаваться только DEFAULT (0.0.0.0 - аналог T-STUB)
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture17/pictures/04.jpg)
+![](pictures/04.jpg)
 Трафик не пойдет, будет флаппинг: пакеты от R5 будут уходить то направо, то налево.
 
 Соседство устанавливается через 

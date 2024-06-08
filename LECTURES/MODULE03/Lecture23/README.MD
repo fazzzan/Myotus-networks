@@ -2,7 +2,7 @@ OTUS 20210521
 
 # BGP #
 
-![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture23/pictures/01.jpg)
+![](pictures/01.jpg)
 
 маршруты в Loc-RIB могут попадать 2 путями (из разных источников):
    1. Маршруты connected/redistribute  попадают в RIB через RIB check (наличие маршрута в таблице маршрутизации)
@@ -34,13 +34,13 @@ OTUS 20210521
    - mandatory - обязательно есть в NLRI
    - discretionary - могут не быть в NLRI: например ___local preference___ рассказывает что какой-то путь во-вне более приоритетный для всех пиров iBGP внутри AS
 
-![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture23/pictures/03.jpg)   
+![](pictures/03.jpg)   
 
 - Optional(или Опциональные) - может не поддерживаться всеми реализациями BGP и обрабатываются по-своему при передаче соседям:
    - transitive  - если не знаем его, то обязательно передаем соседям с пометкой ___PARTIAL___
    - non-transitive - если не знаем его, то не передаем соседям.
 
-![](GIT/Myotus-networks/LECTURES/MODULE03/Lecture23/pictures/04.jpg)
+![](pictures/04.jpg)
 
 Ну и сводная табличка:
 

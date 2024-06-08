@@ -1,6 +1,6 @@
 # PBR - маршрутизация - OTUS 20210406
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture11/pictures/01.jpg)
+![](pictures/01.jpg)
 
 В некоторых случаях маршрутизация надо строить не дефолтным способом, а каким-то другим
 - Для неоптимальных маршрутов
@@ -8,13 +8,13 @@
 - Оптимизация пути трафика приложений
 - Распределение нагрузки (балансировка)
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture11/pictures/02.jpg)
+![](pictures/02.jpg)
 
 PBR - позволяет повлиять на работу перекладывания пакетов, вне зависимости от таблицы маршрутов
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture11/pictures/04.jpg)
+![](pictures/04.jpg)
 
-![](GIT/Myotus-networks/LECTURES/MODULE02/Lecture11/pictures/03.jpg)
+![](pictures/03.jpg)
 
 ![](pictures/05.jpg)
 

@@ -1,6 +1,6 @@
 # 20210323 Маршрутизация (модуль 14 Netacad)
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture07/pictures/01.jpg)
+![](pictures/01.jpg)
 
 Пакет уходит в сторону лучшей сети. Лучший путь - тот, который:
 - имеет самое длинное совпадение (максимально близкая подсеть)
@@ -8,7 +8,7 @@
 
 Для Ipv6 - чем длиннее префикс - тем приоритетнее маршрут
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture07/pictures/02.jpg)
+![](pictures/02.jpg)
 
 На примере , 2 совпадение - лучшее, так как 3-я запись имеет большую длину маски.
 
@@ -50,7 +50,7 @@
 - Маршруты (расчет, получение маршрутов, формирование ACL) - Control Plane
 - Передача (реализация сформированных ACL) - Data Plane
 
-![](GIT/Myotus-networks/LECTURES/MODULE01/Lecture07/pictures/04.jpg)
+![](pictures/04.jpg)
 
 ## Базовый конфиг роутера
 
