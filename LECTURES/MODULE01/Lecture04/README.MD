@@ -106,3 +106,4 @@ HSRP в двух словах
 2. ![](pictures/20.jpg)
 2. ![](pictures/21.jpg)
 2. ![](pictures/22.jpg)
+![[Pasted image 20240717230019.png]]

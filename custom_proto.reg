@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\test]
+"URL Protocol"=""
+@="URL:test Protocol"
+
+[HKEY_CLASSES_ROOT\test\shell]
+
+[HKEY_CLASSES_ROOT\test\shell\open]
+
+[HKEY_CLASSES_ROOT\test\shell\open\command]
+@="\"C:\\Windows\\Your-Script.bat\" %1"
